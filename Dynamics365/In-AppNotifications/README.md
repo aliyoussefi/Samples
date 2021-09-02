@@ -1,61 +1,104 @@
-# In-App Notifications
+# In-App Notifications Setup and Broadcast Use Cases
 
-## Samples:
+## Summary
 
-### PowerShell
+Model Driven and Dynamics 365 notifications provide a powerful and extremely flexible way to communicate with an organization's user base. These notifications allow managers, team leads, administrators to quickly send alerts to specific users. These alerts can be automated and depending on an organization's business needs finely tuned to provide actionable next steps.
 
-This will loop through all apps in a tenant and set the in-app notification enablement.
+In this article, we will explore use cases and how to setup a Model Driven App to use notifications using Power Automate Flow. We will look at ways to broadcast messages to specific users, teams and an entire user base using both no code and pro code methods.
 
-### Dataverse Solutions
 
-This contains a managed and unmanaged solution to set the in-app notification for a specific app by using its friendly name e.g. 'Sales Hub'.
 
-The setting is called 'AllowNotificationsEarlyAccess' and the value needs to be true to turn on.
+## Use Cases for Individuals
+
+The Dataverse allows organizations to build enterprise ready scalable cloud native applications for the Power Platform. Within this rich ecosystem organizations have solutions tailored to industry verticals including case management systems, business to business opportunity pipeline management, HR talent management, project operations, etc. Each of these solutions provide an opportunity to use in-app notifications to enhance the user experience and increase productivity.
+
+### Case Management
+
+In case management scenarios, alerts can be sent to customer service agents identifying service level agreements that are past due for a specific case. Actions can be added to quickly email the customer or review the case directly in Customer Service Hub.
+
+<insert gif>
+
+### Opportunity Pipeline Management
+
+In sales opportunity scenarios, notifications can be sent out to sellers notifying them that an opportunity in their pipeline is nearing close. Sellers can quickly review details and access discount rates directly from SharePoint in hopes to win the opportunity.
+
+<insert sales hub>
+
+### Project Operations Management
+
+In this scenario, one of the project's team members has submitted an expense that doesn't comply with the company's standards or project agreements. With in-app notifications, automation, such as Power Automate Flow, can quickly notify the team member that comments and receipts were not submitted.
+
+<insert project ops>
+
+## Broadcast Use Case for Teams and All Users
+
+Team managers need the ability to quickly notify members of new policy information, changing deadlines, newsletters, etc. Using teams within Dataverse, managers can notify each member one by one as detailed above. Depending on team size or the nature of the alert there may be a need to broadcast an alert to many users at once.
+
+To do so, automation techniques such as the low code platform Power Automate to pro code platforms such as Azure Functions or Dataverse Custom Actions can be leveraged. The below samples detail various ways to achieve this functionality using Power Apps, Power Automate and Azure Data Factory.
+
+
+
+## Setup and Samples
+
+From the official documentation, to turn on in-app notifications we need to use the "AllowNotificationsEarlyAccess" setting in a Model Driven application. The example located [here](https://docs.microsoft.com/en-us/powerapps/developer/model-driven-apps/clientapi/send-in-app-notifications) shows how to do this with the Developer Tools available for most modern browsers.
+
+```
+fetch(window.origin + "/api/data/v9.1/SaveSettingValue()",{ method: "POST",    headers: {'Content-Type': 'application/json'},   body: JSON.stringify({AppUniqueName: "Your app unique name", SettingName:"AllowNotificationsEarlyAccess", Value: "true"})   });
+```
+
+In the sample above the AppUniqueName is the uniquename column in the App Modules table. For instance, for the Model Driven app "Sales Hub" you can replace "Your app unique name" with "msdynce_saleshub". This can be found using the Dataverse API for appmodules or by using Power Automate Flow and the Dataverse connector action "List rows" on the "Model-driven Apps" table.
+
+### The SaveSettingValue Power Automate Flow
+
+Within the sample repo located here, I have a Power Automate flow within two Dataverse solutions that will take the friendly name of the app (e.g. SalesHub) and set the value for you.
+
+<list row image>
+
+The Power Automate flow uses the Dataverse connector action "Perform an unbound action" and the "SaveSettingValue" to set the appropriate setting.
+
+<insert unbound image>
+
+To run the Power Automate flow, open the flow and click the run button. Set the App to the friendly name, the Setting to "AllowNotificationsEarlyAccess" and the Value to true.
+
+<insert run save setting>
+
+NOTE: This flow can be extended for other settings if needed in the future using the Setting field.
+
+
+
+### Broadcast messages with Power Automate Flow
 
 The broadcast in-app notifications to all users flow shows how to get all users and send a notification.
 
-The payload or the HTTP call looks like this:
+<insert schema of flow>
 
-{
+This Power Automate Flow is triggered from the Power Apps connector. This allows for use within a Power App as described below but also as a Child Flow.
 
- "title": "Welcome from Postman",
+The inputs for the Power App are related in the table below.
 
- "body": "Welcome to the world of app notifications!",
+| Input              | Description                                                  |
+| ------------------ | ------------------------------------------------------------ |
+| Title              | The title of the notification. This will show in bold at the top of the notification. |
+| Body               | The body of the notification. This will be under the title.  |
+| IconType           | The icon of the notification. Refer to the Icon Type table below. |
+| IconUrl (optional) | A custom icon URL for the notification.                      |
+| ToastType          | The toast appearance of the notification. Refer to the Toast Type table below. |
+| Data (optional)    |                                                              |
+| Owner (optional)   |                                                              |
+| Team (optional)    |                                                              |
+| AllUsers           |                                                              |
+| Expiry             |                                                              |
 
- "icontype": 100000000, // info
+Below are the tables describing the number input in the body.
 
- "toasttype": 200000000 // timed
-
-}
-
-## Notification Details
-
-## Notification table
-
-The following are the columns for the notification table:
-
-| Column           | Description                                                  |
-| :--------------- | :----------------------------------------------------------- |
-| Title            | Title of the notification.                                   |
-| Owner            | User who receives the notification.                          |
-| Body             | Details of the notification.                                 |
-| Icon Type        | List of predefined icons. The default value is `Info`. More information: [Notification icons](https://docs.microsoft.com/en-us/powerapps/developer/model-driven-apps/clientapi/send-in-app-notifications#changing-the-notification-icon) |
-| Toast Type       | List of toast behaviors. The default value is `Timed`. More information: [Toast types](https://docs.microsoft.com/en-us/powerapps/developer/model-driven-apps/clientapi/send-in-app-notifications#changing-the-toast-notification-behavior) |
-| Expiry (seconds) | Number of seconds from when the notification should be deleted if not already dismissed. |
-| Data             | Json that is used for extensibility and parsing richer data into the notification. Maximum length is 5000. |
-
-###  Changing the toast notification behavior
-
-An in-app notification behavior can be changed by setting **Toast Type** to one of the following values:
+#### Toast Type
 
 | Toast Type | Behavior                                                     | Value     |
 | :--------- | :----------------------------------------------------------- | :-------- |
 | Timed      | Notification appears for a brief duration and then disappears. (default 4 seconds) | 200000000 |
 | Hidden     | Notification appears only in the notification center and not as a toast. | 200000001 |
 
-### Changing the notification icon
-
-An in-app notification icon can be changed by setting **Icon Type** to one of the following values. When using a custom icon, a `iconUrl` parameter should be specified within the `data` parameter.
+#### Icon Type
 
 | Icon Type | Value     |
 | :-------- | :-------- |
@@ -66,15 +109,25 @@ An in-app notification icon can be changed by setting **Icon Type** to one of th
 | Mention   | 100000004 |
 | Custom    | 100000005 |
 
-### Changing the navigation target in notification link
+### Dataverse Solutions
 
-You can control where a navigation link should open by setting the `navigationTarget` parameter.
 
-| Navigation target | Behavior                            | Example                           |
-| :---------------- | :---------------------------------- | :-------------------------------- |
-| Dialog            | Opens in center dialog.             | `"navigationTarget": "dialog"`    |
-| Inline            | Default. Opens in the current page. | `"navigationTarget": "inline"`    |
-| newWindow         | Opens in the new browser tab.       | `"navigationTarget": "newWindow"` |
+
+### Updating All Apps using PowerShell
+
+[This PowerShell script](https://github.com/aliyoussefi/Samples/blob/main/Dynamics365/In-AppNotifications/PowerShell/01-ConnectToDataverseApiAndSetSettingValue.ps1) will loop through all apps in an organization and set the in-app notification enablement. It uses an application user to achieve this which requires an app registration as detailed here. Set the clientId, clientSecret and tenantId from the application in Azure and the orgUrl from the Power Platform Admin Center.
+
+```
+$orgUrl = "<org>.crm.dynamics.com" #This can be found in the Power Platform Admin Center under environments.
+$clientId = "client or object ID in Azure"
+$clientSecret = "Generated secret in Azure"
+$tenantId = "tenant ID in Azure"
+$aadUrl = "https://login.microsoftonline.com/$($tenantId)/oauth2/token"
+```
+
+The full PowerShell script can be found [here](https://github.com/aliyoussefi/Samples/blob/main/Dynamics365/In-AppNotifications/PowerShell/01-ConnectToDataverseApiAndSetSettingValue.ps1).
+
+### 
 
 ### Managing security for notifications
 
