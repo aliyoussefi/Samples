@@ -16,19 +16,19 @@ The Dataverse allows organizations to build enterprise ready scalable cloud nati
 
 In case management scenarios, alerts can be sent to customer service agents identifying service level agreements that are past due for a specific case. Actions can be added to quickly email the customer or review the case directly in Customer Service Hub.
 
-<insert gif>
+<img src="https://raw.githubusercontent.com/aliyoussefi/Samples/main/Dynamics365/In-AppNotifications/_images/CustomerServiceHubExample.gif" style="zoom: 80%;" />
 
 ### Opportunity Pipeline Management
 
 In sales opportunity scenarios, notifications can be sent out to sellers notifying them that an opportunity in their pipeline is nearing close. Sellers can quickly review details and access discount rates directly from SharePoint in hopes to win the opportunity.
 
-<insert sales hub>
+<img src="https://raw.githubusercontent.com/aliyoussefi/Samples/main/Dynamics365/In-AppNotifications/_images/SalesHubExample.gif" style="zoom: 80%;" />
 
 ### Project Operations Management
 
 In this scenario, one of the project's team members has submitted an expense that doesn't comply with the company's standards or project agreements. With in-app notifications, automation, such as Power Automate Flow, can quickly notify the team member that comments and receipts were not submitted.
 
-<insert project ops>
+<img src="https://raw.githubusercontent.com/aliyoussefi/Samples/main/Dynamics365/In-AppNotifications/_images/ProjectServiceExample.gif" style="zoom: 80%;" />
 
 ## Broadcast Use Case for Teams and All Users
 
@@ -52,15 +52,15 @@ In the sample above the AppUniqueName is the uniquename column in the App Module
 
 Within the sample repo located here, I have a Power Automate flow within two Dataverse solutions that will take the friendly name of the app (e.g. SalesHub) and set the value for you.
 
-<list row image>
+<img src="https://raw.githubusercontent.com/aliyoussefi/Samples/main/Dynamics365/In-AppNotifications/_images/SetSettingValueListRows.JPG" style="zoom: 80%;" />
 
 The Power Automate flow uses the Dataverse connector action "Perform an unbound action" and the "SaveSettingValue" to set the appropriate setting.
 
-<insert unbound image>
+<img src="https://raw.githubusercontent.com/aliyoussefi/Samples/main/Dynamics365/In-AppNotifications/_images/UnboundImage.JPG" style="zoom: 80%;" />
 
 To run the Power Automate flow, open the flow and click the run button. Set the App to the friendly name, the Setting to "AllowNotificationsEarlyAccess" and the Value to true.
 
-<insert run save setting>
+<img src="https://raw.githubusercontent.com/aliyoussefi/Samples/main/Dynamics365/In-AppNotifications/_images/RunSaveSettingValueFlowInputs.JPG" style="zoom: 80%;" />
 
 NOTE: This flow can be extended for other settings if needed in the future using the Setting field.
 
@@ -70,7 +70,7 @@ NOTE: This flow can be extended for other settings if needed in the future using
 
 The broadcast in-app notifications to all users flow shows how to get all users and send a notification.
 
-<insert schema of flow>
+<img src="https://raw.githubusercontent.com/aliyoussefi/Samples/main/Dynamics365/In-AppNotifications/_images/Broadcast%20In-App%20Notification%20to%20all%20users.JPG" style="zoom: 80%;" />
 
 This Power Automate Flow is triggered from the Power Apps connector. This allows for use within a Power App as described below but also as a Child Flow.
 
