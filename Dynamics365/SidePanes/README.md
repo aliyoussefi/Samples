@@ -1,10 +1,10 @@
-Client API and Side Panes
+# Client API and Side Panes
 
 ## Summary
 
 Model Driven and Dynamics 365 API provide developers the ability to extend forms and views to the side pane. This feature can be extended to include many different panes showing views, forms, etc.
 
-
+<img src="https://raw.githubusercontent.com/aliyoussefi/Samples/main/Dynamics365/SidePanes/SidePane.JPG" style="zoom: 80%;" />
 
 ## Setup and Samples
 
@@ -14,23 +14,23 @@ The documentation here shows how to work with the API but not how to implement.
 
 To implement, I went through the following steps:
 
-1. Create a new solution
-2. Create two new web resources
-   1. JavaScript file called sidepanes.js
-   2. Png file called sample_product_icon
-3. Created a new command in a model driven app.
-4. Referenced the function within sidepanes.js from the button command.
-5. Published.
+1. Create a **new solution**
+2. Create **two new web resources**
+   1. JavaScript file called **sidepanes.js**
+   2. Png file called **sample_product_icon**
+3. Created a **new command** in a model driven app.
+4. **Referenced the function** within sidepanes.js from the button command.
+5. **Published**.
 
 
 
 Once published I have the following button:
 
-<button>
+<img src="https://raw.githubusercontent.com/aliyoussefi/Samples/main/Dynamics365/SidePanes/SidePaneButtonLauncher.JPG" style="zoom: 80%;" />
 
 The button press opens the side pane as shown:
 
-<side pane>
+<img src="https://raw.githubusercontent.com/aliyoussefi/Samples/main/Dynamics365/SidePanes/SidePane.JPG" style="zoom: 80%;" />
 
 ## References
 
