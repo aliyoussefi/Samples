@@ -16,8 +16,20 @@ function CreateReservationSidePane(executionContext){
         canClose: false
     }).then((pane) => {
         pane.navigate({
+            pageType: "webresource",
+            name: "msdyn_appmanagementcontrol" //WebResources/msdyn_appmanagementcontrol
+        })
+    });
+
+    Xrm.App.sidePanes.createPane({
+        title: "Accounts",
+        imageSrc: "WebResources/mce_WebResources/sample_product_icon",
+        paneId: "AccountList",
+        canClose: false
+    }).then((pane) => {
+        pane.navigate({
             pageType: "entitylist",
-            entityName: "account",
+            entityName: "account" //WebResources/msdyn_appmanagementcontrol
         })
     });
 }
