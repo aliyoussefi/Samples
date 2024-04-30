@@ -1,6 +1,7 @@
 using Microsoft.Azure.ServiceBus.Primitives;
 using Microsoft.PowerPlatform.Dataverse.Client;
 using Microsoft.Xrm.Sdk;
+using System;
 using System.Collections.Concurrent;
 
 namespace Dataverse.Sdk.Tester
@@ -29,6 +30,48 @@ namespace Dataverse.Sdk.Tester
     [TestClass]
     public class UnitTest1
     {
+        private List<Entity> createBatch(string name, KeyValuePair<string, object> attribute)
+        {
+            List<Entity> entities = new List<Entity>();
+            for(int i = 0; i < 10; i++)
+            {
+                Entity entity = new Entity(name);
+                entity.Attributes = new AttributeCollection();
+                entity.Attributes.Add(attribute);
+                entities.Add(entity);
+            }
+            return entities;
+        }
+        [TestMethod]
+        public void TestCreateMultiple()
+        {
+            ServiceClient svc = new ServiceClient(@"AuthType=OAuth;Username=username;Password=Password;Url=https://org.crm.dynamics.com;AppId=51f81489-12ee-4a9e-aaae-a2591f45987d;RedirectUri=app://58145B91-0C36-4500-8554-080854F2AC97;TokenCacheStorePath=c:\Data\MyTokenCache;LoginPrompt=Yes");
+            xMultiple xMultiple = new xMultiple();
+            xMultiple.CreateMultipleExample(svc, createBatch("lead", new KeyValuePair<string, object>("topic", "Create Multiple Example")));
+
+        }
+        [TestMethod]
+        public void TestCustomAPI()
+        {
+            ServiceClient svc = new ServiceClient(@"AuthType=OAuth;Username=username;Password=Password;Url=https://org.crm.dynamics.com;AppId=51f81489-12ee-4a9e-aaae-a2591f45987d;RedirectUri=app://58145B91-0C36-4500-8554-080854F2AC97;TokenCacheStorePath=c:\Data\MyTokenCache;LoginPrompt=Yes");
+            var req = new OrganizationRequest("sample_SendNotificationToAllUsers")
+            {
+                ["String.Message"] = "Test",
+                ["Int32.IconType"] = true,
+                ["String.Table"] = "salesliterature",
+                ["String.ExternalLink"] = "https://www.bing.com"
+            };
+
+            var resp = svc.Execute(req);
+
+        }
+        [TestMethod]
+        public void TestUpdateMultiple()
+        {
+            ServiceClient svc = new ServiceClient("");
+            xMultiple xMultiple = new xMultiple();
+            xMultiple.UpdateMultipleExample(svc, new List<Entity>());
+        }
         [TestMethod]
         public void TestMethod1()
         {

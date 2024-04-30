@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "@types/xrm": "^9.0.79"
+  }
+}
