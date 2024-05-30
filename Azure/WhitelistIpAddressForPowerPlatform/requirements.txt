@@ -1,0 +1,4 @@
+azure-mgmt-resource
+azure-identity
+azure-keyvault
+azure-mgmt-keyvault
