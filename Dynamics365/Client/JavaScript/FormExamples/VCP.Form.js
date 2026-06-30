@@ -7,6 +7,7 @@ export default class VCP {
         for (var i = 0; i < controlsLength; i++) {
             controls[i].setDisabled(disablestatus)
         }
+        
     }
 
     public static onLoad(context: Xrm.Events.EventContext) {

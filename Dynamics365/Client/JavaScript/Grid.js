@@ -18,6 +18,7 @@ function OpenEntityForm(executionContext){
     formParameters["preferredsystemuseridtype"] = "systemuser"; // Table name. 
     // End of set lookup column
 
+    
 // Open the form.
 Xrm.Navigation.openForm(entityFormOptions, formParameters).then(
     function (success) {

@@ -12,6 +12,7 @@ namespace Dataverse.Sdk.Tester
         {
             ServiceClient svc = new ServiceClient("");
             svc.Create(new Entity("account"));
+            
         }
 
         public void BasicServiceClientConnection_CookieAffinitySetToFalse_shouldpass()

@@ -1,6 +1,15 @@
 # Summary
 This sample shows how to set a global variable on creation of a session with Microsoft Copilot Studio.
 
+# Use Case
+Organizations need the ability to interact with Microsoft Copilot Studio topics and actions within Dataverse Model Apps. Organizations prefer the ability to customize the UI for the Copilot.
+
+This sample shows key functionalities:
+- Opening a Copilot Studio in a side pane when a case is opened.
+- Keeping the state of the Copilot when case tabs/forms are changed.
+- Passing variables to the Copilot without human interaction.
+- Removing the side pane once the case form is closed.
+
 # Steps
 1. Create Global variable and set to allow external sources to set value. [Create variable](./CreateGlobalVarAndSetToExternalSources.png)
 2. Create topic and add Question action.

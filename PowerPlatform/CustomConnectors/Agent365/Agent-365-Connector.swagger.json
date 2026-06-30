@@ -1,0 +1,211 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Agent 365 Connector",
+    "description": "",
+    "version": "1.0"
+  },
+  "host": "graph.microsoft.com",
+  "basePath": "/",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [],
+  "produces": [],
+  "paths": {
+    "/beta/copilot/admin/catalog/packages": {
+      "get": {
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {}
+          }
+        },
+        "summary": "GetPackages",
+        "description": "List Agent Packages",
+        "operationId": "GetPackages",
+        "x-ms-visibility": "important",
+        "parameters": [
+          {
+            "name": "$filter",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "/beta/copilot/admin/catalog/packages/{id}": {
+      "get": {
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {}
+          }
+        },
+        "summary": "GetPackageDetails",
+        "description": "Retrieves detailed information for a specific agent or app by ID.",
+        "operationId": "GetPackageDetails",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "x-ms-visibility": "important"
+      },
+      "patch": {
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {}
+          }
+        },
+        "summary": "UpdatePackageDetails",
+        "description": "Update a copilotPackageDetail object.",
+        "operationId": "UpdatePackageDetails",
+        "x-ms-visibility": "important",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "allowedUsersAndGroups": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "resourceType": {
+                        "type": "string",
+                        "description": "resourceType"
+                      },
+                      "resourceId": {
+                        "type": "string",
+                        "description": "resourceId"
+                      }
+                    }
+                  },
+                  "description": "allowedUsersAndGroups"
+                },
+                "acquireUsersAndGroups": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "resourceType": {
+                        "type": "string",
+                        "description": "resourceType"
+                      },
+                      "resourceId": {
+                        "type": "string",
+                        "description": "resourceId"
+                      }
+                    }
+                  },
+                  "description": "acquireUsersAndGroups"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "/beta/copilot/agentRegistrations/{id}": {
+      "get": {
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {}
+          }
+        },
+        "summary": "GetAgentRegistration",
+        "description": "Retrieve the properties of an agentRegistration object.",
+        "operationId": "GetAgentRegistration",
+        "x-ms-visibility": "important",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "$select",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "/beta/copilot/reports/getMicrosoft365CopilotUserCountSummary(period='D7')": {
+      "get": {
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {}
+          }
+        },
+        "summary": "GetWeeklyCopilotUserCountSummary",
+        "operationId": "GetWeeklyCopilotUserCountSummary",
+        "description": "Get the aggregated number of active and enabled users of Microsoft 365 Copilot for a specified time period.",
+        "x-ms-visibility": "important",
+        "parameters": [
+          {
+            "name": "$format",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {},
+  "parameters": {},
+  "responses": {},
+  "security": [
+    {
+      "oauth2-auth": []
+    }
+  ],
+  "tags": [],
+  "securityDefinitions": {
+    "oauth2-auth": {
+      "type": "oauth2",
+      "flow": "accessCode",
+      "tokenUrl": "https://login.windows.net/common/oauth2/authorize",
+      "scopes": {},
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize"
+    },
+    "oAuthClientCredentials": {
+      "type": "oauth2",
+      "flow": "application",
+      "tokenUrl": "https://login.windows.net/common/oauth2/authorize",
+      "scopes": {}
+    },
+    "certOauth": {
+      "type": "oauth2",
+      "flow": "application",
+      "tokenUrl": "https://login.windows.net/common/oauth2/authorize",
+      "scopes": {}
+    }
+  }
+}

@@ -25,5 +25,6 @@ $saveSettingBody = @(@{
 #Turn on App Notifications
 $turnOnInAppNoti = Invoke-RestMethod -Uri "$($dataverseApi)SaveSettingValue" -Method Post -ContentType "application/json" -Headers $header -Body $(ConvertTo-Json $saveSettingBody)
 
+
 }
 

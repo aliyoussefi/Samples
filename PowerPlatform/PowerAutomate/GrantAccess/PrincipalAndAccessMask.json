@@ -1,0 +1,8 @@
+{
+    "Principal": {
+        "systemuserid": "<flow dynamic input>",
+        "@@odata.type": "Microsoft.Dynamics.CRM.systemuser"
+    },
+    "AccessMask": 
+        "ReadAccess, WriteAccess,AppendAccess,AppendToAccess, ShareAccess"
+}
