@@ -1,0 +1,372 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.46.1.21595",
+      "templateHash": "10562599549292320434"
+    }
+  },
+  "parameters": {
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "Azure region. Note: VM SKU capacity varies by region/subscription - if deployment fails with SkuNotAvailable, change vmSize or location."
+      }
+    },
+    "vmName": {
+      "type": "string",
+      "defaultValue": "win11-vm01",
+      "metadata": {
+        "description": "Name prefix for all resources."
+      }
+    },
+    "adminUsername": {
+      "type": "string",
+      "defaultValue": "azureuser",
+      "metadata": {
+        "description": "Local administrator username for the VM."
+      }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Local administrator password. Min 12 chars, 3 of 4 complexity classes."
+      }
+    },
+    "vmSize": {
+      "type": "string",
+      "defaultValue": "Standard_DC2s_v3",
+      "metadata": {
+        "description": "VM size. Standard_DC2s_v3 is a safe default in East US on constrained (e.g. M365 dev) subscriptions; Standard_D2s_v5 is better where capacity allows."
+      }
+    },
+    "windows11Sku": {
+      "type": "string",
+      "defaultValue": "win11-24h2-pro",
+      "metadata": {
+        "description": "Windows 11 image SKU (standard Marketplace). e.g. win11-24h2-pro, win11-24h2-ent."
+      }
+    },
+    "entraLoginPrincipalId": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Object ID of the Microsoft Entra user to grant VM login. Leave empty to skip the role assignment."
+      }
+    },
+    "entraLoginRole": {
+      "type": "string",
+      "defaultValue": "Administrator",
+      "allowedValues": [
+        "Administrator",
+        "User"
+      ],
+      "metadata": {
+        "description": "VM login role for the Entra user: Administrator (local admin) or User (standard)."
+      }
+    },
+    "setFrontierDevicePolicy": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Set the Microsoft Scout Frontier device policy (AllowScoutFrontierAccess=1) on the VM. Set false if the device is Intune-managed and receives the ADMX policy instead."
+      }
+    }
+  },
+  "variables": {
+    "roleDefIds": {
+      "Administrator": "1c0163c0-47e6-4577-8991-ea5c82e286e4",
+      "User": "fb879df8-f326-4884-b1cf-06f3ad86be52"
+    },
+    "vnetName": "[format('{0}-vnet', parameters('vmName'))]",
+    "workloadSubnetName": "workload",
+    "nsgName": "[format('{0}-nsg', parameters('vmName'))]",
+    "nicName": "[format('{0}-nic', parameters('vmName'))]",
+    "natGwName": "[format('{0}-natgw', parameters('vmName'))]",
+    "natPipName": "[format('{0}-natgw-pip', parameters('vmName'))]",
+    "bastionName": "[format('{0}-bastion', parameters('vmName'))]",
+    "bastionPipName": "[format('{0}-bastion-pip', parameters('vmName'))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "2023-09-01",
+      "name": "[variables('nsgName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "securityRules": [
+          {
+            "name": "Allow-RDP-FromVnet",
+            "properties": {
+              "priority": 1000,
+              "direction": "Inbound",
+              "access": "Allow",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "3389",
+              "sourceAddressPrefix": "VirtualNetwork",
+              "destinationAddressPrefix": "VirtualNetwork"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Network/publicIPAddresses",
+      "apiVersion": "2023-09-01",
+      "name": "[variables('natPipName')]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "Standard"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "Static"
+      }
+    },
+    {
+      "type": "Microsoft.Network/natGateways",
+      "apiVersion": "2023-09-01",
+      "name": "[variables('natGwName')]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "Standard"
+      },
+      "properties": {
+        "idleTimeoutInMinutes": 10,
+        "publicIpAddresses": [
+          {
+            "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('natPipName'))]"
+          }
+        ]
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/publicIPAddresses', variables('natPipName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Network/publicIPAddresses",
+      "apiVersion": "2023-09-01",
+      "name": "[variables('bastionPipName')]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "Standard"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "Static"
+      }
+    },
+    {
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2023-09-01",
+      "name": "[variables('vnetName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "10.0.0.0/16"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "[variables('workloadSubnetName')]",
+            "properties": {
+              "addressPrefix": "10.0.0.0/24",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]"
+              },
+              "natGateway": {
+                "id": "[resourceId('Microsoft.Network/natGateways', variables('natGwName'))]"
+              }
+            }
+          },
+          {
+            "name": "AzureBastionSubnet",
+            "properties": {
+              "addressPrefix": "10.0.1.0/26"
+            }
+          }
+        ]
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/natGateways', variables('natGwName'))]",
+        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Network/bastionHosts",
+      "apiVersion": "2023-09-01",
+      "name": "[variables('bastionName')]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "Standard"
+      },
+      "properties": {
+        "enableTunneling": true,
+        "ipConfigurations": [
+          {
+            "name": "bastionIpConfig",
+            "properties": {
+              "subnet": {
+                "id": "[format('{0}/subnets/AzureBastionSubnet', resourceId('Microsoft.Network/virtualNetworks', variables('vnetName')))]"
+              },
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('bastionPipName'))]"
+              }
+            }
+          }
+        ]
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/publicIPAddresses', variables('bastionPipName'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Network/networkInterfaces",
+      "apiVersion": "2023-09-01",
+      "name": "[variables('nicName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[format('{0}/subnets/{1}', resourceId('Microsoft.Network/virtualNetworks', variables('vnetName')), variables('workloadSubnetName'))]"
+              }
+            }
+          }
+        ]
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines",
+      "apiVersion": "2023-09-01",
+      "name": "[parameters('vmName')]",
+      "location": "[parameters('location')]",
+      "identity": {
+        "type": "SystemAssigned"
+      },
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('vmSize')]"
+        },
+        "osProfile": {
+          "computerName": "[parameters('vmName')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "MicrosoftWindowsDesktop",
+            "offer": "windows-11",
+            "sku": "[parameters('windows11Sku')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "createOption": "FromImage",
+            "managedDisk": {
+              "storageAccountType": "Premium_LRS"
+            }
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
+            }
+          ]
+        },
+        "securityProfile": {
+          "securityType": "TrustedLaunch",
+          "uefiSettings": {
+            "secureBootEnabled": true,
+            "vTpmEnabled": true
+          }
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "apiVersion": "2023-09-01",
+      "name": "[format('{0}/{1}', parameters('vmName'), 'AADLoginForWindows')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "publisher": "Microsoft.Azure.ActiveDirectory",
+        "type": "AADLoginForWindows",
+        "typeHandlerVersion": "2.0",
+        "autoUpgradeMinorVersion": true
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
+      ]
+    },
+    {
+      "condition": "[parameters('setFrontierDevicePolicy')]",
+      "type": "Microsoft.Compute/virtualMachines/runCommands",
+      "apiVersion": "2023-09-01",
+      "name": "[format('{0}/{1}', parameters('vmName'), 'SetScoutFrontierPolicy')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "source": {
+          "script": "$ErrorActionPreference = 'SilentlyContinue'\r\n$key = 'HKLM:\\SOFTWARE\\Policies\\Scout'\r\n\r\n# 1) Apply the Frontier device policy now (persists across reboots).\r\nif (-not (Test-Path $key)) { New-Item -Path $key -Force | Out-Null }\r\nNew-ItemProperty -Path $key -Name 'AllowScoutFrontierAccess' -Value '1' -PropertyType String -Force | Out-Null\r\nNew-ItemProperty -Path $key -Name 'PolicyVersion' -Value 1 -PropertyType DWord -Force | Out-Null\r\n\r\n# 2) Drop a self-heal helper script.\r\n$dir = 'C:\\ProgramData\\ScoutFrontier'\r\nNew-Item -ItemType Directory -Path $dir -Force | Out-Null\r\n$helper = @'\r\n$key = 'HKLM:\\SOFTWARE\\Policies\\Scout'\r\nif (-not (Test-Path $key)) { New-Item -Path $key -Force | Out-Null }\r\nNew-ItemProperty -Path $key -Name 'AllowScoutFrontierAccess' -Value '1' -PropertyType String -Force | Out-Null\r\nNew-ItemProperty -Path $key -Name 'PolicyVersion' -Value 1 -PropertyType DWord -Force | Out-Null\r\n'@\r\nSet-Content -Path (Join-Path $dir 'ensure-policy.ps1') -Value $helper -Encoding ASCII\r\n\r\n# 3) Register a startup scheduled task (SYSTEM) so the policy self-heals at\r\n#    every boot even if the key is ever removed or drifts.\r\n$action = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument '-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File \"C:\\ProgramData\\ScoutFrontier\\ensure-policy.ps1\"'\r\n$trigger = New-ScheduledTaskTrigger -AtStartup\r\n$principal = New-ScheduledTaskPrincipal -UserId 'SYSTEM' -LogonType ServiceAccount -RunLevel Highest\r\nRegister-ScheduledTask -TaskName 'EnsureScoutFrontierPolicy' -Action $action -Trigger $trigger -Principal $principal -Description 'Reassert Microsoft Scout Frontier device policy at startup' -Force | Out-Null\r\n\r\nWrite-Output 'Frontier device policy applied and self-heal startup task registered.'\r\n"
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', parameters('vmName'), 'AADLoginForWindows')]",
+        "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
+      ]
+    },
+    {
+      "condition": "[not(empty(parameters('entraLoginPrincipalId')))]",
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "scope": "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]",
+      "name": "[guid(resourceId('Microsoft.Compute/virtualMachines', parameters('vmName')), parameters('entraLoginPrincipalId'), parameters('entraLoginRole'))]",
+      "properties": {
+        "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', variables('roleDefIds')[parameters('entraLoginRole')])]",
+        "principalId": "[parameters('entraLoginPrincipalId')]",
+        "principalType": "User"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
+      ]
+    }
+  ],
+  "outputs": {
+    "vmResourceId": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
+    },
+    "vmName": {
+      "type": "string",
+      "value": "[parameters('vmName')]"
+    },
+    "bastionName": {
+      "type": "string",
+      "value": "[variables('bastionName')]"
+    },
+    "privateIP": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.Network/networkInterfaces', variables('nicName')), '2023-09-01').ipConfigurations[0].properties.privateIPAddress]"
+    },
+    "natGatewayOutboundIP": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.Network/publicIPAddresses', variables('natPipName')), '2023-09-01').ipAddress]"
+    },
+    "connectHint": {
+      "type": "string",
+      "value": "[format('Portal > {0} > Connect > Bastion. Or native RDP: az network bastion tunnel --name {1} --resource-group <rg> --target-resource-id {2} --resource-port 3389 --port 13389', parameters('vmName'), variables('bastionName'), resourceId('Microsoft.Compute/virtualMachines', parameters('vmName')))]"
+    }
+  }
+}
