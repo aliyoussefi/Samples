@@ -37,6 +37,7 @@ Signs in but no Copilot? ──────────────────�
 | **Signs in, but no Copilot** | Missing GitHub account or Copilot license | Assign a **GitHub Copilot** (Business/Enterprise) license and confirm the user's **GitHub identity** in Scout. |
 | **Intune ADMX import error 131329** | Hand-edited ADMX with a duplicated `valueName` | Re-import the **unmodified** template from [scout-resources/admins](https://github.com/microsoft/scout-resources/tree/main/admins). |
 | **Scout setting missing when building the policy** | Wrong Intune profile type selected | Use **Templates → Imported Administrative Templates** (not "Settings catalog", not built-in "Administrative Templates"). |
+| **GitHub Copilot usage higher than expected** | Background model calls from the **heartbeat** and/or **automations** | Tune the heartbeat interval/schedule or disable it, and review automations — see [cost-management.md](cost-management.md#background-consumption--heartbeat-and-automations). |
 
 ---
 
@@ -76,3 +77,4 @@ If all boxes are checked and sign-in still fails, the most common remaining caus
 - **Propagation stacks.** Frontier On (~3 h) and Intune assignment (~8 h default sync) both take time. Start Gate 1 a day or two ahead of a rollout.
 - **Pre-release naming.** The Intune ADMX may display the internal name **"Clawpilot"** — this is expected and not an error.
 - **Managed devices:** don't hand-edit the registry to "fix" a blocked device — deliver the policy through **Intune** so it stays governed and self-heals.
+- **Cost creep from idle usage.** The **heartbeat** and **automations** make background model calls that consume GitHub Copilot premium requests even when you're not chatting. See [cost-management.md](cost-management.md).

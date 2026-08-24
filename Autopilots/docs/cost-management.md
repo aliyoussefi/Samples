@@ -92,3 +92,4 @@ The **heartbeat** periodically runs a proactive check (reviewing your recent wor
 - [Set up budgets to control spending](https://docs.github.com/en/billing/how-tos/set-up-budgets)
 - [View usage of metered products and licenses](https://docs.github.com/en/billing/how-tos/products/view-productlicense-use)
 - [AI model comparison](https://docs.github.com/en/copilot/reference/ai-models/model-comparison)
+- Related: [troubleshooting.md](troubleshooting.md) — "GitHub Copilot usage higher than expected"
