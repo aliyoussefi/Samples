@@ -209,6 +209,41 @@
       white-space: nowrap;
     }
 
+    .duties {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 28px 48px;
+    }
+
+    .duties-panel {
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      box-shadow: 0 0 2px var(--cp-border), 0 1px 2px var(--cp-border);
+      padding: 26px;
+    }
+
+    .duties-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .duty {
+      background: var(--cp-surface-soft);
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      padding: 14px;
+      color: var(--cp-text-muted);
+    }
+
+    .duty strong {
+      display: block;
+      color: var(--cp-text);
+      margin-bottom: 6px;
+    }
+
     .metrics {
       max-width: 1240px;
       margin: 28px auto 0;
@@ -510,6 +545,7 @@
       .section,
       .metrics,
       .prompt-cta,
+      .duties,
       .footer {
         padding-left: 18px;
         padding-right: 18px;
@@ -517,6 +553,7 @@
 
       .metrics,
       .cards,
+      .duties-grid,
       .flow,
       .split,
       .guardrails {
@@ -615,6 +652,20 @@
         <div class="metric">
           <div class="metric-value">64%</div>
           <p>of people do not have time for their actual job</p>
+        </div>
+      </section>
+
+      <section class="duties" aria-label="Typical Commercial Contracts Counsel duties">
+        <div class="duties-panel">
+          <div class="kicker">Typical job duties this heartbeat supports</div>
+          <div class="duties-grid">
+            <div class="duty"><strong>Draft and negotiate contracts</strong>Support MSAs, SaaS agreements, DPAs, NDAs, SOWs, order forms, partner agreements, and procurement terms.</div>
+            <div class="duty"><strong>Advise business stakeholders</strong>Help Sales, Renewals, Procurement, Finance, Security, and Privacy understand risk and next steps.</div>
+            <div class="duty"><strong>Manage legal positions</strong>Track preferred terms, fallback positions, non-standard clauses, approvals, and escalation thresholds.</div>
+            <div class="duty"><strong>Support privacy and security terms</strong>Review data protection, AI, confidentiality, audit, security, and compliance language.</div>
+            <div class="duty"><strong>Move negotiations forward</strong>Prepare negotiation briefs, summarize open issues, identify missing inputs, and draft stakeholder follow-ups.</div>
+            <div class="duty"><strong>Maintain the system of record</strong>Recommend CLM, matter, document, obligation, or activity updates after decisions are made.</div>
+          </div>
         </div>
       </section>
 

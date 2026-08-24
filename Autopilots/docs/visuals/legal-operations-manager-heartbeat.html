@@ -209,6 +209,41 @@
       white-space: nowrap;
     }
 
+    .duties {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 28px 48px;
+    }
+
+    .duties-panel {
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      box-shadow: 0 0 2px var(--cp-border), 0 1px 2px var(--cp-border);
+      padding: 26px;
+    }
+
+    .duties-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .duty {
+      background: var(--cp-surface-soft);
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      padding: 14px;
+      color: var(--cp-text-muted);
+    }
+
+    .duty strong {
+      display: block;
+      color: var(--cp-text);
+      margin-bottom: 6px;
+    }
+
     .metrics {
       max-width: 1240px;
       margin: 28px auto 0;
@@ -510,6 +545,7 @@
       .section,
       .metrics,
       .prompt-cta,
+      .duties,
       .footer {
         padding-left: 18px;
         padding-right: 18px;
@@ -517,6 +553,7 @@
 
       .metrics,
       .cards,
+      .duties-grid,
       .flow,
       .split,
       .guardrails {
@@ -581,6 +618,7 @@
       <section class="hero"><div class="label">A personal agent for legal operations</div><h1 class="headline">Keep legal operations moving<span>before work stalls.</span></h1><p class="hero-copy">Scout acts like an always-on chief of staff for Legal Operations. It watches intake, matter, billing, reporting, and communication signals, then prepares the next operational action for review.</p></section>
       <section class="prompt-cta" aria-label="Markdown prompt link"><div class="prompt-card"><div><strong>Want to use this heartbeat?</strong><span>Open the markdown prompt for easy copy and paste into Scout.</span></div><a href="../heartbeat-prompts/legal-operations-manager.md">Open prompt</a></div></section>
       <section class="metrics" aria-label="Work reality metrics"><div class="metric"><div class="metric-value">25<small> min</small></div><p>to refocus after a single interruption</p></div><div class="metric"><div class="metric-value">68%</div><p>of people do not have enough focus time</p></div><div class="metric"><div class="metric-value">64%</div><p>of people do not have time for their actual job</p></div></section>
+      <section class="duties" aria-label="Typical Legal Operations Manager duties"><div class="duties-panel"><div class="kicker">Typical job duties this heartbeat supports</div><div class="duties-grid"><div class="duty"><strong>Run legal intake</strong>Manage intake, routing, matter assignment, missing information, and stakeholder follow-through.</div><div class="duty"><strong>Track matter operations</strong>Monitor stale matters, aging requests, status updates, backlog, ownership, and service expectations.</div><div class="duty"><strong>Manage reporting and metrics</strong>Prepare dashboards, leadership summaries, legal service metrics, and operational briefs.</div><div class="duty"><strong>Coordinate vendors and spend</strong>Track outside counsel, e-billing, vendor requests, budget blockers, accruals, and invoice issues.</div><div class="duty"><strong>Improve processes</strong>Identify repeated questions, routing gaps, template needs, playbooks, and workflow automation opportunities.</div><div class="duty"><strong>Administer legal systems</strong>Support CLM, matter management, DMS, SharePoint, Power BI, and legal operations trackers.</div></div></div></section>
       <section class="section"><div class="section-grid"><div><div class="kicker">What this persona stops carrying</div><h2>What legal ops stops carrying.</h2><p class="section-intro">Operational work hides in intake queues, matter systems, e-billing tools, reports, meetings, and stakeholder threads. Scout keeps the operating rhythm visible.</p></div><div class="cards"><article class='card'><div class='card-number'>01</div><h3>The stale intake</h3><p>Unassigned or incomplete legal requests surface before they get lost.</p></article>
 <article class='card'><div class='card-number'>02</div><h3>The unclear owner</h3><p>Scout spots threads where legal operations ownership is ambiguous.</p></article>
 <article class='card'><div class='card-number'>03</div><h3>The reporting scramble</h3><p>Leadership updates and dashboard needs are prepared ahead of time.</p></article>
