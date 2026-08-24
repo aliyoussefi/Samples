@@ -31,6 +31,8 @@ docs/
 |---|---|---|
 | [Legal department](personas/legal-department.md) | Commercial Contracts Counsel, Legal Operations Manager | Heartbeats and automations |
 | [Sales team](personas/sales.md) | Seller, Sales Manager, Account Executive, ABS Solution Engineer | Heartbeats |
+| [Finance](personas/finance.md) | FP&A Manager, Procurement Manager | Heartbeats and automations |
+| [Human Resources](personas/human-resources.md) | HR Business Partner, Talent Acquisition Lead | Heartbeats and automations |
 
 ---
 
@@ -38,6 +40,6 @@ docs/
 
 | Library | What it contains |
 |---|---|
-| [Heartbeat visual library](visuals/index.html) | HTML visuals for explaining legal and sales heartbeat flows |
+| [Heartbeat visual library](visuals/index.html) | HTML visuals for explaining legal, sales, finance, and HR heartbeat flows |
 | [Heartbeat prompts](heartbeat-prompts.md) | Always-on chief-of-staff prompts by role |
 | [Automation samples](automation-samples.md) | Scheduled and recurring automation samples by role |

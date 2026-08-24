@@ -45,6 +45,10 @@ The key distinction:
 | ABS Solution Engineer | [ABS Solution Engineer heartbeat prompt](heartbeat-prompts/abs-solution-engineer.md) |
 | Legal - Commercial Contracts Counsel | [Commercial contracts counsel heartbeat prompt](heartbeat-prompts/legal-commercial-contracts-counsel.md) |
 | Legal - Legal Operations Manager | [Legal operations manager heartbeat prompt](heartbeat-prompts/legal-operations-manager.md) |
+| Human Resources - Talent Acquisition Lead | [Talent Acquisition Lead heartbeat prompt](heartbeat-prompts/hr-talent-acquisition-lead.md) |
+| Human Resources - HR Business Partner | [HR Business Partner heartbeat prompt](heartbeat-prompts/hr-hr-business-partner.md) |
+| Finance - Procurement Manager | [Procurement Manager heartbeat prompt](heartbeat-prompts/finance-procurement-manager.md) |
+| Finance - FP&A Manager | [FP&A Manager heartbeat prompt](heartbeat-prompts/finance-fpa-manager.md) |
 
 ---
 

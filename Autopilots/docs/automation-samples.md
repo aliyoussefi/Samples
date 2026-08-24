@@ -24,6 +24,10 @@ This keeps the persona story separate from the executable prompt samples, while 
 |---|---|
 | Legal - Commercial Contracts Counsel | [Daily contract risk and response queue](automation-samples/legal-commercial-contracts-counsel.md) |
 | Legal - Legal Operations Manager | [Weekly legal operations command brief](automation-samples/legal-operations-manager.md) |
+| Human Resources - Talent Acquisition Lead | [Talent Acquisition Lead automation sample](automation-samples/hr-talent-acquisition-lead.md) |
+| Human Resources - HR Business Partner | [HR Business Partner automation sample](automation-samples/hr-hr-business-partner.md) |
+| Finance - Procurement Manager | [Procurement Manager automation sample](automation-samples/finance-procurement-manager.md) |
+| Finance - FP&A Manager | [FP&A Manager automation sample](automation-samples/finance-fpa-manager.md) |
 
 ---
 
@@ -32,6 +36,5 @@ This keeps the persona story separate from the executable prompt samples, while 
 - **Use automation for recurring work.** Good examples are daily queues, weekly briefs, and recurring reporting packs.
 - **Keep the scope bounded.** Define inputs, steps, output, and guardrails.
 - **Do not make external changes by default.** Draft messages or updates, but require explicit approval before sending or writing.
-- **Audit through source systems.** If the automation drafts emails, reviews documents, or suggests matter updates, the system of record remains Outlook, Teams, SharePoint, the CLM platform, the DMS, or the matter-management system.
-- **Protect confidential legal context.** Do not expose privileged legal reasoning, fallback positions, or sensitive matter details in broad summaries.
-
+- **Audit through source systems.** If the automation drafts emails, reviews documents, or suggests system updates, the system of record remains Outlook, Teams, SharePoint, CRM, HR, finance, legal, or line-of-business systems.
+- **Protect confidential business context.** Do not expose privileged legal reasoning, financial data, employee information, candidate details, or sensitive deal context in broad summaries.
