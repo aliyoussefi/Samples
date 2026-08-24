@@ -38,5 +38,6 @@ docs/
 
 | Library | What it contains |
 |---|---|
+| [Heartbeat visual library](visuals/index.html) | HTML visuals for explaining legal and sales heartbeat flows |
 | [Heartbeat prompts](heartbeat-prompts.md) | Always-on chief-of-staff prompts by role |
 | [Automation samples](automation-samples.md) | Scheduled and recurring automation samples by role |

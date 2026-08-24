@@ -42,7 +42,8 @@ The prompt should only use systems the user is authorized to access.
 
 | Sample | Link |
 |---|---|
-| Heartbeat | [Seller heartbeat](../heartbeat-prompts/seller.md) |
+| Heartbeat | [Seller heartbeat visual](../visuals/seller-heartbeat.html) |
+| Prompt | [Seller markdown prompt](../heartbeat-prompts/seller.md) |
 
 ---
 
@@ -54,7 +55,8 @@ The prompt should only use systems the user is authorized to access.
 
 | Sample | Link |
 |---|---|
-| Heartbeat | [Sales manager heartbeat](../heartbeat-prompts/sales-manager.md) |
+| Heartbeat | [Sales manager heartbeat visual](../visuals/sales-manager-heartbeat.html) |
+| Prompt | [Sales manager markdown prompt](../heartbeat-prompts/sales-manager.md) |
 
 ---
 
@@ -66,7 +68,8 @@ The prompt should only use systems the user is authorized to access.
 
 | Sample | Link |
 |---|---|
-| Heartbeat | [Account executive heartbeat](../heartbeat-prompts/account-executive.md) |
+| Heartbeat | [Account executive heartbeat visual](../visuals/account-executive-heartbeat.html) |
+| Prompt | [Account executive markdown prompt](../heartbeat-prompts/account-executive.md) |
 
 ---
 
@@ -78,7 +81,8 @@ The prompt should only use systems the user is authorized to access.
 
 | Sample | Link |
 |---|---|
-| Heartbeat | [ABS Solution Engineer heartbeat](../heartbeat-prompts/abs-solution-engineer.md) |
+| Heartbeat | [ABS Solution Engineer heartbeat visual](../visuals/abs-solution-engineer-heartbeat.html) |
+| Prompt | [ABS Solution Engineer markdown prompt](../heartbeat-prompts/abs-solution-engineer.md) |
 
 ---
 
@@ -98,4 +102,3 @@ docs/
 ```
 
 Add `automation-samples/` entries later when a persona needs a bounded scheduled workflow, such as a weekly pipeline prep brief, a daily customer response queue, or a monthly account-plan refresh.
-

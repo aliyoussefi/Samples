@@ -56,7 +56,8 @@ The prompt should only use systems the user is authorized to access.
 
 | Sample | Link |
 |---|---|
-| Heartbeat | [Legal operations manager heartbeat](../heartbeat-prompts/legal-operations-manager.md) |
+| Heartbeat | [Legal operations manager heartbeat visual](../visuals/legal-operations-manager-heartbeat.html) |
+| Prompt | [Legal operations manager markdown prompt](../heartbeat-prompts/legal-operations-manager.md) |
 | Automation | [Weekly legal operations command brief](../automation-samples/legal-operations-manager.md) |
 
 ---
