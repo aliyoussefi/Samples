@@ -209,6 +209,37 @@
       white-space: nowrap;
     }
 
+    .persona-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: var(--cp-accent-soft);
+      border: 1px solid var(--cp-border);
+      color: var(--cp-accent);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 22px;
+    }
+
+    .persona-icon svg {
+      width: 28px;
+      height: 28px;
+      display: block;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .visual-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
     .metrics {
       max-width: 1240px;
       margin: 28px auto 0;
@@ -577,12 +608,12 @@
     <main>
       <section class="hero"><div class="label">Heartbeat visual library</div><h1 class="headline">Role-based chief of staff <span>stories for Scout.</span></h1><p class="hero-copy">Use these HTML visuals to explain how Scout heartbeats watch recent work context, decide when to stay silent, and prepare approval-ready actions for legal and sales personas.</p></section>
       <section class="metrics" aria-label="Work reality metrics"><div class="metric"><div class="metric-value">25<small> min</small></div><p>to refocus after a single interruption</p></div><div class="metric"><div class="metric-value">68%</div><p>of people do not have enough focus time</p></div><div class="metric"><div class="metric-value">64%</div><p>of people do not have time for their actual job</p></div></section>
-      <section class="section"><div class="kicker">Available visuals</div><h2>Choose a persona.</h2><div class="cards"><article class='card'><div><div class='card-number'>01 · Legal</div><h3>Commercial Contracts Counsel</h3><p>Contract follow-through, redlines, approvals, and negotiation prep.</p></div><p><a href='legal-commercial-contracts-counsel-heartbeat.html'>Open visual</a> · <a href='../heartbeat-prompts/legal-commercial-contracts-counsel.md'>Copy prompt</a></p></article>
-<article class='card'><div><div class='card-number'>02 · Legal</div><h3>Legal Operations Manager</h3><p>Legal intake, matter operations, reporting, billing, and process blockers.</p></div><p><a href='legal-operations-manager-heartbeat.html'>Open visual</a> · <a href='../heartbeat-prompts/legal-operations-manager.md'>Copy prompt</a></p></article>
-<article class='card'><div><div class='card-number'>03 · Sales</div><h3>Seller</h3><p>Customer follow-ups, active deals, stale next steps, and CRM notes.</p></div><p><a href='seller-heartbeat.html'>Open visual</a> · <a href='../heartbeat-prompts/seller.md'>Copy prompt</a></p></article>
-<article class='card'><div><div class='card-number'>04 · Sales</div><h3>Sales Manager</h3><p>Pipeline risk, coaching moments, forecast quality, and team follow-through.</p></div><p><a href='sales-manager-heartbeat.html'>Open visual</a> · <a href='../heartbeat-prompts/sales-manager.md'>Copy prompt</a></p></article>
-<article class='card'><div><div class='card-number'>05 · Sales</div><h3>Account Executive</h3><p>Account momentum, executive asks, stakeholder alignment, and deal risk.</p></div><p><a href='account-executive-heartbeat.html'>Open visual</a> · <a href='../heartbeat-prompts/account-executive.md'>Copy prompt</a></p></article>
-<article class='card'><div><div class='card-number'>06 · Sales</div><h3>ABS Solution Engineer</h3><p>Customer prep, technical asks, workshop artifacts, and solution blockers.</p></div><p><a href='abs-solution-engineer-heartbeat.html'>Open visual</a> · <a href='../heartbeat-prompts/abs-solution-engineer.md'>Copy prompt</a></p></article></div></section>
+      <section class="section"><div class="kicker">Available visuals</div><h2>Choose a persona.</h2><div class="cards"><article class='card'><div><div class="visual-card-head"><div><div class='card-number'>01 · Legal</div><h3>Commercial Contracts Counsel</h3></div><span class="persona-icon" aria-label="Legal persona"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 5v20"/><path d="M9 9h14"/><path d="M11 9 6 19"/><path d="M11 9l5 10"/><path d="M21 9l-5 10"/><path d="M21 9l5 10"/><path d="M4 19h10"/><path d="M18 19h10"/><path d="M12 27h8"/></svg></span></div><p>Contract follow-through, redlines, approvals, and negotiation prep.</p></div><p><a href='legal-commercial-contracts-counsel-heartbeat.html'>Open visual</a> · <a href='../heartbeat-prompts/legal-commercial-contracts-counsel.md'>Copy prompt</a></p></article>
+<article class='card'><div><div class="visual-card-head"><div><div class='card-number'>02 · Legal</div><h3>Legal Operations Manager</h3></div><span class="persona-icon" aria-label="Legal persona"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 5v20"/><path d="M9 9h14"/><path d="M11 9 6 19"/><path d="M11 9l5 10"/><path d="M21 9l-5 10"/><path d="M21 9l5 10"/><path d="M4 19h10"/><path d="M18 19h10"/><path d="M12 27h8"/></svg></span></div><p>Legal intake, matter operations, reporting, billing, and process blockers.</p></div><p><a href='legal-operations-manager-heartbeat.html'>Open visual</a> · <a href='../heartbeat-prompts/legal-operations-manager.md'>Copy prompt</a></p></article>
+<article class='card'><div><div class="visual-card-head"><div><div class='card-number'>03 · Sales</div><h3>Seller</h3></div><span class="persona-icon" aria-label="Sales persona"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 24h22"/><path d="M7 22l6-6 4 4 8-10"/><path d="M21 10h4v4"/><path d="M8 27h18"/></svg></span></div><p>Customer follow-ups, active deals, stale next steps, and CRM notes.</p></div><p><a href='seller-heartbeat.html'>Open visual</a> · <a href='../heartbeat-prompts/seller.md'>Copy prompt</a></p></article>
+<article class='card'><div><div class="visual-card-head"><div><div class='card-number'>04 · Sales</div><h3>Sales Manager</h3></div><span class="persona-icon" aria-label="Sales persona"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 24h22"/><path d="M7 22l6-6 4 4 8-10"/><path d="M21 10h4v4"/><path d="M8 27h18"/></svg></span></div><p>Pipeline risk, coaching moments, forecast quality, and team follow-through.</p></div><p><a href='sales-manager-heartbeat.html'>Open visual</a> · <a href='../heartbeat-prompts/sales-manager.md'>Copy prompt</a></p></article>
+<article class='card'><div><div class="visual-card-head"><div><div class='card-number'>05 · Sales</div><h3>Account Executive</h3></div><span class="persona-icon" aria-label="Sales persona"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 24h22"/><path d="M7 22l6-6 4 4 8-10"/><path d="M21 10h4v4"/><path d="M8 27h18"/></svg></span></div><p>Account momentum, executive asks, stakeholder alignment, and deal risk.</p></div><p><a href='account-executive-heartbeat.html'>Open visual</a> · <a href='../heartbeat-prompts/account-executive.md'>Copy prompt</a></p></article>
+<article class='card'><div><div class="visual-card-head"><div><div class='card-number'>06 · Sales</div><h3>ABS Solution Engineer</h3></div><span class="persona-icon" aria-label="Sales persona"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 24h22"/><path d="M7 22l6-6 4 4 8-10"/><path d="M21 10h4v4"/><path d="M8 27h18"/></svg></span></div><p>Customer prep, technical asks, workshop artifacts, and solution blockers.</p></div><p><a href='abs-solution-engineer-heartbeat.html'>Open visual</a> · <a href='../heartbeat-prompts/abs-solution-engineer.md'>Copy prompt</a></p></article></div></section>
     </main>
     <footer class="footer"><span>Microsoft Scout heartbeat concept</span><span>Legal and sales persona visuals</span></footer>
   </div>
