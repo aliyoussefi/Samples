@@ -38,6 +38,32 @@ Replace `<ORG>` / `<ENTERPRISE>` with your slug.
 
 ---
 
+## Background consumption — heartbeat and automations
+
+The biggest surprise in Scout cost is **usage you didn't actively trigger**. Two features make model calls on their own, and every call draws down GitHub Copilot premium requests:
+
+### Heartbeat
+
+The **heartbeat** periodically runs a proactive check (reviewing your recent work context) on a timer — even when you're not chatting. Each run is a full agentic model call.
+
+- **Cost math:** on a **30-minute interval, work-hours** schedule (Mon–Fri, 8am–6pm), that's roughly **~20 runs per business day** (~400+/month) before you send a single message.
+- **Tune it (Scout → Settings / heartbeat controls):**
+  - **Interval** — 15, 30, 60, or 120 minutes. Longer interval = fewer calls.
+  - **Schedule** — **work-hours** (Mon–Fri 8am–6pm) is far cheaper than **always** (24/7).
+  - **Enabled** — turn it **off** entirely when you don't need proactive checks.
+
+> Rule of thumb: if you only use Scout interactively, lengthen the interval (60–120 min) or disable the heartbeat to cut idle consumption.
+
+### Automations
+
+**Scheduled** and **condition-triggered** automations each execute as model calls when they fire. A condition automation also consumes credits on its **check interval** (e.g., every 15 minutes) while it watches for its trigger.
+
+- **Review your automations** and disable or delete any you no longer use.
+- Prefer **longer schedules / check intervals** for low-urgency automations.
+- Be mindful of **condition automations on short check intervals** — they run repeatedly in the background.
+
+---
+
 ## Keeping cost under control
 
 - **Premium request counters reset on the 1st of each month at 00:00 UTC.** Plan/allowance windows are monthly.
@@ -56,6 +82,7 @@ Replace `<ORG>` / `<ENTERPRISE>` with your slug.
 | Fastest link to my numbers | https://github.com/settings/billing → **Premium request analytics** |
 | When does the counter reset? | 1st of each month, **00:00 UTC** |
 | How do I avoid surprises? | Set a **budget** with 75/90/100% alerts |
+| What consumes credits when I'm idle? | The **heartbeat** and **automations** — tune the interval/schedule or disable them |
 
 ---
 
