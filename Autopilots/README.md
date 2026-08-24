@@ -18,6 +18,10 @@ Microsoft Scout Frontier is gated behind a **two-gate access model**. Installing
 | [`docs/intune-setup.md`](docs/intune-setup.md) | **Gate 2** — device policy: importing the Scout ADMX into Intune and enabling `AllowScoutFrontierAccess` on managed Windows (and macOS) devices. |
 | [`docs/troubleshooting.md`](docs/troubleshooting.md) | Failure signatures and fixes — "not available for your organization", waitlist/blocked sign-in, policy not landing, ADMX import errors, missing Copilot. |
 | [`docs/cost-management.md`](docs/cost-management.md) | Track Scout usage/cost — where to see **GitHub Copilot premium-request** consumption, direct links, budgets and alerts. |
+| [`docs/personas.md`](docs/personas.md) | Persona sample library — value propositions plus links to role-specific heartbeat and automation samples. |
+| [`docs/heartbeat-prompts.md`](docs/heartbeat-prompts.md) | Role-based heartbeat prompt samples for always-on Scout chief-of-staff scenarios. |
+| [`docs/automation-samples.md`](docs/automation-samples.md) | Role-based automation samples for scheduled and recurring Scout work. |
+| [`docs/personas/legal-department.md`](docs/personas/legal-department.md) | Legal department persona pack with value prop, heartbeat samples, and automation samples. |
 | [`Frontier-Scout-Intune-Preflight-Checklist.md`](Frontier-Scout-Intune-Preflight-Checklist.md) | One-page, customer-shareable readiness checklist for an **Intune-managed** rollout, ordered by propagation lead time. |
 
 ---

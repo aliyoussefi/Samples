@@ -42,6 +42,9 @@ The key distinction:
 | Seller / Sales Specialist | [Seller heartbeat prompt](heartbeat-prompts/seller.md) |
 | Sales Manager | [Sales manager heartbeat prompt](heartbeat-prompts/sales-manager.md) |
 | Account Executive | [Account executive heartbeat prompt](heartbeat-prompts/account-executive.md) |
+| ABS Solution Engineer | [ABS Solution Engineer heartbeat prompt](heartbeat-prompts/abs-solution-engineer.md) |
+| Legal - Commercial Contracts Counsel | [Commercial contracts counsel heartbeat prompt](heartbeat-prompts/legal-commercial-contracts-counsel.md) |
+| Legal - Legal Operations Manager | [Legal operations manager heartbeat prompt](heartbeat-prompts/legal-operations-manager.md) |
 
 ---
 
@@ -73,4 +76,3 @@ If action is needed, provide:
 Do not send messages, update systems, or act externally without my explicit approval.
 Suppress duplicate reminders once I resolve, dismiss, or snooze an item.
 ```
-
