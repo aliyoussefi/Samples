@@ -42,7 +42,8 @@ The prompt should only use systems the user is authorized to access.
 
 | Sample | Link |
 |---|---|
-| Heartbeat | [Commercial contracts counsel heartbeat](../heartbeat-prompts/legal-commercial-contracts-counsel.md) |
+| Heartbeat | [Commercial contracts counsel heartbeat visual](../visuals/legal-commercial-contracts-counsel-heartbeat.html) |
+| Prompt | [Commercial contracts counsel markdown prompt](../heartbeat-prompts/legal-commercial-contracts-counsel.md) |
 | Automation | [Daily contract risk and response queue](../automation-samples/legal-commercial-contracts-counsel.md) |
 
 ---
@@ -77,4 +78,3 @@ docs/
 ```
 
 This keeps the narrative, heartbeat prompts, and automation samples easy to find and easy to reuse in enablement material.
-
