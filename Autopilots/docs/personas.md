@@ -30,7 +30,7 @@ docs/
 | Persona pack | Roles | Assets |
 |---|---|---|
 | [Legal department](personas/legal-department.md) | Commercial Contracts Counsel, Legal Operations Manager | Heartbeats and automations |
-| [Sales team](personas/sales.md) | Seller, Sales Manager, Account Executive, ABS Solution Engineer | Heartbeats |
+| [Sales team](personas/sales.md) | Seller, Sales Manager, Account Executive | Heartbeats |
 | [Finance](personas/finance.md) | FP&A Manager, Procurement Manager | Heartbeats and automations |
 | [Human Resources](personas/human-resources.md) | HR Business Partner, Talent Acquisition Lead | Heartbeats and automations |
 

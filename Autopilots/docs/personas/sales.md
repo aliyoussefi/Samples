@@ -16,7 +16,7 @@ Sales teams lose time and momentum when customer asks, internal commitments, mee
 - identifies opportunities for Power Platform, Copilot Studio, Dynamics 365, Cowork, or Scout where customer needs align
 - keeps the human in control before anything is sent, created, uploaded, or updated
 
-Scout is not a replacement for the seller, manager, account executive, or solution engineer. It is productivity support for staying prepared, responsive, and focused on the work that moves the number.
+Scout is not a replacement for the seller, manager, or account executive. It is productivity support for staying prepared, responsive, and focused on the work that moves the number.
 
 ---
 
@@ -71,21 +71,6 @@ The prompt should only use systems the user is authorized to access.
 | Heartbeat | [Account executive heartbeat visual](../visuals/account-executive-heartbeat.html) |
 | Prompt | [Account executive markdown prompt](../heartbeat-prompts/account-executive.md) |
 
----
-
-## Persona 4: ABS Solution Engineer
-
-**Job to be done:** Prepare for customer conversations, respond to technical asks, unblock solution design, and create reusable customer artifacts.
-
-**Scout value:** Scout monitors customer meetings, seller requests, Outlook, Teams, workshop notes, OneNote, opportunity context, and technical commitments. It looks for customer prep needs, unanswered technical questions, missing artifacts, solution blockers, and opportunities aligned to Power Platform, Copilot Studio, Dynamics 365, Cowork, or Scout.
-
-| Sample | Link |
-|---|---|
-| Heartbeat | [ABS Solution Engineer heartbeat visual](../visuals/abs-solution-engineer-heartbeat.html) |
-| Prompt | [ABS Solution Engineer markdown prompt](../heartbeat-prompts/abs-solution-engineer.md) |
-
----
-
 ## Recommended content layout
 
 Use this folder structure for sales persona packs:
@@ -98,7 +83,6 @@ docs/
     seller.md
     sales-manager.md
     account-executive.md
-    abs-solution-engineer.md
 ```
 
 Add `automation-samples/` entries later when a persona needs a bounded scheduled workflow, such as a weekly pipeline prep brief, a daily customer response queue, or a monthly account-plan refresh.
