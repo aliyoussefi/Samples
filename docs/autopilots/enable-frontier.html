@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enable Microsoft Scout Frontier</title>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("scoutTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--cp-bg);
+      color: var(--cp-text);
+      font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.4;
+    }
+
+    .nav {
+      align-items: center;
+      color: var(--cp-text);
+      display: flex;
+      gap: 20px;
+      justify-content: space-between;
+      margin: 0 auto;
+      max-width: 1240px;
+      padding: 24px 28px;
+    }
+
+    .brand {
+      align-items: center;
+      display: flex;
+      font-weight: 700;
+      gap: 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-logo {
+      align-items: center;
+      background: var(--cp-text);
+      border: 1px solid var(--cp-border-strong);
+      border-radius: 0.625rem;
+      display: inline-flex;
+      height: 38px;
+      justify-content: center;
+      padding: 6px;
+      width: 38px;
+    }
+
+    .brand-logo img {
+      display: block;
+      height: 100%;
+      object-fit: contain;
+      width: 100%;
+    }
+
+    .nav-actions {
+      align-items: center;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: flex-end;
+    }
+
+    a {
+      color: var(--cp-accent);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .nav-link {
+      color: var(--cp-text-muted);
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .hero,
+    .section,
+    .footer {
+      margin: 0 auto;
+      max-width: 1240px;
+      padding-left: 28px;
+      padding-right: 28px;
+    }
+
+    .hero {
+      padding-bottom: 48px;
+      padding-top: 40px;
+    }
+
+    .label,
+    .kicker {
+      color: var(--cp-accent);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+    }
+
+    .headline {
+      font-size: clamp(3.1rem, 8vw, 7.9rem);
+      font-weight: 650;
+      letter-spacing: -0.075em;
+      line-height: 0.94;
+      margin: 0;
+      max-width: 1100px;
+    }
+
+    .headline span {
+      color: var(--cp-accent);
+      display: block;
+    }
+
+    .hero-copy {
+      color: var(--cp-text-muted);
+      font-size: clamp(1.06rem, 1.8vw, 1.35rem);
+      margin: 28px 0 0;
+      max-width: 820px;
+    }
+
+    .summary-grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-top: 32px;
+    }
+
+    .summary-card,
+    .step,
+    .checklist,
+    .link-card {
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      box-shadow: 0 0 2px var(--cp-border), 0 1px 2px var(--cp-border);
+      padding: 22px;
+    }
+
+    .summary-card strong,
+    .step strong,
+    .checklist strong,
+    .link-card strong {
+      color: var(--cp-text);
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .summary-card span,
+    .step p,
+    .checklist p,
+    .link-card p {
+      color: var(--cp-text-muted);
+      margin: 0;
+    }
+
+    .section {
+      border-top: 1px solid var(--cp-border);
+      padding-bottom: 64px;
+      padding-top: 64px;
+    }
+
+    .section h2 {
+      font-size: clamp(2.4rem, 5vw, 5rem);
+      font-weight: 650;
+      letter-spacing: -0.06em;
+      line-height: 0.98;
+      margin: 0;
+    }
+
+    .section-intro {
+      color: var(--cp-text-muted);
+      font-size: 1.08rem;
+      margin-top: 18px;
+      max-width: 720px;
+    }
+
+    .steps {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 32px;
+    }
+
+    .step {
+      min-height: 220px;
+    }
+
+    .step-number {
+      color: var(--cp-accent);
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      margin-bottom: 34px;
+    }
+
+    .step h3 {
+      font-size: 1.35rem;
+      letter-spacing: -0.025em;
+      margin: 0 0 10px;
+    }
+
+    .step ul,
+    .checklist ul {
+      color: var(--cp-text-muted);
+      margin: 14px 0 0;
+      padding-left: 22px;
+    }
+
+    .step li,
+    .checklist li {
+      margin: 8px 0;
+    }
+
+    .checklist-grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 32px;
+    }
+
+    .checklist label {
+      align-items: flex-start;
+      cursor: pointer;
+      display: flex;
+      gap: 12px;
+    }
+
+    .checklist input {
+      accent-color: var(--cp-accent);
+      flex: 0 0 auto;
+      height: 22px;
+      margin: 2px 0 0;
+      width: 22px;
+    }
+
+    .checklist-title {
+      color: var(--cp-accent);
+      display: block;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .checklist-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .checklist-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .checklist-actions a {
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      color: var(--cp-accent);
+      display: inline-flex;
+      font-size: 0.92rem;
+      padding: 8px 10px;
+    }
+
+    .checklist:has(input:checked) {
+      background: var(--cp-accent-soft);
+      border-color: var(--cp-border-strong);
+    }
+
+    .checklist:has(input:checked) .checklist-title::after {
+      content: " complete";
+      color: var(--cp-text-muted);
+      font-weight: 600;
+    }
+
+    .links {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 32px;
+    }
+
+    .footer {
+      border-top: 1px solid var(--cp-border);
+      color: var(--cp-text-muted);
+      display: flex;
+      gap: 20px;
+      justify-content: space-between;
+      padding-bottom: 48px;
+      padding-top: 32px;
+    }
+
+    @media (max-width: 1040px) {
+      .summary-grid,
+      .steps,
+      .checklist-grid,
+      .links {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 720px) {
+      .nav,
+      .hero,
+      .section,
+      .footer {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .summary-grid,
+      .steps,
+      .checklist-grid,
+      .links {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">
+      <span class="brand-logo"><img src="assets/autopilots-logo.png" alt="Autopilots logo"></span>
+      Microsoft Autopilots
+    </div>
+    <nav class="nav-actions" aria-label="Enablement navigation">
+      <a class="nav-link" href="autopilots-readme.html">Autopilots home</a>
+      <a class="nav-link" href="index.html">Heartbeat visuals</a>
+      <a class="nav-link" href="https://github.com/aliyoussefi/Samples/blob/main/Autopilots/docs/troubleshooting.md">Troubleshooting</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="label">Enable Microsoft Scout Frontier</div>
+      <h1 class="headline">Six things to do <span>before users sign in.</span></h1>
+      <p class="hero-copy">
+        Scout installs easily, but sign-in only works after the organization gate, device gate, attestation, and Copilot entitlement are all in place.
+      </p>
+      <div class="summary-grid">
+        <div class="summary-card"><strong>Tenant</strong><span>Enroll in Frontier and turn on Copilot Frontier.</span></div>
+        <div class="summary-card"><strong>Attestation</strong><span>Accept the Frontier organization terms.</span></div>
+        <div class="summary-card"><strong>License</strong><span>Assign GitHub Copilot Business or Enterprise.</span></div>
+        <div class="summary-card"><strong>Device</strong><span>Deploy the Scout Frontier policy with Intune.</span></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="kicker">Enablement steps</div>
+      <h2>Clear actions for admins.</h2>
+      <p class="section-intro">
+        Work these in order. The longest lead times are usually Frontier propagation, GitHub Copilot licensing, and Intune policy sync.
+      </p>
+      <div class="steps">
+        <article class="step">
+          <div class="step-number">01</div>
+          <h3>Enroll in the Frontier program</h3>
+          <p>Join the Copilot Frontier preview program and accept the participation terms for the organization.</p>
+          <ul>
+            <li>Use a tenant admin or organization decision maker.</li>
+            <li>Confirm the tenant is eligible for Frontier previews.</li>
+          </ul>
+        </article>
+        <article class="step">
+          <div class="step-number">02</div>
+          <h3>Turn on Copilot Frontier</h3>
+          <p>In the Microsoft 365 admin center, open Copilot settings and enable Copilot Frontier for all users or a selected pilot group.</p>
+          <ul>
+            <li>Save the setting.</li>
+            <li>Allow up to about three hours for propagation.</li>
+          </ul>
+        </article>
+        <article class="step">
+          <div class="step-number">03</div>
+          <h3>Submit the attestation</h3>
+          <p>Complete the Frontier organization sign-up or attestation form because Scout can route data to third-party inference paths.</p>
+          <ul>
+            <li>Use the current form link from Microsoft Learn.</li>
+            <li>Keep evidence that the opt-in was submitted.</li>
+          </ul>
+        </article>
+        <article class="step">
+          <div class="step-number">04</div>
+          <h3>Assign GitHub Copilot</h3>
+          <p>Each user needs a GitHub account with GitHub Copilot Business or Enterprise entitlement.</p>
+          <ul>
+            <li>Individual Copilot is not enough.</li>
+            <li>Confirm the GitHub Copilot app policy is enabled.</li>
+          </ul>
+        </article>
+        <article class="step">
+          <div class="step-number">05</div>
+          <h3>Deploy the Intune policy</h3>
+          <p>Import the Scout policy template and enable Microsoft Scout Frontier access on managed devices.</p>
+          <ul>
+            <li>Use Imported Administrative Templates.</li>
+            <li>Validate the registry value after device sync.</li>
+          </ul>
+        </article>
+        <article class="step">
+          <div class="step-number">06</div>
+          <h3>Validate sign-in</h3>
+          <p>Install Scout, sign in with the user’s Microsoft 365 work account and GitHub identity, then confirm there is no org or waitlist block.</p>
+          <ul>
+            <li>Use troubleshooting if sign-in is blocked.</li>
+            <li>Check both gates before changing the device.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="kicker">Checklist</div>
+      <h2>Ready when all boxes are checked.</h2>
+      <div class="checklist-grid">
+        <div class="checklist">
+          <label>
+            <input type="checkbox" data-check="organization-gate">
+            <span class="checklist-body">
+              <span class="checklist-title">Organization gate</span>
+              <p>Frontier enrollment is complete, Copilot Frontier is on, and propagation time has passed.</p>
+            </span>
+          </label>
+          <div class="checklist-actions">
+            <a href="https://github.com/aliyoussefi/Samples/blob/main/Autopilots/docs/enable-frontier.md">Setup instructions</a>
+            <a href="https://learn.microsoft.com/en-us/microsoft-scout/admin-access-overview">Microsoft Learn</a>
+          </div>
+        </div>
+        <div class="checklist">
+          <label>
+            <input type="checkbox" data-check="attestation">
+            <span class="checklist-body">
+              <span class="checklist-title">Attestation</span>
+              <p>The organization has completed the Frontier sign-up or opt-in form.</p>
+            </span>
+          </label>
+          <div class="checklist-actions">
+            <a href="https://github.com/aliyoussefi/Samples/blob/main/Autopilots/docs/enable-frontier.md">Setup instructions</a>
+            <a href="https://learn.microsoft.com/en-us/microsoft-scout/admin-access-overview">Microsoft Learn</a>
+          </div>
+        </div>
+        <div class="checklist">
+          <label>
+            <input type="checkbox" data-check="github-copilot">
+            <span class="checklist-body">
+              <span class="checklist-title">GitHub Copilot</span>
+              <p>Target users have GitHub Copilot Business or Enterprise and app policy access.</p>
+            </span>
+          </label>
+          <div class="checklist-actions">
+            <a href="https://github.com/aliyoussefi/Samples/blob/main/Autopilots/docs/enable-frontier.md">Setup instructions</a>
+            <a href="https://docs.github.com/copilot/how-tos/administer-copilot/manage-for-enterprise/manage-enterprise-policies">GitHub docs</a>
+          </div>
+        </div>
+        <div class="checklist">
+          <label>
+            <input type="checkbox" data-check="device-policy">
+            <span class="checklist-body">
+              <span class="checklist-title">Device policy</span>
+              <p>Intune delivered `AllowScoutFrontierAccess = 1` to the test device.</p>
+            </span>
+          </label>
+          <div class="checklist-actions">
+            <a href="https://github.com/aliyoussefi/Samples/blob/main/Autopilots/docs/intune-setup.md">Setup instructions</a>
+            <a href="https://learn.microsoft.com/en-us/microsoft-scout/admin-intune-setup">Microsoft Learn</a>
+          </div>
+        </div>
+        <div class="checklist">
+          <label>
+            <input type="checkbox" data-check="work-account">
+            <span class="checklist-body">
+              <span class="checklist-title">Work account</span>
+              <p>The user signs into Microsoft 365 with the same tenant enabled for Frontier.</p>
+            </span>
+          </label>
+          <div class="checklist-actions">
+            <a href="https://github.com/aliyoussefi/Samples/blob/main/Autopilots/docs/enable-frontier.md">Setup instructions</a>
+            <a href="https://learn.microsoft.com/en-us/microsoft-scout/admin-access-overview">Microsoft Learn</a>
+          </div>
+        </div>
+        <div class="checklist">
+          <label>
+            <input type="checkbox" data-check="validation">
+            <span class="checklist-body">
+              <span class="checklist-title">Validation</span>
+              <p>Scout launches and signs in without the organization-unavailable or waitlist screen.</p>
+            </span>
+          </label>
+          <div class="checklist-actions">
+            <a href="https://github.com/aliyoussefi/Samples/blob/main/Autopilots/docs/troubleshooting.md">Troubleshooting</a>
+            <a href="https://learn.microsoft.com/en-us/microsoft-scout/admin-access-overview">Microsoft Learn</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="kicker">Related pages</div>
+      <h2>Keep moving.</h2>
+      <div class="links">
+        <a class="link-card" href="autopilots-readme.html"><strong>Autopilots home</strong><p>Return to the main visual landing page.</p></a>
+        <a class="link-card" href="index.html"><strong>Heartbeat visuals</strong><p>Show role-based always-on examples.</p></a>
+        <a class="link-card" href="https://github.com/aliyoussefi/Samples/blob/main/Autopilots/docs/troubleshooting.md"><strong>Troubleshooting</strong><p>Diagnose sign-in and policy failures.</p></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>Microsoft Autopilots</span>
+    <span>Enable Microsoft Scout Frontier</span>
+  </footer>
+  <script>
+    (() => {
+      const key = "autopilots.enableFrontier.checklist";
+      const checks = Array.from(document.querySelectorAll("[data-check]"));
+      let state = {};
+      try {
+        state = JSON.parse(window.localStorage.getItem(key) || "{}");
+      } catch {
+        state = {};
+      }
+
+      for (const box of checks) {
+        box.checked = Boolean(state[box.dataset.check]);
+        box.addEventListener("change", () => {
+          state[box.dataset.check] = box.checked;
+          try {
+            window.localStorage.setItem(key, JSON.stringify(state));
+          } catch {
+            // Ignore storage failures. The checkboxes still work for the current page view.
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
