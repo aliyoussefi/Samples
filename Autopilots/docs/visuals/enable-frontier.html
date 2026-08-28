@@ -285,9 +285,58 @@
       margin-top: 32px;
     }
 
-    .checkbox {
+    .checklist label {
+      align-items: flex-start;
+      cursor: pointer;
+      display: flex;
+      gap: 12px;
+    }
+
+    .checklist input {
+      accent-color: var(--cp-accent);
+      flex: 0 0 auto;
+      height: 22px;
+      margin: 2px 0 0;
+      width: 22px;
+    }
+
+    .checklist-title {
       color: var(--cp-accent);
+      display: block;
       font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .checklist-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .checklist-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .checklist-actions a {
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      color: var(--cp-accent);
+      display: inline-flex;
+      font-size: 0.92rem;
+      padding: 8px 10px;
+    }
+
+    .checklist:has(input:checked) {
+      background: var(--cp-accent-soft);
+      border-color: var(--cp-border-strong);
+    }
+
+    .checklist:has(input:checked) .checklist-title::after {
+      content: " complete";
+      color: var(--cp-text-muted);
+      font-weight: 600;
     }
 
     .links {
@@ -431,28 +480,82 @@
       <h2>Ready when all boxes are checked.</h2>
       <div class="checklist-grid">
         <div class="checklist">
-          <strong><span class="checkbox">☐</span> Organization gate</strong>
-          <p>Frontier enrollment is complete, Copilot Frontier is on, and propagation time has passed.</p>
+          <label>
+            <input type="checkbox" data-check="organization-gate">
+            <span class="checklist-body">
+              <span class="checklist-title">Organization gate</span>
+              <p>Frontier enrollment is complete, Copilot Frontier is on, and propagation time has passed.</p>
+            </span>
+          </label>
+          <div class="checklist-actions">
+            <a href="../enable-frontier.md">Setup instructions</a>
+            <a href="https://learn.microsoft.com/en-us/microsoft-scout/admin-access-overview">Microsoft Learn</a>
+          </div>
         </div>
         <div class="checklist">
-          <strong><span class="checkbox">☐</span> Attestation</strong>
-          <p>The organization has completed the Frontier sign-up or opt-in form.</p>
+          <label>
+            <input type="checkbox" data-check="attestation">
+            <span class="checklist-body">
+              <span class="checklist-title">Attestation</span>
+              <p>The organization has completed the Frontier sign-up or opt-in form.</p>
+            </span>
+          </label>
+          <div class="checklist-actions">
+            <a href="../enable-frontier.md">Setup instructions</a>
+            <a href="https://learn.microsoft.com/en-us/microsoft-scout/admin-access-overview">Microsoft Learn</a>
+          </div>
         </div>
         <div class="checklist">
-          <strong><span class="checkbox">☐</span> GitHub Copilot</strong>
-          <p>Target users have GitHub Copilot Business or Enterprise and app policy access.</p>
+          <label>
+            <input type="checkbox" data-check="github-copilot">
+            <span class="checklist-body">
+              <span class="checklist-title">GitHub Copilot</span>
+              <p>Target users have GitHub Copilot Business or Enterprise and app policy access.</p>
+            </span>
+          </label>
+          <div class="checklist-actions">
+            <a href="../enable-frontier.md">Setup instructions</a>
+            <a href="https://docs.github.com/copilot/how-tos/administer-copilot/manage-for-enterprise/manage-enterprise-policies">GitHub docs</a>
+          </div>
         </div>
         <div class="checklist">
-          <strong><span class="checkbox">☐</span> Device policy</strong>
-          <p>Intune delivered `AllowScoutFrontierAccess = 1` to the test device.</p>
+          <label>
+            <input type="checkbox" data-check="device-policy">
+            <span class="checklist-body">
+              <span class="checklist-title">Device policy</span>
+              <p>Intune delivered `AllowScoutFrontierAccess = 1` to the test device.</p>
+            </span>
+          </label>
+          <div class="checklist-actions">
+            <a href="../intune-setup.md">Setup instructions</a>
+            <a href="https://learn.microsoft.com/en-us/microsoft-scout/admin-intune-setup">Microsoft Learn</a>
+          </div>
         </div>
         <div class="checklist">
-          <strong><span class="checkbox">☐</span> Work account</strong>
-          <p>The user signs into Microsoft 365 with the same tenant enabled for Frontier.</p>
+          <label>
+            <input type="checkbox" data-check="work-account">
+            <span class="checklist-body">
+              <span class="checklist-title">Work account</span>
+              <p>The user signs into Microsoft 365 with the same tenant enabled for Frontier.</p>
+            </span>
+          </label>
+          <div class="checklist-actions">
+            <a href="../enable-frontier.md">Setup instructions</a>
+            <a href="https://learn.microsoft.com/en-us/microsoft-scout/admin-access-overview">Microsoft Learn</a>
+          </div>
         </div>
         <div class="checklist">
-          <strong><span class="checkbox">☐</span> Validation</strong>
-          <p>Scout launches and signs in without the organization-unavailable or waitlist screen.</p>
+          <label>
+            <input type="checkbox" data-check="validation">
+            <span class="checklist-body">
+              <span class="checklist-title">Validation</span>
+              <p>Scout launches and signs in without the organization-unavailable or waitlist screen.</p>
+            </span>
+          </label>
+          <div class="checklist-actions">
+            <a href="../troubleshooting.md">Troubleshooting</a>
+            <a href="https://learn.microsoft.com/en-us/microsoft-scout/admin-access-overview">Microsoft Learn</a>
+          </div>
         </div>
       </div>
     </section>
@@ -472,5 +575,29 @@
     <span>Microsoft Autopilots</span>
     <span>Enable Microsoft Scout Frontier</span>
   </footer>
+  <script>
+    (() => {
+      const key = "autopilots.enableFrontier.checklist";
+      const checks = Array.from(document.querySelectorAll("[data-check]"));
+      let state = {};
+      try {
+        state = JSON.parse(window.localStorage.getItem(key) || "{}");
+      } catch {
+        state = {};
+      }
+
+      for (const box of checks) {
+        box.checked = Boolean(state[box.dataset.check]);
+        box.addEventListener("change", () => {
+          state[box.dataset.check] = box.checked;
+          try {
+            window.localStorage.setItem(key, JSON.stringify(state));
+          } catch {
+            // Ignore storage failures. The checkboxes still work for the current page view.
+          }
+        });
+      }
+    })();
+  </script>
 </body>
 </html>
