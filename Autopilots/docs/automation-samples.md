@@ -28,6 +28,18 @@ This keeps the persona story separate from the executable prompt samples, while 
 | Human Resources - HR Business Partner | [HR Business Partner automation sample](automation-samples/hr-hr-business-partner.md) |
 | Finance - Procurement Manager | [Procurement Manager automation sample](automation-samples/finance-procurement-manager.md) |
 | Finance - FP&A Manager | [FP&A Manager automation sample](automation-samples/finance-fpa-manager.md) |
+| Information Technology - Director of IT | [Daily IT command brief](automation-samples/it-director-daily-command-brief.md) |
+| Information Technology - Director of IT | [Weekly SaaS, security, and endpoint review](automation-samples/it-director-weekly-saas-security-endpoint-review.md) |
+| Information Technology - Director of IT | [Executive IT ask triage](automation-samples/it-director-executive-ask-triage.md) |
+| Information Technology - Director of IT | [Incident recovery watch](automation-samples/it-director-incident-recovery-watch.md) |
+| Information Technology - Director of IT | [Identity and access blocker watch](automation-samples/it-director-identity-access-blocker-watch.md) |
+| Information Technology - Director of IT | [Threat hunting and security follow-through](automation-samples/it-director-threat-hunting-security-follow-through.md) |
+| Information Technology - Director of IT | [SaaS renewal and license optimization watch](automation-samples/it-director-saas-renewal-license-optimization.md) |
+| Information Technology - Director of IT | [IT project risk watch](automation-samples/it-director-project-risk-watch.md) |
+| Information Technology - Director of IT | [Endpoint compliance drift watch](automation-samples/it-director-endpoint-compliance-drift.md) |
+| Information Technology - Director of IT | [Onboarding and offboarding readiness watch](automation-samples/it-director-onboarding-offboarding-readiness.md) |
+| Information Technology - Director of IT | [IT leadership meeting prep](automation-samples/it-director-leadership-meeting-prep.md) |
+| Information Technology - Director of IT | [Repeat issue automation candidate finder](automation-samples/it-director-repeat-issue-automation-candidate.md) |
 
 ---
 
