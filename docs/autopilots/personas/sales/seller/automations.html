@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seller Automations</title>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("scoutTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--cp-bg);
+      color: var(--cp-text);
+      font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.4;
+    }
+    .nav, .hero, .section, .footer {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding-left: 28px;
+      padding-right: 28px;
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .brand-logo {
+      width: 38px;
+      height: 38px;
+      padding: 6px;
+      border-radius: 0.625rem;
+      background: var(--cp-text);
+      border: 1px solid var(--cp-border-strong);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .brand-logo img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .nav-actions { display: flex; gap: 16px; flex-wrap: wrap; justify-content: flex-end; }
+    a { color: var(--cp-accent); font-weight: 700; text-decoration: none; }
+    .nav-link { color: var(--cp-text-muted); font-weight: 500; font-size: 0.95rem; }
+    .hero { padding-top: 40px; padding-bottom: 48px; }
+    .label, .kicker {
+      color: var(--cp-accent);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .headline {
+      margin: 0;
+      max-width: 1080px;
+      font-size: clamp(3.1rem, 8vw, 7.9rem);
+      line-height: 0.94;
+      letter-spacing: -0.075em;
+      font-weight: 650;
+    }
+    .headline span { display: block; color: var(--cp-accent); }
+    .hero-copy {
+      max-width: 820px;
+      margin: 28px 0 0;
+      color: var(--cp-text-muted);
+      font-size: clamp(1.06rem, 1.8vw, 1.35rem);
+    }
+    .metrics, .automation-grid, .signals, .links {
+      display: grid;
+      gap: 14px;
+      margin-top: 32px;
+    }
+    .metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .automation-grid, .signals { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .nudge-grid { display: grid; gap: 14px; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 32px; }
+    .links { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .metric, .automation, .signal, .nudge, .link-card, .story {
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      box-shadow: 0 0 2px var(--cp-border), 0 1px 2px var(--cp-border);
+      padding: 22px;
+    }
+    .metric-value {
+      color: var(--cp-accent);
+      font-size: clamp(2.8rem, 6vw, 5.2rem);
+      line-height: 0.9;
+      letter-spacing: -0.07em;
+      font-weight: 700;
+    }
+    .metric p, .automation p, .signal p, .nudge p, .link-card p, .story p {
+      margin: 0;
+      color: var(--cp-text-muted);
+    }
+    .metric p { margin-top: 18px; }
+    .section {
+      border-top: 1px solid var(--cp-border);
+      padding-top: 64px;
+      padding-bottom: 64px;
+    }
+    .section h2 {
+      margin: 0;
+      font-size: clamp(2.4rem, 5vw, 5rem);
+      line-height: 0.98;
+      letter-spacing: -0.06em;
+      font-weight: 650;
+    }
+    .section-intro {
+      max-width: 720px;
+      color: var(--cp-text-muted);
+      font-size: 1.08rem;
+      margin-top: 18px;
+    }
+    .automation h3, .signal h3, .nudge h3, .story h3 {
+      margin: 0 0 10px;
+      font-size: 1.35rem;
+      letter-spacing: -0.025em;
+    }
+    .automation ul, .signal ul, .nudge ul {
+      color: var(--cp-text-muted);
+      margin: 14px 0 0;
+      padding-left: 22px;
+    }
+    .automation li, .signal li, .nudge li { margin: 8px 0; }
+    .time {
+      display: inline-flex;
+      margin-bottom: 28px;
+      border-radius: 0.625rem;
+      background: var(--cp-accent-soft);
+      color: var(--cp-accent);
+      padding: 8px 10px;
+      font-weight: 800;
+    }
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 32px;
+    }
+    .flow-step {
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      padding: 18px;
+      min-height: 170px;
+    }
+    .flow-step::before {
+      content: "";
+      display: block;
+      width: 42px;
+      height: 4px;
+      border-radius: 0.625rem;
+      background: var(--cp-accent);
+      margin-bottom: 18px;
+    }
+    .flow-step strong { display: block; margin-bottom: 8px; }
+    .flow-step span { color: var(--cp-text-muted); font-size: 0.95rem; }
+    .footer {
+      border-top: 1px solid var(--cp-border);
+      color: var(--cp-text-muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding-top: 32px;
+      padding-bottom: 48px;
+    }
+    @media (max-width: 1040px) {
+      .metrics, .automation-grid, .signals, .nudge-grid, .links, .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 720px) {
+      .nav, .hero, .section, .footer { padding-left: 18px; padding-right: 18px; }
+      .metrics, .automation-grid, .signals, .nudge-grid, .links, .flow { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">
+      <span class="brand-logo"><img src="../../../assets/autopilots-logo.png" alt="Autopilots logo"></span>
+      Microsoft Autopilots
+    </div>
+    <nav class="nav-actions" aria-label="Seller automation navigation">
+      <a class="nav-link" href="../../../autopilots-readme.html">Autopilots home</a>
+      <a class="nav-link" href="../../index.html">Persona visuals</a>
+      <a class="nav-link" href="../README.md">Sales personas</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="label">Seller chief-of-staff automations</div>
+      <h1 class="headline">Turn seller nudges <span>into repeatable watches.</span></h1>
+      <p class="hero-copy">
+        These automations convert the seller heartbeat signals into targeted checks. Scout watches customer activity, deal context, meetings, and unresolved commitments, then prepares approval-ready follow-up without sending or updating systems on its own.
+      </p>
+      <div class="metrics">
+        <div class="metric"><div class="metric-value">8</div><p>targeted seller nudge automations for follow-up, blockers, meetings, demos, and deal signals.</p></div>
+        <div class="metric"><div class="metric-value">10-40</div><p>minutes saved per detected seller action by reducing manual inbox, Teams, CRM, and meeting-context review.</p></div>
+        <div class="metric"><div class="metric-value">1</div><p>seller-controlled action loop. Scout drafts and recommends, while the seller approves before anything changes.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="kicker">Why these automations matter</div>
+      <h2>Deals stall when follow-through is scattered.</h2>
+      <p class="section-intro">
+        Seller work moves through customer emails, Teams threads, meetings, CRM notes, demos, POCs, and internal owner asks. These automations help Scout catch the deal signals that need action before they become missed commitments.
+      </p>
+      <div class="signals">
+        <article class="signal"><h3>Customer asks need speed</h3><p>Scout watches for unanswered customer questions and promised follow-ups so the seller can respond quickly.</p></article>
+        <article class="signal"><h3>Deal risk hides in weak signals</h3><p>Quiet threads, changed timing, new stakeholders, and missing next steps can indicate a stalled opportunity.</p></article>
+        <article class="signal"><h3>Technical blockers need owners</h3><p>Quota, POC, demo, security, integration, and access issues need clear ownership before they delay progress.</p></article>
+        <article class="signal"><h3>Repeat asks should scale</h3><p>Recurring customer questions can become templates, deck updates, FAQ content, or reusable snippets.</p></article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="kicker">Targeted nudge automations</div>
+      <h2>Seller watches for high-value signals.</h2>
+      <div class="nudge-grid">
+        <article class="nudge">
+          <span class="time">Condition · 10-20 min saved per detected follow-up</span>
+          <h3>Customer follow-up watch</h3>
+          <p>Watch for customer commitments, promised follow-ups, and unanswered customer asks that need seller action.</p>
+          <p><a href="automations/customer-follow-up-watch.md">Open markdown</a> · <a href="automations/json/customer-follow-up-watch.json">Open JSON</a></p>
+        </article>
+        <article class="nudge">
+          <span class="time">Schedule · 20-30 min saved per pipeline review</span>
+          <h3>Stalled opportunity watch</h3>
+          <p>Watch for active opportunities that have gone quiet, lack next steps, or show weak progression signals.</p>
+          <p><a href="automations/stalled-opportunity-watch.md">Open markdown</a> · <a href="automations/json/stalled-opportunity-watch.json">Open JSON</a></p>
+        </article>
+        <article class="nudge">
+          <span class="time">Condition · 15-30 min saved per meeting</span>
+          <h3>Customer meeting prep brief</h3>
+          <p>Prepare the seller before customer meetings with context, open asks, opportunity status, and recommended questions.</p>
+          <p><a href="automations/meeting-prep-brief.md">Open markdown</a> · <a href="automations/json/meeting-prep-brief.json">Open JSON</a></p>
+        </article>
+        <article class="nudge">
+          <span class="time">Condition · 10-15 min saved per CRM update</span>
+          <h3>Forecast and CRM note draft</h3>
+          <p>Detect when recent customer activity should become a forecast comment, activity note, or CRM update draft.</p>
+          <p><a href="automations/forecast-and-crm-note-draft.md">Open markdown</a> · <a href="automations/json/forecast-and-crm-note-draft.json">Open JSON</a></p>
+        </article>
+        <article class="nudge">
+          <span class="time">Condition · 15-25 min saved per blocker</span>
+          <h3>Technical blocker escalation</h3>
+          <p>Watch for quota, POC, demo, architecture, integration, security, or deployment blockers that could stall a deal.</p>
+          <p><a href="automations/technical-blocker-escalation.md">Open markdown</a> · <a href="automations/json/technical-blocker-escalation.json">Open JSON</a></p>
+        </article>
+        <article class="nudge">
+          <span class="time">Condition · 10-20 min saved per signal</span>
+          <h3>Stakeholder and decision signal watch</h3>
+          <p>Watch for changes in stakeholders, decision criteria, timing, procurement, or executive alignment.</p>
+          <p><a href="automations/stakeholder-and-decision-signal-watch.md">Open markdown</a> · <a href="automations/json/stakeholder-and-decision-signal-watch.json">Open JSON</a></p>
+        </article>
+        <article class="nudge">
+          <span class="time">Condition · 20-40 min saved per session</span>
+          <h3>POC, demo, and workshop readiness</h3>
+          <p>Check whether upcoming demos, POCs, workshops, and technical sessions have owners, agenda, assets, and success criteria.</p>
+          <p><a href="automations/poc-demo-workshop-readiness.md">Open markdown</a> · <a href="automations/json/poc-demo-workshop-readiness.json">Open JSON</a></p>
+        </article>
+        <article class="nudge">
+          <span class="time">Schedule · 30-60 min saved per week</span>
+          <h3>Repeat customer ask template candidate</h3>
+          <p>Find recurring customer questions or seller follow-up patterns that should become reusable templates or assets.</p>
+          <p><a href="automations/repeat-customer-ask-template-candidate.md">Open markdown</a> · <a href="automations/json/repeat-customer-ask-template-candidate.json">Open JSON</a></p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="kicker">How Scout uses them</div>
+      <h2>From signal to seller-approved action.</h2>
+      <div class="flow">
+        <div class="flow-step"><strong>Watch</strong><span>Outlook, Teams, calendar, transcripts, tasks, CRM notes, opportunity context, and shared files.</span></div>
+        <div class="flow-step"><strong>Detect</strong><span>Find customer asks, stalled deals, blockers, prep gaps, forecast changes, and repeat requests.</span></div>
+        <div class="flow-step"><strong>Match</strong><span>Connect each signal to an account, opportunity, stakeholder, meeting, or workstream.</span></div>
+        <div class="flow-step"><strong>Draft</strong><span>Prepare customer follow-ups, internal owner asks, CRM notes, prep briefs, and artifact outlines.</span></div>
+        <div class="flow-step"><strong>Ask</strong><span>Keep the seller in control before Scout sends, updates, creates, or records anything.</span></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="kicker">Related samples</div>
+      <h2>Use or adapt the JSON.</h2>
+      <div class="links">
+        <a class="link-card" href="automations/customer-follow-up-watch.md"><strong>Customer follow-up watch</strong><p>Customer trust depends on quick, reliable follow-through. Scout catches commitments before they slip.</p></a>
+        <a class="link-card" href="automations/stalled-opportunity-watch.md"><strong>Stalled opportunity watch</strong><p>Quiet deals can look healthy until they miss a milestone. Scout turns weak signals into early action.</p></a>
+        <a class="link-card" href="automations/meeting-prep-brief.md"><strong>Customer meeting prep brief</strong><p>Sellers lose time rebuilding context before meetings. Scout makes the next conversation sharper.</p></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>Microsoft Autopilots</span>
+    <span>Seller automation samples</span>
+  </footer>
+</body>
+</html>
+

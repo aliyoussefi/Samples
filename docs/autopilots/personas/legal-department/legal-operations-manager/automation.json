@@ -1,0 +1,15 @@
+{
+  "name": "Weekly legal operations command brief",
+  "description": "Prepare a legal operations chief-of-staff brief for the week.",
+  "triggerType": "schedule",
+  "enabled": true,
+  "teamsNotify": "always",
+  "prompt": "Review Outlook and Teams activity from the prior week, upcoming legal operations meetings, legal intake queues, matter management systems, e-billing or outside counsel systems, SharePoint, OneNote, Power BI, tracker files, and unresolved stakeholder asks where available. Identify stale intake requests, open operational blockers, upcoming meeting prep needs, recurring themes, leadership-ready updates, reporting needs, outside counsel or billing issues, and process improvement opportunities. Draft recommended messages, status notes, or dashboard updates. Do not send messages or update systems of record without approval.",
+  "steps": [
+    {
+      "label": "Weekly legal operations command brief",
+      "prompt": "Review Outlook and Teams activity from the prior week, upcoming legal operations meetings, legal intake queues, matter management systems, e-billing or outside counsel systems, SharePoint, OneNote, Power BI, tracker files, and unresolved stakeholder asks where available. Identify stale intake requests, open operational blockers, upcoming meeting prep needs, recurring themes, leadership-ready updates, reporting needs, outside counsel or billing issues, and process improvement opportunities. Draft recommended messages, status notes, or dashboard updates. Do not send messages or update systems of record without approval."
+    }
+  ],
+  "schedule": "every Monday at 7:30am"
+}

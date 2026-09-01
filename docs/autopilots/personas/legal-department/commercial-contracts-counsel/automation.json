@@ -1,0 +1,15 @@
+{
+  "name": "Commercial contracts daily response queue",
+  "description": "Create a morning queue of contract matters that need counsel attention today.",
+  "triggerType": "schedule",
+  "enabled": true,
+  "teamsNotify": "always",
+  "prompt": "Review Outlook emails from the last 24 hours, Teams chats and channel messages mentioning contract, MSA, SOW, DPA, NDA, redline, approval, signature, renewal, indemnity, liability, privacy, security, AI terms, or procurement, calendar meetings in the next 48 hours, open contract requests from CLM or matter tools where available, and recent files in SharePoint, OneDrive, iManage, or NetDocuments where available. Identify contract-related requests and follow-ups, group them by matter, customer, vendor, or business owner, detect urgency, blockers, missing inputs, and upcoming meetings, rank the top items that need legal response, and draft stakeholder updates or Outlook responses where enough context exists. Do not send messages, approve clauses, accept redlines, or update legal systems without approval.",
+  "steps": [
+    {
+      "label": "Commercial contracts daily response queue",
+      "prompt": "Review Outlook emails from the last 24 hours, Teams chats and channel messages mentioning contract, MSA, SOW, DPA, NDA, redline, approval, signature, renewal, indemnity, liability, privacy, security, AI terms, or procurement, calendar meetings in the next 48 hours, open contract requests from CLM or matter tools where available, and recent files in SharePoint, OneDrive, iManage, or NetDocuments where available. Identify contract-related requests and follow-ups, group them by matter, customer, vendor, or business owner, detect urgency, blockers, missing inputs, and upcoming meetings, rank the top items that need legal response, and draft stakeholder updates or Outlook responses where enough context exists. Do not send messages, approve clauses, accept redlines, or update legal systems without approval."
+    }
+  ],
+  "schedule": "every Monday, Tuesday, Wednesday, Thursday and Friday at 8am"
+}

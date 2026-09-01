@@ -1,0 +1,15 @@
+{
+  "name": "Stalled opportunity watch",
+  "description": "Watch for active opportunities that have gone quiet, lack next steps, or show weak progression signals.",
+  "triggerType": "schedule",
+  "enabled": true,
+  "teamsNotify": "always",
+  "prompt": "Review open opportunity context, recent Outlook and Teams activity, meeting history, CRM notes where available, tasks, and unresolved heartbeat items. Identify opportunities with stale customer engagement, missing next steps, unanswered threads, no recent meeting follow-up, or close-date risk. Rank the top stalled opportunities and draft recommended seller actions, internal updates, or CRM notes for approval. Do not update CRM or send messages without approval.",
+  "steps": [
+    {
+      "label": "Stalled opportunity watch",
+      "prompt": "Review open opportunity context, recent Outlook and Teams activity, meeting history, CRM notes where available, tasks, and unresolved heartbeat items. Identify opportunities with stale customer engagement, missing next steps, unanswered threads, no recent meeting follow-up, or close-date risk. Rank the top stalled opportunities and draft recommended seller actions, internal updates, or CRM notes for approval. Do not update CRM or send messages without approval."
+    }
+  ],
+  "schedule": "every Monday, Wednesday and Friday at 9am"
+}

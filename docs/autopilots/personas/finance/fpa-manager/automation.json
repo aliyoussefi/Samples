@@ -1,0 +1,15 @@
+{
+  "name": "Weekly forecast and variance prep brief",
+  "description": "Prepare a finance chief-of-staff brief for the week.",
+  "triggerType": "schedule",
+  "enabled": true,
+  "teamsNotify": "always",
+  "prompt": "Review Outlook and Teams activity from the prior week, upcoming forecast, budget, and leadership meetings, Power BI reports, Excel workbooks, planning files, open tasks, unresolved finance asks, and prior heartbeat unresolved items where available. Identify open finance questions, missing inputs, stale approvals, upcoming forecast and budget meetings, variance themes that need explanation, leadership-ready updates, and blockers. Draft recommended messages, status notes, or dashboard updates. Do not send messages or update finance systems or files without approval.",
+  "steps": [
+    {
+      "label": "Weekly forecast and variance prep brief",
+      "prompt": "Review Outlook and Teams activity from the prior week, upcoming forecast, budget, and leadership meetings, Power BI reports, Excel workbooks, planning files, open tasks, unresolved finance asks, and prior heartbeat unresolved items where available. Identify open finance questions, missing inputs, stale approvals, upcoming forecast and budget meetings, variance themes that need explanation, leadership-ready updates, and blockers. Draft recommended messages, status notes, or dashboard updates. Do not send messages or update finance systems or files without approval."
+    }
+  ],
+  "schedule": "every Monday at 7:30am"
+}

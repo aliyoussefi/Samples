@@ -1,0 +1,15 @@
+{
+  "name": "Weekly HRBP follow-through brief",
+  "description": "Prepare a weekly HR chief-of-staff brief for manager and employee follow-through.",
+  "triggerType": "schedule",
+  "enabled": true,
+  "teamsNotify": "always",
+  "prompt": "Review Outlook and Teams activity from the prior week, upcoming HRBP, manager, and employee meetings, HR case queues, OneNote, SharePoint, Planner, Power BI, and prior unresolved heartbeat items where available. Identify unresolved manager and employee asks, upcoming sensitive meetings and prep needs, stale cases, missing inputs, repeated policy questions, coaching or enablement opportunities, and recommended manager updates, case notes, or prep briefs. Do not send messages or update HR systems without approval.",
+  "steps": [
+    {
+      "label": "Weekly HRBP follow-through brief",
+      "prompt": "Review Outlook and Teams activity from the prior week, upcoming HRBP, manager, and employee meetings, HR case queues, OneNote, SharePoint, Planner, Power BI, and prior unresolved heartbeat items where available. Identify unresolved manager and employee asks, upcoming sensitive meetings and prep needs, stale cases, missing inputs, repeated policy questions, coaching or enablement opportunities, and recommended manager updates, case notes, or prep briefs. Do not send messages or update HR systems without approval."
+    }
+  ],
+  "schedule": "every Monday at 7:30am"
+}
