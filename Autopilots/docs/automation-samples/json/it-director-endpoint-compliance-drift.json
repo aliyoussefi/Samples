@@ -1,0 +1,15 @@
+{
+  "name": "Endpoint compliance drift watch",
+  "description": "Watch for endpoint compliance drift, device health issues, missing agents, outdated OS versions, and failed policies.",
+  "triggerType": "schedule",
+  "schedule": "every Monday, Tuesday, Wednesday, Thursday and Friday at 2pm",
+  "enabled": true,
+  "teamsNotify": "always",
+  "prompt": "Review Intune compliance reports, Defender for Endpoint device health signals, Jamf, Kandji, endpoint management data, Outlook and Teams device issue reports, and prior unresolved endpoint remediation items where available. Identify noncompliant devices, missing agents, outdated OS versions, failed policies, repeated device issues, affected groups, policy names, security or productivity impact, missing remediation owner, and user communication gaps. Draft an endpoint remediation summary. Do not change endpoint policies or device settings without approval.",
+  "steps": [
+    {
+      "label": "Check endpoint compliance drift",
+      "prompt": "Review Intune compliance reports, Defender for Endpoint device health signals, Jamf, Kandji, endpoint management data, Outlook and Teams device issue reports, and prior unresolved endpoint remediation items where available. Identify noncompliant devices, missing agents, outdated OS versions, failed policies, repeated device issues, affected groups, policy names, security or productivity impact, missing remediation owner, and user communication gaps. Draft an endpoint remediation summary. Do not change endpoint policies or device settings without approval."
+    }
+  ]
+}

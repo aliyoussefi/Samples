@@ -1,0 +1,15 @@
+{
+  "name": "Daily IT command brief",
+  "description": "Prepare a concise morning brief for a Director of IT covering urgent asks, incidents, access blockers, endpoint issues, meetings, and stakeholder follow-through.",
+  "triggerType": "schedule",
+  "schedule": "every Monday, Tuesday, Wednesday, Thursday and Friday at 7:30am",
+  "enabled": true,
+  "teamsNotify": "always",
+  "prompt": "Prepare a concise morning IT command brief for the Director of IT. Review Outlook, Teams, calendar, open tasks, unresolved heartbeat items, ITSM tickets where available, endpoint, identity, SaaS, security dashboards, SharePoint, OneNote, Planner, and Power BI artifacts where available. Identify urgent IT asks, escalations, incidents, access blockers, today and tomorrow meeting prep gaps, missing owners, missing due dates, aging items, and unclear next steps. Output the top 5 IT items needing attention today, stakeholder or owner, why it matters, recommended next action, meeting prep needs, draft Outlook or Teams updates where applicable, and suggested ticket, OneNote, or tracker updates where applicable. Do not send messages or update systems without approval.",
+  "steps": [
+    {
+      "label": "Build daily IT command brief",
+      "prompt": "Prepare a concise morning IT command brief for the Director of IT. Review Outlook, Teams, calendar, open tasks, unresolved heartbeat items, ITSM tickets where available, endpoint, identity, SaaS, security dashboards, SharePoint, OneNote, Planner, and Power BI artifacts where available. Identify urgent IT asks, escalations, incidents, access blockers, today and tomorrow meeting prep gaps, missing owners, missing due dates, aging items, and unclear next steps. Output the top 5 IT items needing attention today, stakeholder or owner, why it matters, recommended next action, meeting prep needs, draft Outlook or Teams updates where applicable, and suggested ticket, OneNote, or tracker updates where applicable. Do not send messages or update systems without approval."
+    }
+  ]
+}

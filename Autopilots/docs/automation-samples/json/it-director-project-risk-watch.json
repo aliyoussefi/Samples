@@ -1,0 +1,17 @@
+{
+  "name": "IT project risk watch",
+  "description": "Watch for delayed milestones, missing owners, blocked dependencies, scope changes, and unclear IT project decisions.",
+  "triggerType": "condition",
+  "condition": "A project thread, meeting note, task, or tracker indicates a delayed milestone, missing owner, blocked dependency, scope change, or unclear decision.",
+  "conditionCheckInterval": 15,
+  "enabled": true,
+  "oneShot": true,
+  "teamsNotify": "always",
+  "prompt": "Review recent Outlook, Teams, Planner, Jira, Azure DevOps, project tracker, calendar, meeting transcript, OneNote, SharePoint, and status document context where available. Find IT project risks such as delayed milestones, missing owners, blocked dependencies, scope changes, unclear decisions, and unresolved prior risks. Identify project, milestone, blocker, owner, impact to timeline, budget, scope, security, employee productivity, or executive commitment. Draft a project risk summary and owner checklist. Do not update trackers or assign tasks without approval.",
+  "steps": [
+    {
+      "label": "Check IT project risk",
+      "prompt": "Review recent Outlook, Teams, Planner, Jira, Azure DevOps, project tracker, calendar, meeting transcript, OneNote, SharePoint, and status document context where available. Find IT project risks such as delayed milestones, missing owners, blocked dependencies, scope changes, unclear decisions, and unresolved prior risks. Identify project, milestone, blocker, owner, impact to timeline, budget, scope, security, employee productivity, or executive commitment. Draft a project risk summary and owner checklist. Do not update trackers or assign tasks without approval."
+    }
+  ]
+}

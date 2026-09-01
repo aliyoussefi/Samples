@@ -1,0 +1,17 @@
+{
+  "name": "Incident recovery watch",
+  "description": "Watch for stale incidents, escalated support issues, repeated user reports, and recovery follow-through gaps.",
+  "triggerType": "condition",
+  "condition": "An incident, support escalation, service interruption, or repeated user report appears in Outlook, Teams, ITSM, or monitoring context and the recovery owner, status, or next update is unclear.",
+  "conditionCheckInterval": 15,
+  "enabled": true,
+  "oneShot": true,
+  "teamsNotify": "always",
+  "prompt": "Review recent incident, support escalation, outage, and repeated-user-report signals from Outlook, Teams, ITSM, monitoring, endpoint, identity, or SaaS admin context where available. Identify the incident, affected users or systems, severity, recovery owner, next update time, mitigation status, customer or employee impact, stale updates, missing post-incident actions, and unclear recovery steps. Draft an incident recovery summary and next-action checklist. Do not send communications or update incident systems without approval.",
+  "steps": [
+    {
+      "label": "Check incident recovery status",
+      "prompt": "Review recent incident, support escalation, outage, and repeated-user-report signals from Outlook, Teams, ITSM, monitoring, endpoint, identity, or SaaS admin context where available. Identify the incident, affected users or systems, severity, recovery owner, next update time, mitigation status, customer or employee impact, stale updates, missing post-incident actions, and unclear recovery steps. Draft an incident recovery summary and next-action checklist. Do not send communications or update incident systems without approval."
+    }
+  ]
+}

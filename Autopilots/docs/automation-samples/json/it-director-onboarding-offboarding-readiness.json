@@ -1,0 +1,15 @@
+{
+  "name": "Onboarding and offboarding readiness watch",
+  "description": "Check upcoming employee starts, departures, and role changes for device, account, app, license, and access readiness.",
+  "triggerType": "schedule",
+  "schedule": "every Monday, Tuesday, Wednesday, Thursday and Friday at 4pm",
+  "enabled": true,
+  "teamsNotify": "always",
+  "prompt": "Review HR onboarding and offboarding messages, calendar start-date or departure-date events, Outlook and Teams threads with hiring managers, ITSM tickets, identity, device, SaaS, and license dashboards where available. Identify starts, departures, and role changes in the next 7 days. Check device, account, group, license, app access, and manager confirmation status. Detect missing owners, missing approvals, and timing risks. Draft a readiness checklist or owner reminder. Do not create accounts, remove access, change licenses, or update HR systems without approval.",
+  "steps": [
+    {
+      "label": "Check onboarding and offboarding readiness",
+      "prompt": "Review HR onboarding and offboarding messages, calendar start-date or departure-date events, Outlook and Teams threads with hiring managers, ITSM tickets, identity, device, SaaS, and license dashboards where available. Identify starts, departures, and role changes in the next 7 days. Check device, account, group, license, app access, and manager confirmation status. Detect missing owners, missing approvals, and timing risks. Draft a readiness checklist or owner reminder. Do not create accounts, remove access, change licenses, or update HR systems without approval."
+    }
+  ]
+}

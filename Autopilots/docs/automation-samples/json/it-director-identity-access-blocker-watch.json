@@ -1,0 +1,17 @@
+{
+  "name": "Identity and access blocker watch",
+  "description": "Watch for access blockers, privileged access waits, onboarding access gaps, offboarding gaps, and app permission issues.",
+  "triggerType": "condition",
+  "condition": "A message, ticket, or meeting note indicates a user cannot access an app, a privileged access request is waiting, or onboarding/offboarding access is incomplete.",
+  "conditionCheckInterval": 15,
+  "enabled": true,
+  "oneShot": true,
+  "teamsNotify": "always",
+  "prompt": "Review recent Outlook, Teams, ITSM, identity, HR onboarding/offboarding, and app owner context where available. Find identity, access, app permission, onboarding, offboarding, or privileged access blockers. Identify the user or group affected, app or access type, business urgency, missing manager, app owner, security, or HR approval, stale status, and productivity or security risk. Draft an owner reminder or access-readiness checklist. Do not grant, remove, or approve access without approval.",
+  "steps": [
+    {
+      "label": "Check identity and access blockers",
+      "prompt": "Review recent Outlook, Teams, ITSM, identity, HR onboarding/offboarding, and app owner context where available. Find identity, access, app permission, onboarding, offboarding, or privileged access blockers. Identify the user or group affected, app or access type, business urgency, missing manager, app owner, security, or HR approval, stale status, and productivity or security risk. Draft an owner reminder or access-readiness checklist. Do not grant, remove, or approve access without approval."
+    }
+  ]
+}

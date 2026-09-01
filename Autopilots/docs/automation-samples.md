@@ -41,6 +41,8 @@ This keeps the persona story separate from the executable prompt samples, while 
 | Information Technology - Director of IT | [IT leadership meeting prep](automation-samples/it-director-leadership-meeting-prep.md) |
 | Information Technology - Director of IT | [Repeat issue automation candidate finder](automation-samples/it-director-repeat-issue-automation-candidate.md) |
 
+Standalone JSON versions for the Director of IT samples are available in [`automation-samples/json/`](automation-samples/json/).
+
 ---
 
 ## Automation design rules

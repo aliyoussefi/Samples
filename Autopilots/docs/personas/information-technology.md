@@ -46,6 +46,7 @@ The prompt should only use systems the user is authorized to access.
 | Automation visual | [Director of IT automation visual](../visuals/it-director-automations.html) |
 | Automation | [Daily IT command brief](../automation-samples/it-director-daily-command-brief.md) |
 | Automation | [Weekly SaaS, security, and endpoint review](../automation-samples/it-director-weekly-saas-security-endpoint-review.md) |
+| JSON folder | [Director of IT automation JSON files](../automation-samples/json/) |
 
 ### Targeted nudge automations
 
