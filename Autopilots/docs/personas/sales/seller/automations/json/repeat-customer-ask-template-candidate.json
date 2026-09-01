@@ -1,0 +1,15 @@
+{
+  "name": "Repeat customer ask template candidate",
+  "description": "Find recurring customer questions or seller follow-up patterns that should become reusable templates or assets.",
+  "triggerType": "schedule",
+  "enabled": true,
+  "teamsNotify": "always",
+  "prompt": "Review Outlook, Teams, meeting notes, CRM notes, and prior seller follow-ups from the past week. Identify repeated customer questions, repeated seller requests, recurring technical asks, and repeated follow-up patterns. Recommend reusable templates, customer-ready snippets, FAQ content, deck updates, or process improvements. Draft a backlog item or asset outline for approval. Do not create artifacts or update repositories without approval.",
+  "steps": [
+    {
+      "label": "Repeat customer ask template candidate",
+      "prompt": "Review Outlook, Teams, meeting notes, CRM notes, and prior seller follow-ups from the past week. Identify repeated customer questions, repeated seller requests, recurring technical asks, and repeated follow-up patterns. Recommend reusable templates, customer-ready snippets, FAQ content, deck updates, or process improvements. Draft a backlog item or asset outline for approval. Do not create artifacts or update repositories without approval."
+    }
+  ],
+  "schedule": "every Friday at 3pm"
+}

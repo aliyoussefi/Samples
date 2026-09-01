@@ -6,48 +6,35 @@ Use these samples when enabling Frontier users who want Scout to act as an alway
 
 ---
 
-## Core heartbeat pattern
+## Persona-centered layout
 
-Every role-specific heartbeat prompt should follow the same structure:
+Heartbeat markdown and HTML files now live inside each persona folder:
 
-1. **Role:** Tell Scout what job it is performing for the user.
-2. **Context:** Define the recent signals Scout should inspect.
-3. **State:** Tell Scout to compare new signals against prior unresolved items.
-4. **Decision:** Tell Scout to stay silent when nothing meaningful changed.
-5. **Output:** Define the exact nudge or approval-ready artifact to produce.
-6. **Guardrails:** Require approval before sending messages, updating systems, or acting externally.
-
-The key distinction:
-
-> Cowork automates workflows; Scout operationalizes the user's day through stateful, user-facing reasoning.
-
----
-
-## Prompt design rules
-
-- **Prefer action over summaries.** Heartbeat should answer, "What needs my attention now?"
-- **Carry unresolved items forward.** The prompt should tell Scout to remember prior open threads and suppress duplicates once resolved, dismissed, or snoozed.
-- **Stay silent by default.** A good heartbeat does not interrupt unless there is a high-confidence action.
-- **Make output approval-ready.** Ask Scout to draft the message, task, note, or system update, but not send or write it without approval.
-- **Keep outbound content safe.** Customer-facing or team-facing drafts should not expose private calendar, email, or internal details unless the user confirms.
-- **Tune to the role.** IT admins need operations risk and escalations; sellers need deal follow-through; managers need coaching and forecast signals; account executives need account, stakeholder, and relationship continuity.
+```text
+docs/
+  personas/
+    <division>/
+      <persona>/
+        heartbeat.md
+        heartbeat.html
+```
 
 ---
 
 ## Available samples
 
-| Role | Sample prompt |
+| Role | Heartbeat |
 |---|---|
-| IT Admin | [IT admin heartbeat prompt](heartbeat-prompts/it-admin.md) |
-| Seller / Sales Specialist | [Seller heartbeat prompt](heartbeat-prompts/seller.md) |
-| Sales Manager | [Sales manager heartbeat prompt](heartbeat-prompts/sales-manager.md) |
-| Account Executive | [Account executive heartbeat prompt](heartbeat-prompts/account-executive.md) |
-| Legal - Commercial Contracts Counsel | [Commercial contracts counsel heartbeat prompt](heartbeat-prompts/legal-commercial-contracts-counsel.md) |
-| Legal - Legal Operations Manager | [Legal operations manager heartbeat prompt](heartbeat-prompts/legal-operations-manager.md) |
-| Human Resources - Talent Acquisition Lead | [Talent Acquisition Lead heartbeat prompt](heartbeat-prompts/hr-talent-acquisition-lead.md) |
-| Human Resources - HR Business Partner | [HR Business Partner heartbeat prompt](heartbeat-prompts/hr-hr-business-partner.md) |
-| Finance - Procurement Manager | [Procurement Manager heartbeat prompt](heartbeat-prompts/finance-procurement-manager.md) |
-| Finance - FP&A Manager | [FP&A Manager heartbeat prompt](heartbeat-prompts/finance-fpa-manager.md) |
+| IT Admin | [IT admin heartbeat prompt](personas/information-technology/it-admin/heartbeat.md) |
+| Seller / Sales Specialist | [Seller heartbeat prompt](personas/sales/seller/heartbeat.md) |
+| Sales Manager | [Sales manager heartbeat prompt](personas/sales/sales-manager/heartbeat.md) |
+| Account Executive | [Account executive heartbeat prompt](personas/sales/account-executive/heartbeat.md) |
+| Legal - Commercial Contracts Counsel | [Commercial contracts counsel heartbeat prompt](personas/legal-department/commercial-contracts-counsel/heartbeat.md) |
+| Legal - Legal Operations Manager | [Legal operations manager heartbeat prompt](personas/legal-department/legal-operations-manager/heartbeat.md) |
+| Human Resources - Talent Acquisition Lead | [Talent Acquisition Lead heartbeat prompt](personas/human-resources/talent-acquisition-lead/heartbeat.md) |
+| Human Resources - HR Business Partner | [HR Business Partner heartbeat prompt](personas/human-resources/hr-business-partner/heartbeat.md) |
+| Finance - Procurement Manager | [Procurement Manager heartbeat prompt](personas/finance/procurement-manager/heartbeat.md) |
+| Finance - FP&A Manager | [FP&A Manager heartbeat prompt](personas/finance/fpa-manager/heartbeat.md) |
 
 ---
 

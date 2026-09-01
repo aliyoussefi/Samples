@@ -1,6 +1,6 @@
 # Scout persona sample library
 
-Persona packs explain the role-specific value proposition for Scout, then link to copyable heartbeat and automation samples. Use this index when building enablement decks, demos, or customer-facing examples.
+Persona packs explain the role-specific value proposition for Scout, then link to copyable heartbeat, automation, JSON, and HTML samples. Use this index when building enablement decks, demos, or customer-facing examples.
 
 ---
 
@@ -10,18 +10,15 @@ Persona packs explain the role-specific value proposition for Scout, then link t
 docs/
   personas.md
   personas/
-    <department-or-role>.md
-  heartbeat-prompts/
-    <role>.md
-  automation-samples/
-    <role>.md
+    index.html
+    <division>/
+      README.md
+      <persona>/
+        heartbeat.md
+        heartbeat.html
+        automation.md
+        automation.json
 ```
-
-| Content type | Purpose |
-|---|---|
-| Persona pack | Explains the department, target roles, value prop, and chief-of-staff story |
-| Heartbeat prompt | Defines the always-on, stateful, user-facing reasoning loop |
-| Automation sample | Defines a scheduled or condition-triggered task with bounded inputs and outputs |
 
 ---
 
@@ -29,18 +26,18 @@ docs/
 
 | Persona pack | Roles | Assets |
 |---|---|---|
-| [Legal department](personas/legal-department.md) | Commercial Contracts Counsel, Legal Operations Manager | Heartbeats and automations |
-| [Sales team](personas/sales.md) | Seller, Sales Manager, Account Executive | Heartbeats |
-| [Finance](personas/finance.md) | FP&A Manager, Procurement Manager | Heartbeats and automations |
-| [Human Resources](personas/human-resources.md) | HR Business Partner, Talent Acquisition Lead | Heartbeats and automations |
-| [Information Technology](personas/information-technology.md) | Director of IT | Automations |
+| [Legal department](personas/legal-department/README.md) | Commercial Contracts Counsel, Legal Operations Manager | Heartbeats, automations, JSON, HTML |
+| [Sales team](personas/sales/README.md) | Seller, Sales Manager, Account Executive | Heartbeats, seller automations, JSON, HTML |
+| [Finance](personas/finance/README.md) | FP&A Manager, Procurement Manager | Heartbeats, automations, JSON, HTML |
+| [Human Resources](personas/human-resources/README.md) | HR Business Partner, Talent Acquisition Lead | Heartbeats, automations, JSON, HTML |
+| [Information Technology](personas/information-technology/README.md) | IT Admin, Director of IT | Heartbeat, automations, JSON, HTML |
 
 ---
 
-## Cross-role prompt libraries
+## Cross-role libraries
 
 | Library | What it contains |
 |---|---|
-| [Heartbeat visual library](visuals/index.html) | HTML visuals for explaining legal, sales, finance, and HR heartbeat flows |
-| [Heartbeat prompts](heartbeat-prompts.md) | Always-on chief-of-staff prompts by role |
-| [Automation samples](automation-samples.md) | Scheduled and recurring automation samples by role |
+| [Persona visual library](personas/index.html) | HTML visuals for explaining legal, sales, finance, HR, and IT persona flows |
+| [Heartbeat prompts](heartbeat-prompts.md) | Index of always-on chief-of-staff prompts by role |
+| [Automation samples](automation-samples.md) | Index of scheduled and recurring automation samples by role |

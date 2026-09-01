@@ -1,0 +1,17 @@
+{
+  "name": "Forecast and CRM note draft",
+  "description": "Detect when recent customer activity should become a forecast comment, activity note, or CRM update draft.",
+  "triggerType": "condition",
+  "enabled": true,
+  "teamsNotify": "always",
+  "prompt": "Review recent customer meetings, emails, Teams messages, transcripts, tasks, and opportunity context. Identify signals that should change forecast confidence, next steps, CRM activity notes, or opportunity comments. Draft a CRM-safe note with key updates, risks, next steps, and owner. Do not update CRM without approval.",
+  "steps": [
+    {
+      "label": "Forecast and CRM note draft",
+      "prompt": "Review recent customer meetings, emails, Teams messages, transcripts, tasks, and opportunity context. Identify signals that should change forecast confidence, next steps, CRM activity notes, or opportunity comments. Draft a CRM-safe note with key updates, risks, next steps, and owner. Do not update CRM without approval."
+    }
+  ],
+  "condition": "Recent customer activity changes timing, scope, risk, next steps, stakeholder alignment, decision criteria, or forecast confidence.",
+  "conditionCheckInterval": 15,
+  "oneShot": true
+}

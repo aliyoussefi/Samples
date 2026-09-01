@@ -1,0 +1,17 @@
+{
+  "name": "Stakeholder and decision signal watch",
+  "description": "Watch for changes in stakeholders, decision criteria, timing, procurement, or executive alignment.",
+  "triggerType": "condition",
+  "enabled": true,
+  "teamsNotify": "always",
+  "prompt": "Review recent customer emails, Teams messages, meetings, transcripts, CRM notes, and opportunity context. Identify changes in stakeholders, decision criteria, budget, procurement, timing, urgency, or executive alignment. Explain why the signal matters commercially and draft a recommended seller action, internal alignment note, or CRM update for approval. Do not send or update systems without approval.",
+  "steps": [
+    {
+      "label": "Stakeholder and decision signal watch",
+      "prompt": "Review recent customer emails, Teams messages, meetings, transcripts, CRM notes, and opportunity context. Identify changes in stakeholders, decision criteria, budget, procurement, timing, urgency, or executive alignment. Explain why the signal matters commercially and draft a recommended seller action, internal alignment note, or CRM update for approval. Do not send or update systems without approval."
+    }
+  ],
+  "condition": "Recent customer activity indicates a change in stakeholders, decision criteria, budget, procurement, timing, urgency, or executive alignment.",
+  "conditionCheckInterval": 15,
+  "oneShot": true
+}

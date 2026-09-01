@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seller Heartbeat</title>
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("scoutTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--cp-bg);
+      color: var(--cp-text);
+      font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.4;
+    }
+
+    .shell {
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 24px 28px;
+      color: var(--cp-text);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .mark {
+      width: 32px;
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+    }
+
+    .mark svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .nav-link {
+      color: var(--cp-text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-link.primary {
+      color: var(--cp-accent);
+      font-weight: 700;
+    }
+
+    .hero {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 40px 28px 28px;
+    }
+
+    .label {
+      color: var(--cp-accent);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .headline {
+      margin: 0;
+      max-width: 1000px;
+      font-size: clamp(3.1rem, 8vw, 7.9rem);
+      line-height: 0.94;
+      letter-spacing: -0.075em;
+      font-weight: 650;
+    }
+
+    .headline span {
+      display: block;
+      color: var(--cp-accent);
+    }
+
+    .hero-copy {
+      margin: 28px 0 0;
+      max-width: 720px;
+      color: var(--cp-text-muted);
+      font-size: clamp(1.06rem, 1.8vw, 1.35rem);
+    }
+
+    .prompt-cta {
+      max-width: 1240px;
+      margin: 22px auto 0;
+      padding: 0 28px;
+    }
+
+    .prompt-card {
+      background: var(--cp-accent-soft);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      padding: 18px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .prompt-card strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .prompt-card span {
+      color: var(--cp-text-muted);
+    }
+
+    .prompt-card a {
+      color: var(--cp-accent);
+      font-weight: 800;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .metrics {
+      max-width: 1240px;
+      margin: 28px auto 0;
+      padding: 0 28px 48px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .metric {
+      min-height: 176px;
+      border-radius: 16px;
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      box-shadow: 0 0 2px var(--cp-border), 0 1px 2px var(--cp-border);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .metric-value {
+      color: var(--cp-accent);
+      font-size: clamp(3rem, 6vw, 5.4rem);
+      line-height: 0.9;
+      letter-spacing: -0.07em;
+      font-weight: 700;
+    }
+
+    .metric-value small {
+      font-size: 0.42em;
+      letter-spacing: -0.04em;
+    }
+
+    .metric p {
+      margin: 18px 0 0;
+      color: var(--cp-text-muted);
+      font-size: 1.02rem;
+    }
+
+    .section {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 64px 28px;
+      border-top: 1px solid var(--cp-border);
+    }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: 0.95fr 1.35fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .kicker {
+      color: var(--cp-accent);
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      margin-bottom: 10px;
+    }
+
+    .section h2 {
+      margin: 0;
+      font-size: clamp(2.4rem, 5vw, 5rem);
+      line-height: 0.98;
+      letter-spacing: -0.06em;
+      font-weight: 650;
+    }
+
+    .section-intro {
+      color: var(--cp-text-muted);
+      font-size: 1.08rem;
+      max-width: 430px;
+      margin-top: 18px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      padding: 22px;
+      min-height: 176px;
+      box-shadow: 0 0 2px var(--cp-border), 0 1px 2px var(--cp-border);
+    }
+
+    .card-number {
+      color: var(--cp-accent);
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      margin-bottom: 38px;
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 1.24rem;
+      letter-spacing: -0.025em;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--cp-text-muted);
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 32px;
+    }
+
+    .flow-step {
+      position: relative;
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      padding: 18px;
+      min-height: 170px;
+    }
+
+    .flow-step::before {
+      content: "";
+      display: block;
+      width: 42px;
+      height: 4px;
+      border-radius: 0.625rem;
+      background: var(--cp-accent);
+      margin-bottom: 18px;
+    }
+
+    .flow-step strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.05rem;
+    }
+
+    .flow-step span {
+      color: var(--cp-text-muted);
+      font-size: 0.95rem;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 32px;
+    }
+
+    .choice {
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      padding: 28px;
+      min-height: 220px;
+      box-shadow: 0 0 2px var(--cp-border), 0 1px 2px var(--cp-border);
+    }
+
+    .choice h3 {
+      margin: 0 0 12px;
+      font-size: clamp(1.7rem, 3vw, 2.6rem);
+      line-height: 1;
+      letter-spacing: -0.05em;
+    }
+
+    .choice p {
+      margin: 0;
+      color: var(--cp-text-muted);
+      font-size: 1.02rem;
+    }
+
+    .choice.accent {
+      background: var(--cp-accent);
+      color: var(--cp-accent-fg);
+      border-color: var(--cp-accent);
+    }
+
+    .choice.accent p,
+    .choice.accent .kicker {
+      color: var(--cp-accent-fg);
+    }
+
+    .example {
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 0 2px var(--cp-border), 0 1px 2px var(--cp-border);
+      margin-top: 32px;
+    }
+
+    .example h3 {
+      margin: 0;
+      font-size: clamp(1.8rem, 3.6vw, 3.4rem);
+      line-height: 1;
+      letter-spacing: -0.06em;
+    }
+
+    .example-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 18px;
+      margin-top: 24px;
+    }
+
+    .brief,
+    .draft {
+      border-radius: 16px;
+      border: 1px solid var(--cp-border);
+      background: var(--cp-surface-soft);
+      padding: 18px;
+    }
+
+    .brief dl {
+      margin: 0;
+      display: grid;
+      gap: 14px;
+    }
+
+    .brief dt {
+      font-weight: 800;
+      color: var(--cp-accent);
+      margin-bottom: 4px;
+    }
+
+    .brief dd {
+      margin: 0;
+      color: var(--cp-text-muted);
+    }
+
+    .draft pre {
+      margin: 0;
+      white-space: pre-wrap;
+      color: var(--cp-text);
+      font-family: Consolas, "Courier New", Courier, monospace;
+      font-size: 0.94rem;
+      line-height: 1.5;
+    }
+
+    .guardrails {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 32px;
+    }
+
+    .guardrail {
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      padding: 20px;
+      min-height: 160px;
+    }
+
+    .guardrail strong {
+      display: block;
+      color: var(--cp-accent);
+      margin-bottom: 36px;
+    }
+
+    .guardrail span {
+      color: var(--cp-text-muted);
+    }
+
+    .footer {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 32px 28px 48px;
+      color: var(--cp-text-muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      border-top: 1px solid var(--cp-border);
+    }
+
+    @media (max-width: 1040px) {
+      .metrics,
+      .flow,
+      .guardrails {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .section-grid,
+      .example-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .nav,
+      .hero,
+      .section,
+      .metrics,
+      .prompt-cta,
+      .footer {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .metrics,
+      .cards,
+      .flow,
+      .split,
+      .guardrails {
+        grid-template-columns: 1fr;
+      }
+
+      .prompt-card {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="nav">
+      <div class="brand"><span class="mark" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 201" fill="none">
+            <path d="M177.321 155.113L110.767 124.845L110.767 174.989C110.767 186.697 110.767 192.552 116.452 196.249C122.138 199.946 126.401 198.055 134.927 194.271C142.221 191.035 149.356 186.522 155.392 180.982C165.456 171.744 177.321 155.113 177.321 155.113Z" fill="url(#scoutIconGradient0)"/>
+            <path d="M11.4745 80.1902L110.772 81.2668L110.772 -5.1506e-07C49.4455 0.0137937 2.25476 15.0122 3.62008 31.8698C5.63251 56.7174 11.4745 80.1902 11.4745 80.1902Z" fill="url(#scoutIconGradient1)"/>
+            <path d="M11.4745 80.1902L110.772 81.2668L110.772 -5.1506e-07C49.4455 0.0137937 2.25476 15.0122 3.62008 31.8698C5.63251 56.7174 11.4745 80.1902 11.4745 80.1902Z" fill="url(#scoutIconGradient2)"/>
+            <path d="M74.6913 20.8506C86.1953 0.925072 111.674 -5.90192 131.6 5.60209C151.525 17.1061 158.352 42.5848 146.848 62.5103C135.344 82.4359 109.865 89.2628 89.9398 77.7588C70.0143 66.2548 63.1873 40.7761 74.6913 20.8506Z" fill="url(#scoutIconGradient3)"/>
+            <path d="M197.58 114.867C205.296 94.7703 176.492 79.1084 144.616 73.8327L57.4754 59.1963C57.4754 59.1963 5.80824 51.582 3.74113 32.1458C5.71313 54.6315 11.3423 86.1472 21.2305 113.25C27.7963 131.246 55.3156 140.115 73.6114 143.16L130.274 152.576C148.099 155.451 171.718 167.435 153.771 182.484C174 165.912 188.59 138.279 197.58 114.867Z" fill="url(#scoutIconGradient4)"/>
+            <path d="M197.58 114.867C205.296 94.7703 176.492 79.1084 144.616 73.8327L57.4754 59.1963C57.4754 59.1963 5.80824 51.582 3.74113 32.1458C5.71313 54.6315 11.3423 86.1472 21.2305 113.25C27.7963 131.246 55.3156 140.115 73.6114 143.16L130.274 152.576C148.099 155.451 171.718 167.435 153.771 182.484C174 165.912 188.59 138.279 197.58 114.867Z" fill="url(#scoutIconGradient5)"/>
+            <defs>
+              <linearGradient id="scoutIconGradient0" x1="110.769" y1="200.014" x2="150.353" y2="157.305" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#CC23D1"/>
+                <stop offset="1" stop-color="#4B20A0"/>
+              </linearGradient>
+              <radialGradient id="scoutIconGradient1" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(51.3951 0.0137959) rotate(66.4477) scale(88.6335 157.828)">
+                <stop stop-color="#D7257D"/>
+                <stop offset="0.384772" stop-color="#B91CBF"/>
+                <stop offset="0.705678" stop-color="#9529C2"/>
+                <stop offset="1" stop-color="#691A90"/>
+              </radialGradient>
+              <radialGradient id="scoutIconGradient2" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(110.77 41.6805) rotate(180) scale(69.7917 69.7917)">
+                <stop offset="0.552987" stop-color="#691A90"/>
+                <stop offset="1" stop-color="#A931D8" stop-opacity="0"/>
+              </radialGradient>
+              <radialGradient id="scoutIconGradient3" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(124.311 15.6388) rotate(123.977) scale(57.782 82.4453)">
+                <stop stop-color="#FF9FB2"/>
+                <stop offset="0.348349" stop-color="#F97DBD"/>
+                <stop offset="0.768496" stop-color="#CA59F7"/>
+                <stop offset="1" stop-color="#9C6CFE"/>
+              </radialGradient>
+              <linearGradient id="scoutIconGradient4" x1="184.728" y1="140.639" x2="4.00087" y2="76.158" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#9C6CFE"/>
+                <stop offset="0.264813" stop-color="#CA59F7"/>
+                <stop offset="0.554737" stop-color="#F462AB"/>
+                <stop offset="1" stop-color="#FFB180"/>
+              </linearGradient>
+              <linearGradient id="scoutIconGradient5" x1="4.51945" y1="33.3471" x2="56.6028" y2="98.9721" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#FFC7A3"/>
+                <stop offset="1" stop-color="#FF9C70" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </span> Microsoft Scout</div>
+      <div class="nav-actions"><a class="nav-link" href="../../index.html">All heartbeat visuals</a><a class="nav-link primary" href="heartbeat.md">Copy markdown prompt</a></div>
+    </header>
+    <main>
+      <section class="hero"><div class="label">A personal agent for seller follow-through</div><h1 class="headline">Keep active deals moving<span>without chasing every thread.</span></h1><p class="hero-copy">Scout acts like an always-on chief of staff for sellers. It watches customer activity, internal messages, meetings, and opportunity context, then prepares the next action that moves the deal forward.</p></section>
+      <section class="prompt-cta" aria-label="Markdown prompt link"><div class="prompt-card"><div><strong>Want to use this heartbeat?</strong><span>Open the markdown prompt for easy copy and paste into Scout.</span></div><a href="heartbeat.md">Open prompt</a></div></section>
+      <section class="metrics" aria-label="Work reality metrics"><div class="metric"><div class="metric-value">25<small> min</small></div><p>to refocus after a single interruption</p></div><div class="metric"><div class="metric-value">68%</div><p>of people do not have enough focus time</p></div><div class="metric"><div class="metric-value">64%</div><p>of people do not have time for their actual job</p></div></section>
+      <section class="section"><div class="section-grid"><div><div class="kicker">What this persona stops carrying</div><h2>What sellers stop carrying.</h2><p class="section-intro">Seller work is full of small commitments, unanswered asks, and next-step gaps. Scout keeps those threads alive until they are closed.</p></div><div class="cards"><article class='card'><div class='card-number'>01</div><h3>The promised follow-up</h3><p>Scout catches commitments from customer calls and internal threads.</p></article>
+<article class='card'><div class='card-number'>02</div><h3>The stalled opportunity</h3><p>Quiet deals with weak next steps surface before they slip.</p></article>
+<article class='card'><div class='card-number'>03</div><h3>The customer question</h3><p>Customer asks become draft responses or prep notes.</p></article>
+<article class='card'><div class='card-number'>04</div><h3>The CRM note</h3><p>Activity notes are drafted when recent work should be captured.</p></article></div></div></section>
+      <section class="section" id="flow"><div class="kicker">The heartbeat loop</div><h2>From customer signals to deal follow-through.</h2><div class="flow" aria-label="Heartbeat flow"><div class='flow-step'><strong>Watch</strong><span>Outlook, Teams, meetings, tasks, and opportunity context.</span></div>
+<div class='flow-step'><strong>Detect</strong><span>Find commitments, unanswered asks, blockers, and risk signals.</span></div>
+<div class='flow-step'><strong>Match</strong><span>Connect each signal to an account, opportunity, stakeholder, or next step.</span></div>
+<div class='flow-step'><strong>Prioritize</strong><span>Rank by customer urgency, close risk, value, and timing.</span></div>
+<div class='flow-step'><strong>Prepare</strong><span>Draft the customer response, internal update, task, or CRM note.</span></div></div></section>
+      <section class="section"><div class="kicker">The key decision</div><h2>Quiet unless the role needs to act.</h2><div class="split"><div class="choice"><div class="kicker">No meaningful change</div><h3>Stay silent.</h3><p>No customer ask, no new blocker, no stale next step, and no opportunity action needed.</p></div><div class="choice accent"><div class="kicker">Action needed</div><h3>Nudge the user.</h3><p>Show the deal, signal, risk, next action, and draft content.</p></div></div></section>
+      <section class="section"><div class="kicker">Example output</div><h2>What Scout prepares.</h2><div class="example"><h3>Customer follow-up is due.</h3><div class="example-grid"><div class="brief"><dl><div><dt>Signal</dt><dd>A customer asked for the architecture deck and no reply is visible.</dd></div>
+<div><dt>Why it matters</dt><dd>The open ask could stall technical validation.</dd></div>
+<div><dt>Recommended next step</dt><dd>Draft a customer reply and an internal note to confirm deck ownership.</dd></div></dl></div><div class="draft"><pre>Draft customer response:
+
+Hi Jordan,
+
+Thanks for the follow-up.
+
+I am checking the latest architecture deck and will send the right version for your review.
+
+I will also include a short summary of the next steps so the team has clear context.</pre></div></div></div></section>
+      <section class="section"><div class="kicker">Guardrails</div><h2>The human stays in control.</h2><div class="guardrails"><div class='guardrail'><strong>No automatic sends</strong><span>Drafts wait for review before anything is sent.</span></div>
+<div class='guardrail'><strong>No record writes</strong><span>CRM, legal, notes, and file systems are not updated without approval.</span></div>
+<div class='guardrail'><strong>Private context protected</strong><span>Internal details stay out of external drafts unless approved.</span></div>
+<div class='guardrail'><strong>Human decision maker</strong><span>Scout prepares the work. The user decides what happens next.</span></div></div></section>
+    </main>
+    <footer class="footer"><span>Microsoft Scout heartbeat concept</span><span>Seller Heartbeat</span></footer>
+  </div>
+</body>
+</html>

@@ -4,44 +4,47 @@ Scout automations are scheduled or condition-triggered tasks that run with a def
 
 ---
 
-## Recommended layout
+## Persona-centered layout
 
-Use this structure for role-based enablement content:
+Automation markdown and JSON files now live inside each persona folder:
 
-| Folder | Purpose |
-|---|---|
-| `docs/personas/` | Persona narratives, value propositions, and links to prompt assets |
-| `docs/heartbeat-prompts/` | Always-on heartbeat prompts by persona |
-| `docs/automation-samples/` | Scheduled or condition-triggered automation prompts by persona |
+```text
+docs/
+  personas/
+    <division>/
+      README.md
+      <persona>/
+        heartbeat.md
+        heartbeat.html
+        automation.md
+        automation.json
+```
 
-This keeps the persona story separate from the executable prompt samples, while making it easy to reuse a heartbeat or automation in multiple enablement decks.
+Director of IT has multiple automation samples:
+
+```text
+docs/personas/information-technology/director-of-it/
+  automations.html
+  automations/
+    <automation>.md
+    json/
+      <automation>.json
+```
 
 ---
 
-## Available samples
+## Available automation samples
 
-| Role | Sample automation |
+| Persona | Automation |
 |---|---|
-| Legal - Commercial Contracts Counsel | [Daily contract risk and response queue](automation-samples/legal-commercial-contracts-counsel.md) |
-| Legal - Legal Operations Manager | [Weekly legal operations command brief](automation-samples/legal-operations-manager.md) |
-| Human Resources - Talent Acquisition Lead | [Talent Acquisition Lead automation sample](automation-samples/hr-talent-acquisition-lead.md) |
-| Human Resources - HR Business Partner | [HR Business Partner automation sample](automation-samples/hr-hr-business-partner.md) |
-| Finance - Procurement Manager | [Procurement Manager automation sample](automation-samples/finance-procurement-manager.md) |
-| Finance - FP&A Manager | [FP&A Manager automation sample](automation-samples/finance-fpa-manager.md) |
-| Information Technology - Director of IT | [Daily IT command brief](automation-samples/it-director-daily-command-brief.md) |
-| Information Technology - Director of IT | [Weekly SaaS, security, and endpoint review](automation-samples/it-director-weekly-saas-security-endpoint-review.md) |
-| Information Technology - Director of IT | [Executive IT ask triage](automation-samples/it-director-executive-ask-triage.md) |
-| Information Technology - Director of IT | [Incident recovery watch](automation-samples/it-director-incident-recovery-watch.md) |
-| Information Technology - Director of IT | [Identity and access blocker watch](automation-samples/it-director-identity-access-blocker-watch.md) |
-| Information Technology - Director of IT | [Threat hunting and security follow-through](automation-samples/it-director-threat-hunting-security-follow-through.md) |
-| Information Technology - Director of IT | [SaaS renewal and license optimization watch](automation-samples/it-director-saas-renewal-license-optimization.md) |
-| Information Technology - Director of IT | [IT project risk watch](automation-samples/it-director-project-risk-watch.md) |
-| Information Technology - Director of IT | [Endpoint compliance drift watch](automation-samples/it-director-endpoint-compliance-drift.md) |
-| Information Technology - Director of IT | [Onboarding and offboarding readiness watch](automation-samples/it-director-onboarding-offboarding-readiness.md) |
-| Information Technology - Director of IT | [IT leadership meeting prep](automation-samples/it-director-leadership-meeting-prep.md) |
-| Information Technology - Director of IT | [Repeat issue automation candidate finder](automation-samples/it-director-repeat-issue-automation-candidate.md) |
-
-Standalone JSON versions for the Director of IT samples are available in [`automation-samples/json/`](automation-samples/json/).
+| Commercial Contracts Counsel | [Daily contract risk and response queue](personas/legal-department/commercial-contracts-counsel/automation.md) · [JSON](personas/legal-department/commercial-contracts-counsel/automation.json) |
+| Legal Operations Manager | [Weekly legal operations command brief](personas/legal-department/legal-operations-manager/automation.md) · [JSON](personas/legal-department/legal-operations-manager/automation.json) |
+| Seller | [Seller automation visual](personas/sales/seller/automations.html) · [Automation folder](personas/sales/seller/automations/) · [JSON folder](personas/sales/seller/automations/json/) |
+| FP&A Manager | [Weekly forecast and variance prep brief](personas/finance/fpa-manager/automation.md) · [JSON](personas/finance/fpa-manager/automation.json) |
+| Procurement Manager | [Daily supplier and approval queue](personas/finance/procurement-manager/automation.md) · [JSON](personas/finance/procurement-manager/automation.json) |
+| HR Business Partner | [Weekly HRBP follow-through brief](personas/human-resources/hr-business-partner/automation.md) · [JSON](personas/human-resources/hr-business-partner/automation.json) |
+| Talent Acquisition Lead | [Daily hiring pipeline and interview coordination queue](personas/human-resources/talent-acquisition-lead/automation.md) · [JSON](personas/human-resources/talent-acquisition-lead/automation.json) |
+| Director of IT | [Automation visual](personas/information-technology/director-of-it/automations.html) · [Automation folder](personas/information-technology/director-of-it/automations/) · [JSON folder](personas/information-technology/director-of-it/automations/json/) |
 
 ---
 
@@ -49,6 +52,7 @@ Standalone JSON versions for the Director of IT samples are available in [`autom
 
 - **Use automation for recurring work.** Good examples are daily queues, weekly briefs, and recurring reporting packs.
 - **Keep the scope bounded.** Define inputs, steps, output, and guardrails.
+- **Provide JSON.** Each automation should include a copyable Scout automation JSON definition.
 - **Do not make external changes by default.** Draft messages or updates, but require explicit approval before sending or writing.
 - **Audit through source systems.** If the automation drafts emails, reviews documents, or suggests system updates, the system of record remains Outlook, Teams, SharePoint, CRM, HR, finance, legal, or line-of-business systems.
 - **Protect confidential business context.** Do not expose privileged legal reasoning, financial data, employee information, candidate details, or sensitive deal context in broad summaries.

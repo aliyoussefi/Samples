@@ -1,0 +1,17 @@
+{
+  "name": "Technical blocker escalation",
+  "description": "Watch for quota, POC, demo, architecture, integration, security, or deployment blockers that could stall a deal.",
+  "triggerType": "condition",
+  "enabled": true,
+  "teamsNotify": "always",
+  "prompt": "Review recent Outlook, Teams, meeting, task, opportunity, and technical workstream context. Identify technical blockers that could stall a deal, including quota, POC, demo, architecture, integration, security, access, and deployment issues. Determine affected account, opportunity, owner, urgency, and missing next step. Draft an escalation summary, owner ask, or customer-safe response for review. Do not send messages or update systems without approval.",
+  "steps": [
+    {
+      "label": "Technical blocker escalation",
+      "prompt": "Review recent Outlook, Teams, meeting, task, opportunity, and technical workstream context. Identify technical blockers that could stall a deal, including quota, POC, demo, architecture, integration, security, access, and deployment issues. Determine affected account, opportunity, owner, urgency, and missing next step. Draft an escalation summary, owner ask, or customer-safe response for review. Do not send messages or update systems without approval."
+    }
+  ],
+  "condition": "A customer, seller, specialist, or technical stakeholder mentions a blocker such as quota, POC, demo, architecture, integration, security, access, or deployment.",
+  "conditionCheckInterval": 15,
+  "oneShot": true
+}

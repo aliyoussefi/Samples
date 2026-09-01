@@ -1,0 +1,15 @@
+{
+  "name": "Daily hiring pipeline and interview coordination queue",
+  "description": "Create a daily recruiting queue for candidate responsiveness, interview coordination, and hiring manager follow-through.",
+  "triggerType": "schedule",
+  "enabled": true,
+  "teamsNotify": "always",
+  "prompt": "Review Outlook emails from the last 24 hours, Teams messages from hiring managers and interview loops, calendar interviews in the next 48 hours, recruiting systems where available, tasks, and unresolved heartbeat items. Identify candidate and hiring manager follow-ups, missing feedback, interview prep gaps, offer blockers, candidates, requisitions, hiring managers, and loops that need attention today. Draft candidate updates, hiring manager reminders, or interview prep notes. Do not send messages or update recruiting systems without approval.",
+  "steps": [
+    {
+      "label": "Daily hiring pipeline and interview coordination queue",
+      "prompt": "Review Outlook emails from the last 24 hours, Teams messages from hiring managers and interview loops, calendar interviews in the next 48 hours, recruiting systems where available, tasks, and unresolved heartbeat items. Identify candidate and hiring manager follow-ups, missing feedback, interview prep gaps, offer blockers, candidates, requisitions, hiring managers, and loops that need attention today. Draft candidate updates, hiring manager reminders, or interview prep notes. Do not send messages or update recruiting systems without approval."
+    }
+  ],
+  "schedule": "every Monday, Tuesday, Wednesday, Thursday and Friday at 8am"
+}
