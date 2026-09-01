@@ -47,3 +47,22 @@ Guardrails:
 - Keep leadership-facing language concise, factual, and decision-oriented.
 ```
 
+## Scout automation JSON
+
+```json
+{
+  "name": "Weekly SaaS, security, and endpoint review",
+  "description": "Prepare a weekly Director of IT operating review covering SaaS renewals, license usage, endpoint compliance, security follow-through, vendor actions, and IT project blockers.",
+  "triggerType": "schedule",
+  "schedule": "every Monday at 7am",
+  "enabled": true,
+  "teamsNotify": "always",
+  "prompt": "Prepare a leadership-ready weekly IT operating brief for the Director of IT. Review Outlook and Teams activity from the prior week, upcoming vendor, security, budget, and IT roadmap meetings, SaaS renewal trackers, license usage, endpoint compliance, device health dashboards, security findings, vulnerability queues, audit evidence requests, IT project trackers, OneNote notes, Planner plans, Power BI reports, and prior unresolved heartbeat and automation items where available. Identify renewals and vendor asks due in the next 30 to 60 days, license waste, duplicate tools, endpoint compliance issues, security follow-through gaps, audit evidence gaps, project blockers, missing owners, and decisions needed. Do not send messages or update systems without approval.",
+  "steps": [
+    {
+      "label": "Build weekly IT operating review",
+      "prompt": "Prepare a leadership-ready weekly IT operating brief for the Director of IT. Review Outlook and Teams activity from the prior week, upcoming vendor, security, budget, and IT roadmap meetings, SaaS renewal trackers, license usage, endpoint compliance, device health dashboards, security findings, vulnerability queues, audit evidence requests, IT project trackers, OneNote notes, Planner plans, Power BI reports, and prior unresolved heartbeat and automation items where available. Identify renewals and vendor asks due in the next 30 to 60 days, license waste, duplicate tools, endpoint compliance issues, security follow-through gaps, audit evidence gaps, project blockers, missing owners, and decisions needed. Do not send messages or update systems without approval."
+    }
+  ]
+}
+```

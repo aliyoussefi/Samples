@@ -38,3 +38,24 @@ Guardrails:
 - Do not include sensitive details that are not appropriate for the attendee list.
 ```
 
+## Scout automation JSON
+
+```json
+{
+  "name": "IT leadership meeting prep",
+  "description": "Prepare a Director of IT for executive, budget, security, roadmap, vendor, compliance, or operations meetings.",
+  "triggerType": "condition",
+  "condition": "The Director of IT has an executive, budget, security, roadmap, vendor, compliance, or operations meeting in the next 24 hours.",
+  "conditionCheckInterval": 60,
+  "enabled": true,
+  "oneShot": true,
+  "teamsNotify": "always",
+  "prompt": "Review calendar events in the next 24 hours and related Outlook, Teams, meeting transcripts, notes, tickets, project trackers, dashboards, files, and unresolved heartbeat or automation items. Identify the meeting topic, attendees, likely decision points, relevant IT signals, risks, blockers, decisions needed, follow-ups, recommended talking points, and draft follow-up note outline. Do not send meeting materials without approval and do not include sensitive details inappropriate for the attendee list.",
+  "steps": [
+    {
+      "label": "Prepare IT leadership meeting brief",
+      "prompt": "Review calendar events in the next 24 hours and related Outlook, Teams, meeting transcripts, notes, tickets, project trackers, dashboards, files, and unresolved heartbeat or automation items. Identify the meeting topic, attendees, likely decision points, relevant IT signals, risks, blockers, decisions needed, follow-ups, recommended talking points, and draft follow-up note outline. Do not send meeting materials without approval and do not include sensitive details inappropriate for the attendee list."
+    }
+  ]
+}
+```

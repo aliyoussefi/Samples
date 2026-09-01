@@ -38,3 +38,22 @@ Guardrails:
 - Do not expose pricing, negotiation strategy, or contract terms broadly.
 ```
 
+## Scout automation JSON
+
+```json
+{
+  "name": "SaaS renewal and license optimization watch",
+  "description": "Watch for SaaS renewals, vendor follow-up, unused licenses, duplicate applications, and app consolidation opportunities.",
+  "triggerType": "schedule",
+  "schedule": "every Tuesday at 8am",
+  "enabled": true,
+  "teamsNotify": "always",
+  "prompt": "Review vendor and procurement emails, Finance and budget messages, SaaS renewal trackers, license usage reports, app inventory, SSO, endpoint software data, and upcoming vendor or budget meetings where available. Identify renewals, contract dates, vendor asks, pricing deadlines in the next 30 to 60 days, unused licenses, duplicate applications, low adoption, missing usage data, owners, decision makers, and budget impact. Draft a renewal brief or owner request. Do not contact vendors, change licenses, or update procurement systems without approval.",
+  "steps": [
+    {
+      "label": "Review SaaS renewals and license optimization",
+      "prompt": "Review vendor and procurement emails, Finance and budget messages, SaaS renewal trackers, license usage reports, app inventory, SSO, endpoint software data, and upcoming vendor or budget meetings where available. Identify renewals, contract dates, vendor asks, pricing deadlines in the next 30 to 60 days, unused licenses, duplicate applications, low adoption, missing usage data, owners, decision makers, and budget impact. Draft a renewal brief or owner request. Do not contact vendors, change licenses, or update procurement systems without approval."
+    }
+  ]
+}
+```

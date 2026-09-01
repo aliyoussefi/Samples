@@ -38,3 +38,24 @@ Guardrails:
 - Do not expose sensitive executive or business context in broad summaries.
 ```
 
+## Scout automation JSON
+
+```json
+{
+  "name": "Executive IT ask triage",
+  "description": "Watch for executive or cross-functional IT asks that need ownership, due dates, or response.",
+  "triggerType": "condition",
+  "condition": "A new Outlook or Teams message from an executive, department leader, or cross-functional stakeholder appears to request IT action and lacks a clear owner, due date, or response.",
+  "conditionCheckInterval": 15,
+  "enabled": true,
+  "oneShot": true,
+  "teamsNotify": "always",
+  "prompt": "Review recent Outlook and Teams messages from executives and department leaders. Find IT-related asks that appear to lack a clear owner, due date, or response. Identify the ask, stakeholder, urgency, business impact, recommended owner or workstream, and draft a concise owner assignment or status response. Do not send messages or assign work in systems of record without approval.",
+  "steps": [
+    {
+      "label": "Triage executive IT ask",
+      "prompt": "Review recent Outlook and Teams messages from executives and department leaders. Find IT-related asks that appear to lack a clear owner, due date, or response. Identify the ask, stakeholder, urgency, business impact, recommended owner or workstream, and draft a concise owner assignment or status response. Do not send messages or assign work in systems of record without approval."
+    }
+  ]
+}
+```

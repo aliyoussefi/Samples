@@ -39,3 +39,22 @@ Guardrails:
 - Keep leadership-facing language factual and appropriately scoped.
 ```
 
+## Scout automation JSON
+
+```json
+{
+  "name": "Threat hunting and security follow-through",
+  "description": "Prepare a security follow-through nudge for threat hunting leads, vulnerabilities, audit evidence, and endpoint or identity risk items.",
+  "triggerType": "schedule",
+  "schedule": "every Monday, Tuesday, Wednesday, Thursday and Friday at 3pm",
+  "enabled": true,
+  "teamsNotify": "always",
+  "prompt": "Prepare a security follow-through nudge for the Director of IT. Review Defender XDR, Sentinel, CrowdStrike, Wiz, or similar security findings where available, Outlook and Teams security requests, audit evidence requests, endpoint compliance and vulnerability queues, security review meetings in the next 48 hours, and prior unresolved security follow-ups. Identify active threat hunting leads, unresolved findings, audit asks, owners, affected systems, severity, due dates, missing evidence, stale remediation, and unclear next actions. Draft an owner reminder or leadership-safe update. Do not change security tools or disclose sensitive threat details broadly.",
+  "steps": [
+    {
+      "label": "Review threat hunting and security follow-through",
+      "prompt": "Prepare a security follow-through nudge for the Director of IT. Review Defender XDR, Sentinel, CrowdStrike, Wiz, or similar security findings where available, Outlook and Teams security requests, audit evidence requests, endpoint compliance and vulnerability queues, security review meetings in the next 48 hours, and prior unresolved security follow-ups. Identify active threat hunting leads, unresolved findings, audit asks, owners, affected systems, severity, due dates, missing evidence, stale remediation, and unclear next actions. Draft an owner reminder or leadership-safe update. Do not change security tools or disclose sensitive threat details broadly."
+    }
+  ]
+}
+```
