@@ -60,9 +60,16 @@ Microsoft Scout Frontier is gated behind a **two-gate access model**. Installing
 
 ---
 
-## Optional: throwaway test VM
+## Optional: throwaway test environments
 
-You do **not** need a VM or any Azure infrastructure to enable Scout Frontier — the docs above are all you need for a real tenant. The [`optional-test-vm/`](optional-test-vm/) folder is provided **only** as a convenience for spinning up an isolated Windows 11 sandbox (Azure Bastion + NAT Gateway + Entra login + the local device policy) to demo or test Frontier without an Intune-managed endpoint. It is entirely optional and not part of the supported enablement path — see [`optional-test-vm/README.md`](optional-test-vm/README.md).
+You do **not** need a VM or any Azure infrastructure to enable Scout Frontier — the docs above are all you need for a real tenant. Two optional kits exist as a convenience for demoing or testing Frontier without an Intune-managed endpoint. Both are entirely optional and neither is part of the supported enablement path.
+
+| Kit | Use it for | Access |
+|---|---|---|
+| [`optional-test-vm/`](optional-test-vm/) | **One person.** Isolated Windows 11 sandbox: Azure Bastion + NAT Gateway + Entra login + local device policy. | Azure Bastion |
+| [`optional-avd/`](optional-avd/) | **Two or more people** sharing one environment, or a recurring demo that should cost near nothing when idle. Windows 11 multi-session on Azure Virtual Desktop, with a developer baseline so users can install Node.js toolchains and npm packages without admin rights. | AVD web client |
+
+Azure Bastion Standard bills hourly and cannot be paused, so for anything long-lived the AVD kit is materially cheaper. See [`optional-test-vm/README.md`](optional-test-vm/README.md) and [`optional-avd/README.md`](optional-avd/README.md).
 
 ---
 

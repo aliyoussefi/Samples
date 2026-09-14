@@ -1,5 +1,7 @@
 # Optional — Windows 11 test VM for Microsoft Scout (Frontier)
 
+> **Single user.** For two or more people sharing one environment, see the [multi-user AVD kit](../optional-avd/) instead. It needs no Bastion, which is the largest recurring cost here.
+
 > **You do not need this to enable Scout Frontier.** For a real tenant, follow the documentation-first path in the parent folder — [`../docs/enable-frontier.md`](../docs/enable-frontier.md) (Gate 1) and [`../docs/intune-setup.md`](../docs/intune-setup.md) (Gate 2). This folder is **entirely optional** and exists only to spin up an **isolated Windows 11 sandbox** for demoing or testing Frontier when you don't have an Intune-managed device handy.
 
 This kit deploys a Windows 11 Azure VM that can run Microsoft Scout (Frontier), reachable via **Azure Bastion** (works from corporate networks that block raw RDP), with **outbound internet** (NAT Gateway), **Microsoft Entra ID login**, and the **Frontier device policy** pre-set locally.
@@ -41,7 +43,9 @@ The script sets the subscription, registers the public-IP feature if needed (one
 
 ## Connect
 
-Azure Portal → your VM → **Connect → Bastion**. Use the local `azureuser` + password, or the **Microsoft Entra ID** option with the account you granted in `-EntraLoginUpn`.
+Azure Portal → your VM → **Connect → Bastion**. Use the local `azureuser` account and password.
+
+> **Use local credentials, not the Microsoft Entra ID button.** In many tenants the first-party RDP app consent is blocked for standard users, so the Entra option fails with `AADSTS50206` or `65002` even though `-EntraLoginUpn` was granted correctly. The role assignment is still worth having, but connect with `azureuser`. If you need working Entra SSO, that is one of the reasons the [multi-user AVD kit](../optional-avd/) exists.
 
 > Raw RDP (port 3389) to a public IP is often reset by corporate IPS. Bastion tunnels RDP inside HTTPS/443, which is why this kit uses it.
 
