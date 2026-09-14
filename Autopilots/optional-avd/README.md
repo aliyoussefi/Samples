@@ -16,6 +16,30 @@ Every user gets a real development environment. They can install Node.js toolcha
 
 The cost difference is the deciding factor for anything long-lived. Azure Bastion Standard bills hourly, cannot be paused, and only deleting it stops the meter. AVD's gateway and control plane are free, so with auto-shutdown plus start-on-connect an idle environment costs little more than its OS disk.
 
+## Validation status
+
+The deploy path has been run end to end against a real subscription, verified on the host, then torn down.
+
+| Component | Status |
+|---|---|
+| `deploy.ps1` control plane, session host, agent registration, RBAC | **Verified.** Session host reached `Available` |
+| `Install-Baseline.ps1` | **Verified.** `node`, `npm`, `git`, `pwsh`, `code` all resolve |
+| Per-user, no-admin toolchain | **Verified with a real standard user** |
+| `-WhatIf` dry run | **Verified.** Every write is gated, including registration-token rotation |
+| Idempotency | **Verified.** Re-running detects existing resources and skips them |
+| `Enable-EntraSso.ps1` | **Not verified.** Runbook-derived. Confirming it needs an interactive browser sign-in as a licensed user |
+
+The no-admin claim was proven rather than assumed. A local account in `Users` only, not an administrator:
+
+```
+whoami        : <host>\<testuser>
+isAdmin       : False
+npm prefix    : C:\Users\<testuser>\AppData\Roaming\npm
+npm i -g exit : 0
+installed at  : left-pad
+npx run       : (executed)
+```
+
 ## Contents
 
 | File | Purpose |
@@ -24,6 +48,7 @@ The cost difference is the deciding factor for anything long-lived. Azure Bastio
 | `scripts/Enable-EntraSso.ps1` | Entra SSO for the web client. Needs directory rights, so it is a separate run |
 | `scripts/Install-Baseline.ps1` | Machine-wide developer baseline, runs once as SYSTEM |
 | `scripts/Setup-MyDevEnv.ps1` | Per-user, no-admin toolchain setup that each user runs at first sign-in |
+| `skills/` | Importable AI agent skills for Microsoft Scout and Copilot Cowork. See [`skills/README.md`](skills/README.md) |
 
 ## How it maps to the two gates
 
@@ -115,9 +140,39 @@ Shared by all users, installed as SYSTEM at deploy time:
 |---|---|
 | **Node.js LTS** | The official installer is an MSI and cannot install per-user |
 | **Git** | The installer is per-machine only |
-| **PowerShell 7** | MSI |
+| **PowerShell 7** | Installed as MSI. See the MSIX warning below |
 | **VS Code (System setup)** | One shared copy instead of one per user profile |
 | **App Installer / winget** | Required for per-user installs later |
+
+> ### ⚠️ MSIX packages do not work machine-wide
+>
+> This is the single biggest trap when adding a package to the baseline, and it fails **silently**.
+>
+> **MSIX packages are registered per user.** Installing one as SYSTEM registers it for the SYSTEM account only, so no real user on the host ever gets the command. `winget list` still reports the package as installed, which is what makes it so easy to miss.
+>
+> `Microsoft.PowerShell` is a live example. Its default winget installer is now an `msixbundle`:
+>
+> ```
+> winget list                    ->  Microsoft.PowerShell 7.6.6.0   (claims installed)
+> C:\Program Files\PowerShell    ->  does not exist
+> C:\Program Files\WindowsApps\Microsoft.PowerShell_.../pwsh.exe   (SYSTEM only)
+> ```
+>
+> The fix is to force the MSI with an `InstallerType` override in the `$Packages` table:
+>
+> ```powershell
+> @{ Id = 'Microsoft.PowerShell'; InstallerType = 'wix'; Force = $true }
+> ```
+>
+> `Force` is also required. Once an MSIX build is known to winget's tracking catalog, it skips the MSI with *"No available upgrade found"* **even after the MSIX is uninstalled**.
+>
+> When adding any package, check its installer type first and prefer `wix`, `msi`, `inno`, or `burn` over `msix`:
+>
+> ```powershell
+> winget show --id <Package.Id> --exact | Select-String 'Installer Type:'
+> ```
+>
+> `Install-Baseline.ps1` verifies every tool after install and reports `OK` or `MISSING` per tool, so a package that lands the wrong way is visible in the log rather than discovered weeks later by a user.
 
 ### Available to every user with no admin rights
 
@@ -205,7 +260,8 @@ az group delete  -n <rg>               # true $0
 |---|---|---|
 | `SkuNotAvailable` | Regional capacity limit for that size | Try another `-VmSize` or region. Enumerate with `az vm list-skus`. |
 | `AADLoginForWindows` fails with "no MDM URLs" and rolls back | Extension asked to Entra-join **and** Intune-enroll, but MDM auto-enrollment scope is unset | Install it plain, with no `mdmId`. Delete and re-add if it stuck. |
-| Host never appears in the pool, `IsRegistered` empty | msiexec arguments passed as a single string | Pass them as a PowerShell **array**. `deploy.ps1` already does. |
+| Host never appears in the pool, `IsRegistered` empty | msiexec arguments passed as a single string | Pass them as a PowerShell **array**. `deploy.ps1` already does. **Check the time first:** registration is asynchronous and takes a minute or two. `deploy.ps1` polls for 5 minutes. An empty value read seconds after install is normal and not a failure. |
+| A tool reports `MISSING` in the baseline log, but `winget list` says it is installed | The package installed as **MSIX**, which registers per user, so SYSTEM has it and nobody else does | Force the MSI with `InstallerType = 'wix'` and `Force = $true`. See the MSIX warning in [Developer dependencies](#developer-dependencies). |
 | Web client shows a credential box and "Sign in Failed" | Entra SSO not configured | Run `scripts/Enable-EntraSso.ps1` |
 | **AADSTS50076** at host sign-in, although the feed loaded | A Conditional Access policy requires MFA. With SSO the feed token is passed to the host and carries an MFA claim only if MFA actually happened in that session. A cached browser session fails. | Sign in again and complete a real MFA prompt. This is not a host misconfiguration, so do not redeploy. |
 | Desktop appears in the feed but the connection is refused | Only one of the two roles was assigned | Both **Desktop Virtualization User** on the app group and **Virtual Machine User Login** on the host are required |
