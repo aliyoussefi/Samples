@@ -76,7 +76,13 @@ cd optional-avd
              -AdminPassword  (Read-Host -AsSecureString "Local admin password")
 ```
 
-The script creates the host pool, application group, and workspace, assigns both roles to your access group, creates the session host, registers it with the pool, installs the developer baseline, and prints what to do next. Use `-WhatIf` for a dry run.
+The script creates the host pool, application group, and workspace, assigns both roles to your access group, creates the session host, registers it with the pool, installs the developer baseline, and prints what to do next.
+
+It is **idempotent**. Re-running skips anything that already exists. Use `-WhatIf` for a dry run first: every write is gated, so a dry run makes no changes at all, including no registration-token rotation.
+
+```powershell
+.\deploy.ps1 -WhatIf -SubscriptionId ... # prints the plan, changes nothing
+```
 
 Then run the SSO step, which needs directory rights:
 

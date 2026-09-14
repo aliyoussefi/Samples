@@ -59,6 +59,22 @@ $scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 function Step { param([string] $m) Write-Host "`n==> $m" -ForegroundColor Cyan }
 function Info { param([string] $m) Write-Host "    $m" -ForegroundColor DarkGray }
 
+# Read a value from az, returning $null instead of noisy stderr when the resource
+# does not exist yet. Under -WhatIf the parent resources are never created, so
+# these lookups legitimately miss and must not look like failures.
+function Get-AzValue {
+    param([Parameter(Mandatory)] [scriptblock] $Command)
+    try {
+        $prev = $ErrorActionPreference
+        $ErrorActionPreference = 'Continue'
+        $out = & $Command 2>$null
+        $ErrorActionPreference = $prev
+        if ($LASTEXITCODE -ne 0) { return $null }
+        if ([string]::IsNullOrWhiteSpace($out)) { return $null }
+        return ($out | Select-Object -First 1).Trim()
+    } catch { return $null }
+}
+
 # --------------------------------------------------------------------------
 Step 'Checking prerequisites'
 
@@ -77,7 +93,9 @@ if (-not (az extension show -n desktopvirtualization 2>$null)) {
 }
 az provider register -n Microsoft.DesktopVirtualization --wait | Out-Null
 
-if ($PSCmdlet.ShouldProcess($ResourceGroup, 'Create resource group')) {
+if ((Get-AzValue { az group exists -n $ResourceGroup }) -eq 'true') {
+    Info "resource group $ResourceGroup already exists"
+} elseif ($PSCmdlet.ShouldProcess($ResourceGroup, 'Create resource group')) {
     az group create -n $ResourceGroup -l $Location --only-show-errors | Out-Null
 }
 
@@ -94,7 +112,7 @@ if (-not (az desktopvirtualization hostpool show -n $HostPoolName -g $ResourceGr
     }
 } else { Info "host pool $HostPoolName already exists" }
 
-$hpId = az desktopvirtualization hostpool show -n $HostPoolName -g $ResourceGroup --query id -o tsv
+$hpId = Get-AzValue { az desktopvirtualization hostpool show -n $HostPoolName -g $ResourceGroup --query id -o tsv }
 
 if (-not (az desktopvirtualization applicationgroup show -n $AppGroupName -g $ResourceGroup 2>$null)) {
     if ($PSCmdlet.ShouldProcess($AppGroupName, 'Create application group')) {
@@ -104,7 +122,7 @@ if (-not (az desktopvirtualization applicationgroup show -n $AppGroupName -g $Re
     }
 } else { Info "app group $AppGroupName already exists" }
 
-$agId = az desktopvirtualization applicationgroup show -n $AppGroupName -g $ResourceGroup --query id -o tsv
+$agId = Get-AzValue { az desktopvirtualization applicationgroup show -n $AppGroupName -g $ResourceGroup --query id -o tsv }
 
 if (-not (az desktopvirtualization workspace show -n $WorkspaceName -g $ResourceGroup 2>$null)) {
     if ($PSCmdlet.ShouldProcess($WorkspaceName, 'Create workspace')) {
@@ -119,9 +137,12 @@ Step 'Granting access to the Entra group'
 
 # BOTH roles are required. With only one, the desktop either does not appear in
 # the feed or appears and then refuses the connection.
-$rgId = az group show -n $ResourceGroup --query id -o tsv
+$rgId = Get-AzValue { az group show -n $ResourceGroup --query id -o tsv }
 
 if ($PSCmdlet.ShouldProcess($AccessGroupId, 'Assign AVD roles')) {
+    if (-not $agId -or -not $rgId) {
+        throw 'Could not resolve the application group or resource group id. Refusing to assign roles at an unknown scope.'
+    }
     az role assignment create --assignee-object-id $AccessGroupId --assignee-principal-type Group `
         --role 'Desktop Virtualization User' --scope $agId --only-show-errors 2>$null | Out-Null
     az role assignment create --assignee-object-id $AccessGroupId --assignee-principal-type Group `
@@ -164,13 +185,17 @@ if ($PSCmdlet.ShouldProcess($SessionHost, 'Entra join')) {
 # --------------------------------------------------------------------------
 Step 'Registering the session host with the host pool'
 
-$exp = (Get-Date).ToUniversalTime().AddHours(8).ToString('yyyy-MM-ddTHH:mm:ss.fffffffZ')
-az desktopvirtualization hostpool update -n $HostPoolName -g $ResourceGroup `
-    --registration-info expiration-time=$exp registration-token-operation=Update `
-    --only-show-errors | Out-Null
+if ($PSCmdlet.ShouldProcess($HostPoolName, 'Rotate registration token')) {
+    $exp = (Get-Date).ToUniversalTime().AddHours(8).ToString('yyyy-MM-ddTHH:mm:ss.fffffffZ')
+    az desktopvirtualization hostpool update -n $HostPoolName -g $ResourceGroup `
+        --registration-info expiration-time=$exp registration-token-operation=Update `
+        --only-show-errors | Out-Null
 
-$token = az desktopvirtualization hostpool retrieve-registration-token `
-             -n $HostPoolName -g $ResourceGroup --query token -o tsv
+    $token = az desktopvirtualization hostpool retrieve-registration-token `
+                 -n $HostPoolName -g $ResourceGroup --query token -o tsv
+} else {
+    $token = '<registration-token>'
+}
 
 if ($PSCmdlet.ShouldProcess($SessionHost, 'Install AVD agent')) {
     # msiexec arguments MUST be passed as an array. The single-string form
@@ -248,8 +273,12 @@ if ($PSCmdlet.ShouldProcess($SessionHost, 'Auto-shutdown')) {
 # --------------------------------------------------------------------------
 Step 'Verifying'
 
-az rest --method get --url "https://management.azure.com$hpId/sessionHosts?api-version=2023-09-05" `
-    --query 'value[].{host:name,status:properties.status}' -o table
+if ($hpId) {
+    az rest --method get --url "https://management.azure.com$hpId/sessionHosts?api-version=2023-09-05" `
+        --query 'value[].{host:name,status:properties.status}' -o table
+} else {
+    Info 'host pool does not exist yet, nothing to verify'
+}
 
 Write-Host @"
 
