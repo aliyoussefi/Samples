@@ -213,9 +213,18 @@ Invoke-WebRequest 'https://go.microsoft.com/fwlink/?linkid=2311028' -OutFile `$b
 Start-Process msiexec -Wait -ArgumentList @('/i',`$agent,'/qn','/norestart','/l*v','C:\Windows\Temp\rdagent.log',"REGISTRATIONTOKEN=$token")
 Start-Process msiexec -Wait -ArgumentList @('/i',`$boot,'/qn','/norestart','/l*v','C:\Windows\Temp\bootloader.log')
 
-Start-Sleep -Seconds 10
-`$reg = Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\RDInfraAgent' -ErrorAction SilentlyContinue
-"IsRegistered=`$(`$reg.IsRegistered) BootLoader=`$((Get-Service RDAgentBootLoader -ErrorAction SilentlyContinue).Status)"
+# Registration is asynchronous. A fixed short sleep reports IsRegistered as empty
+# on a host that goes on to register fine, which looks exactly like the classic
+# msiexec-argument failure. Poll instead.
+`$deadline = (Get-Date).AddMinutes(5)
+do {
+    Start-Sleep -Seconds 15
+    `$reg = (Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\RDInfraAgent' -ErrorAction SilentlyContinue).IsRegistered
+} while (`$reg -ne 1 -and (Get-Date) -lt `$deadline)
+
+`$svc = (Get-Service RDAgentBootLoader -ErrorAction SilentlyContinue).Status
+if (`$reg -eq 1) { "IsRegistered=1 BootLoader=`$svc" }
+else { "WARNING: IsRegistered=`$reg after 5 min. BootLoader=`$svc. See C:\Windows\Temp\rdagent.log" }
 "@
     $f = New-TemporaryFile
     Set-Content -Path $f -Value $agentScript -Encoding UTF8

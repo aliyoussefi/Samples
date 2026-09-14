@@ -16,12 +16,23 @@
 #>
 [CmdletBinding()]
 param(
-    # Machine-wide packages. These are MSI/wix/inno installers that cannot go per-user.
-    [string[]] $Packages = @(
-        'OpenJS.NodeJS.LTS',              # wix MSI, machine only. Gives every user npm and npx.
-        'Git.Git',                        # inno, machine only
-        'Microsoft.PowerShell',           # MSI
-        'Microsoft.VisualStudioCode'      # installed --scope machine, one shared copy
+    # Machine-wide packages. These cannot be installed per-user, so they must be
+    # here rather than in Setup-MyDevEnv.ps1.
+    #
+    # InstallerType is an explicit override. It matters: winget's default for
+    # Microsoft.PowerShell is now an MSIX bundle, and MSIX packages are registered
+    # PER USER. Installing one as SYSTEM on a multi-session host registers it for
+    # SYSTEM only, so other users never get the command. Forcing 'wix' selects the
+    # MSI, which installs machine-wide to C:\Program Files\PowerShell\7.
+    #
+    # Force is needed alongside it. If an MSIX build was ever installed, winget's
+    # tracking catalog reports the package as present and skips the MSI with
+    # "No available upgrade found", even after the MSIX is uninstalled.
+    [hashtable[]] $Packages = @(
+        @{ Id = 'OpenJS.NodeJS.LTS' }                                      # wix. Gives every user npm and npx.
+        @{ Id = 'Git.Git' }                                                # inno, machine only
+        @{ Id = 'Microsoft.PowerShell'; InstallerType = 'wix'; Force = $true }  # MSI, not MSIX
+        @{ Id = 'Microsoft.VisualStudioCode' }                             # machine scope, one shared copy
     ),
 
     [switch] $SkipFrontierPolicy
@@ -40,6 +51,14 @@ function Write-Log {
     Write-Output $line
     Add-Content -Path $log -Value $line
 }
+
+# winget progress output: spinner frames, box/block-drawing bars, and percent or
+# size counters. All noise, and it drowns the log on a slow link.
+#
+# The bar glyphs are transcoded to '?' by some console codepages before they
+# reach this filter, so the size counter is matched anywhere in the line rather
+# than anchored to the start. Verified against real winget output.
+$ProgressNoise = '^\s*[\\|/-]\s*$|[\u2500-\u259F]|\d+(\.\d+)?\s*(KB|MB|GB)\s*/\s*\d|^[\s\W]*\d+%\s*$|^[\s\?\u2588]*$'
 
 Write-Log "=== Baseline start ==="
 
@@ -83,22 +102,31 @@ if ($winget) {
 # Machine-wide packages
 # --------------------------------------------------------------------------
 foreach ($pkg in $Packages) {
-    Write-Log "Installing $pkg (machine scope)"
-    if (-not $winget) { Write-Log "  skipped, no winget"; continue }
+    $id = $pkg.Id
+    Write-Log "Installing $id (machine scope)"
+    if (-not $winget) { Write-Log '  skipped, no winget'; continue }
 
     $args = @(
-        'install', '--id', $pkg, '--exact',
+        'install', '--id', $id, '--exact',
         '--scope', 'machine',
         '--silent',
         '--accept-package-agreements',
         '--accept-source-agreements',
         '--disable-interactivity'
     )
-    & $winget @args 2>&1 | ForEach-Object { Write-Log "  $_" }
+    if ($pkg.InstallerType) { $args += @('--installer-type', $pkg.InstallerType) }
+    if ($pkg.Force)         { $args += '--force' }
+
+    # winget streams an animated progress bar even with --disable-interactivity.
+    # Unfiltered it writes thousands of junk lines into the log and into the
+    # run-command output, which buries real errors. Keep only meaningful lines.
+    & $winget @args 2>&1 |
+        Where-Object { $_ -notmatch $ProgressNoise -and -not [string]::IsNullOrWhiteSpace($_) } |
+        ForEach-Object { Write-Log "  $_" }
 
     # 0 = installed, -1978335189 = already installed / no upgrade needed
     if ($LASTEXITCODE -ne 0 -and $LASTEXITCODE -ne -1978335189) {
-        Write-Log "  WARNING: $pkg exited $LASTEXITCODE"
+        Write-Log "  WARNING: $id exited $LASTEXITCODE"
     }
 }
 
@@ -171,6 +199,36 @@ if (Test-Path $userScript) {
 }
 
 Write-Log '=== Baseline complete ==='
-Write-Log "node: $((& node --version 2>&1) -join '')"
-Write-Log "npm:  $((& npm --version 2>&1) -join '')"
-Write-Log "git:  $((& git --version 2>&1) -join '')"
+
+# This process inherited its PATH before the installers ran, so a bare 'node'
+# would not resolve and the verification would silently produce nothing.
+# Rebuild PATH from the registry first, then report by resolved path.
+$env:Path = [Environment]::GetEnvironmentVariable('Path', 'Machine') + ';' +
+            [Environment]::GetEnvironmentVariable('Path', 'User')
+
+$checks = @(
+    @{ Name = 'node'; Cmd = 'node.exe' }
+    @{ Name = 'npm';  Cmd = 'npm.cmd'  }
+    @{ Name = 'git';  Cmd = 'git.exe'  }
+    @{ Name = 'pwsh'; Cmd = 'pwsh.exe' }
+    @{ Name = 'code'; Cmd = 'code.cmd' }
+)
+
+$failed = @()
+foreach ($c in $checks) {
+    $found = Get-Command $c.Cmd -ErrorAction SilentlyContinue | Select-Object -First 1
+    if ($found) {
+        $ver = try { (& $found.Source --version 2>&1 | Select-Object -First 1) } catch { 'installed' }
+        Write-Log ("  {0,-5} OK   {1}" -f $c.Name, $ver)
+    } else {
+        Write-Log ("  {0,-5} MISSING" -f $c.Name)
+        $failed += $c.Name
+    }
+}
+
+if ($failed) {
+    Write-Log "WARNING: not resolvable after install: $($failed -join ', ')"
+    Write-Log 'If a tool installed as MSIX it is registered per-user and will not be available to other users. Force the MSI with InstallerType.'
+} else {
+    Write-Log 'All baseline tools verified.'
+}
