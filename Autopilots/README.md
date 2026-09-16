@@ -73,6 +73,18 @@ Azure Bastion Standard bills hourly and cannot be paused, so for anything long-l
 
 ---
 
+## Portable Scout agent team
+
+The [Alfred, Dawn and Dusk kit](tools/agent-team/SETUP.txt) packages six self-contained skills and six disabled automation definitions for a user's own Windows or AVD profile:
+
+- **Alfred:** review internal direct Teams messages, track explicit sender opt-in and prepare replies for owner approval.
+- **Dawn:** morning preparation, hourly meeting intelligence and an optional read-only demo readiness check.
+- **Dusk:** daily work/artifact summaries and a confirm-first weekly filing proposal.
+
+The installer does not copy credentials, overwrite differing skills, register schedules or enable outgoing messages. Configure the owner and artifact root locally, then register and review the disabled definitions in Scout. These are portable community workflow samples, not independently hosted agents. Scout must be running; its schedules do not start the AVD.
+
+---
+
 ## Reference documentation
 
 - [Microsoft Scout — Admin access overview](https://learn.microsoft.com/en-us/microsoft-scout/admin-access-overview)

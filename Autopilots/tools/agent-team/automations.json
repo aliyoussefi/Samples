@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "automations": [
+    {
+      "name": "Alfred - Chief of Staff",
+      "description": "Review internal direct Teams messages and prepare opted-in replies for approval. No autonomous sends or delegated actions.",
+      "skill": "alfred-chief-of-staff",
+      "schedule": "every 5 minutes"
+    },
+    {
+      "name": "Dawn - Morning Prep",
+      "description": "Weekday morning priorities, inbox context, meeting briefs and action items.",
+      "skill": "dawn-morning-prep",
+      "schedule": "every weekday at 8am"
+    },
+    {
+      "name": "Dawn - Meeting Intelligence",
+      "description": "Weekday hourly post-meeting summaries, mentions and owner-based actions.",
+      "skill": "dawn-meeting-intelligence",
+      "schedule": "every weekday at 8am, 9am, 10am, 11am, 12pm, 1pm, 2pm, 3pm, 4pm, and 5pm"
+    },
+    {
+      "name": "Dawn - Demo Readiness",
+      "description": "Read-only readiness check for an explicitly configured demo URL. No record creation or infrastructure changes.",
+      "skill": "dawn-demo-readiness",
+      "schedule": "every day at 7am"
+    },
+    {
+      "name": "Dusk - Daily Wrap",
+      "description": "Weekday evidence-based summary of work, session changes and artifacts.",
+      "skill": "dusk-daily-wrap",
+      "schedule": "every weekday at 5pm"
+    },
+    {
+      "name": "Dusk - Weekly Folder Review",
+      "description": "Confirm-first proposal for filing loose root artifacts. Never moves or deletes files.",
+      "skill": "dusk-weekly-review",
+      "schedule": "every Friday at 4pm"
+    }
+  ]
+}
