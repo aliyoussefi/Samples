@@ -1,0 +1,136 @@
+SCOUT AGENT TEAM: ALFRED, DAWN AND DUSK
+
+Portable, review-first skills and automation definitions for Windows / AVD.
+These are user-level Scout automations, not separately hosted Copilot Studio agents.
+
+CONTENTS
+  skills.json        Six self-contained instruction sets.
+  automations.json   Six intended names, schedules and skill bindings.
+  Install-AgentTeam.ps1
+                     Renders per-user SKILL.md files and disabled import JSON.
+  Test-AgentTeam.ps1  Isolated installer and payload checks; no real Scout changes.
+
+WHAT CHANGES FROM THE PERSONAL CONFIGURATION
+  - No owner identity, tenant IDs, demo URLs, credentials or workstation paths
+    are shipped. Supply your own local configuration at install time.
+  - All import definitions are disabled, use the default model and suppress
+    automatic Teams notifications. No local application database is edited.
+  - Alfred retains the exact "Agent is Fine" opt-in rule. A later message with
+    other content revokes that opt-in. This is not persistent consent.
+    Alfred prepares replies; owner approval is required before sending.
+    It does not perform delegated actions or call other agents on a sender's behalf.
+  - Dawn Demo Readiness checks a configured site but never creates incidents,
+    sample records, or infrastructure changes automatically.
+  - Dawn Morning Prep includes opportunity-preparation instructions directly.
+    Dusk Weekly Folder Review includes its filing-proposal logic directly.
+    No private /se-opportunity-prep or /organize-scout dependency is required.
+  - Dusk produces proposals/results in run history, not a public report.
+  - Missing evidence and downtime are reported rather than silently fabricated.
+
+AVD PREREQUISITES
+  Sign into the AVD with your OWN Windows user. Install and sign into Scout.
+  Complete normal tenant/device enablement and licensing requirements.
+  Sign into Microsoft 365 as the intended owner and authorize required tools.
+  Do not copy another person's .scout folder, tokens, cookies or MCP credentials.
+  Install the kit separately for each Windows user. Do not run as SYSTEM or
+  use another user's profile. Administrator rights are not required.
+  Keep artifact folders and runtime state access restricted to their owner.
+  Confirm Scout's timezone before enabling schedules; prompts alone do not
+  configure the scheduler's timezone. The example uses America/Chicago,
+  which observes daylight saving time.
+
+INSTALL
+  Download this folder from GitHub, or clone the repository:
+
+    git clone --depth 1 https://github.com/aliyoussefi/Samples.git
+    Set-Location .\Samples\Autopilots\tools\agent-team
+
+  Inspect the scripts and JSON. Create/select a private artifact directory.
+  Replace the EXAMPLE values in the command below. Use -WhatIf first:
+
+    .\Install-AgentTeam.ps1 -OwnerName "Your Name" `
+      -OwnerEmail "you@example.com" -InternalDomain "example.com" `
+      -ArtifactRoot "C:\Users\YourWindowsUser\Documents\ScoutArtifacts" `
+      -TimeZone "America/Chicago" -WhatIf
+
+  Then repeat without -WhatIf. Optionally supply:
+    -DemoUrl "https://your-approved-demo.example.com"
+
+  If local script policy blocks execution, follow your organization's approved
+  process for trusted scripts. Do not disable execution policy or security controls.
+  Files are written to the current user's .scout\m-skills\<name>\SKILL.md.
+  Private runtime state lives under .scout\agent-team\state.
+  Personalized import JSON is under .scout\agent-team\imports.
+  Never publish those generated files or runtime state.
+
+  Rerunning with the same values is idempotent. If an existing skill/import file
+  differs, the installer refuses BEFORE changing any file. Review and back up
+  the existing version; there is no destructive overwrite switch.
+
+REGISTER THE SCHEDULES IN SCOUT
+  1. Reload/restart Scout as the same Windows user. Confirm all six skills
+     appear in the skill list and are readable.
+  2. In Scout, use the following instruction, replacing the path with your own:
+
+     Read the six JSON files in
+     C:\Users\YourWindowsUser\.scout\agent-team\imports.
+     List my existing automations first. Match exact names and inspect their
+     prompts before any action. If a matching name exists, do not duplicate
+     or replace it; show me the difference and ask how to resolve it.
+     For each missing definition, create it using m_create_automation with
+     the JSON fields as provided. Keep enabled=false and teamsNotify=never.
+     Do not run or enable anything. Return the created IDs and any conflicts.
+
+  These payloads use Scout's supported create-automation tool fields. They
+  are not an internal database export. If the installed Scout version has no
+  automation tools/import support, stop and use its supported UI to create
+  the same DISABLED definitions. Do not edit the application database.
+
+  3. Confirm each registered schedule and prompt:
+     Alfred - Chief of Staff         Every 5 minutes
+     Dawn - Morning Prep             Weekdays 8 AM
+     Dawn - Meeting Intelligence     Hourly weekdays 8 AM through 5 PM
+     Dawn - Demo Readiness           Daily 7 AM
+     Dusk - Daily Wrap               Weekdays 5 PM
+     Dusk - Weekly Folder Review     Fridays 4 PM
+
+REVIEW, TRY, ENABLE
+  - Load each skill and try it interactively with your own authorized account.
+  - Alfred's first run initializes its watermark and does not replay old chats.
+    Test opt-in/drafting with a consenting internal colleague. Do not enable
+    a second Alfred against the same mailbox on another device at the same time.
+    State is local, not distributed; duplicate devices can duplicate processing.
+  - Dawn needs mail/calendar access; meeting transcripts depend on permissions
+    and available meeting data. Confirm that missing transcripts are reported.
+  - Leave Demo Readiness disabled until a target is configured and tested.
+  - Dusk needs session tools and access to your chosen artifact root.
+    It must propose, never silently move/delete files.
+  - Enable only the automations you want after reviewing their actual schedule,
+    account, permissions, outputs and cost. The installer does not enable them.
+  - Keep unattended outputs in run history. Scheduled execution does not waive
+    per-action approval, privacy, data-sensitivity or tenant requirements.
+    No automatic outgoing replies or Teams notifications are configured.
+
+HOST AVAILABILITY AND COST
+  A schedule inside Scout does NOT start or keep alive an Azure VM.
+  Scout must be running and its tools/authentication must remain available.
+  AVD logoff, VM deallocation and application shutdown can stop local jobs.
+  Arrange VM startup separately if desired; do not assume missed jobs replay.
+  Hourly meeting intelligence reports the preceding hour only and discloses
+  gaps. An 8 AM VM startup will miss the 7 AM demo check.
+  Five-minute Alfred checks can incur substantial usage even on quiet days.
+  Review frequency and usage limits before enabling.
+
+UNINSTALL / ROLLBACK
+  First disable/delete only the six automations you registered, by their recorded
+  IDs, through Scout. Removing skill files does not disable schedules.
+  Then remove only these kit skills and local kit files after reviewing whether
+  they contain customizations/state you wish to preserve. Never remove .scout,
+  authentication caches, unrelated skills, other users' data or a whole profile.
+
+SOURCE CONTEXT
+  Built from the named personal agent pattern: Dawn prepares, Alfred handles
+  opted-in internal conversation support, Dusk summarizes and proposes filing.
+  Seller examples:
+  https://aliyoussefi.github.io/Samples/autopilots/personas/sales/seller/automations.html
+  This package contains instructions, not customer records or deployment secrets.
