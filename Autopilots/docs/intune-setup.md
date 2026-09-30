@@ -54,6 +54,8 @@ Under **Microsoft Scout → Capabilities**, set:
 
 ## Step 5 — Assign the policy
 
+For a targeted pilot, follow [Create pilot groups and configure assignments](pilot-groups-and-assignments.md). It covers separate user and device groups, profile targeting, and alignment with Frontier user eligibility.
+
 Assign the profile to your target **device or user group**. Assignment is **not instant** — the default Intune sync is up to ~8 hours. Use **Sync** on a test device to speed up validation.
 
 ## Step 6 (optional) — macOS

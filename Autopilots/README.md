@@ -16,6 +16,7 @@ Microsoft Scout Frontier is gated behind a **two-gate access model**. Installing
 |---|---|
 | [`docs/enable-frontier.md`](docs/enable-frontier.md) | **Gate 1** — organization access: Frontier program enrollment, turning on Copilot Frontier in the M365 admin center, attestation/opt-in, and GitHub Copilot licensing. |
 | [`docs/intune-setup.md`](docs/intune-setup.md) | **Gate 2** — device policy: importing the Scout ADMX into Intune and enabling `AllowScoutFrontierAccess` on managed Windows (and macOS) devices. |
+| [`docs/pilot-groups-and-assignments.md`](docs/pilot-groups-and-assignments.md) | Create Entra pilot groups, target Intune policy assignments, and align Frontier user access and app deployment. |
 | [`docs/troubleshooting.md`](docs/troubleshooting.md) | Failure signatures and fixes — "not available for your organization", waitlist/blocked sign-in, policy not landing, ADMX import errors, missing Copilot. |
 | [`docs/cost-management.md`](docs/cost-management.md) | Track Scout usage/cost — where to see **GitHub Copilot premium-request** consumption, direct links, budgets and alerts. |
 | [`docs/personas.md`](docs/personas.md) | Persona sample library — value propositions plus links to role-specific heartbeat and automation samples. |
