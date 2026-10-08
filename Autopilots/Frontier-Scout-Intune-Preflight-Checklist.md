@@ -29,7 +29,7 @@ Docs: [Admin access overview](https://learn.microsoft.com/en-us/microsoft-scout/
 | 8 | **Create the Windows policy** — New policy → **Windows 10 and later** → **Templates** → **Imported Administrative Templates** (not "Settings catalog", not the built-in "Administrative Templates"). | Intune admin | Correct profile type matters | ☐ |
 | 9 | Under **Microsoft Scout → Capabilities**, set **Allow Microsoft Scout Frontier access = Enabled**. | Intune admin | *Disabled* or *Not configured* → users hit a waitlist / blocked sign-in | ☐ |
 | 10 | *(Optional, macOS)* Create a **custom configuration profile** from `microsoft-scout.mobileconfig`. | Intune admin | Only if Mac users are in scope | ☐ |
-| 11 | *(Optional, security)* Review the policy's lockdown settings (disabled servers/permissions/models/providers, browser egress origins, restrict-to-workspace) with the security team. | Security + Intune admin | Set per customer policy | ☐ |
+| 11 | **Review additional restrictions before assignment**: models/providers, MCP servers, denied permission kinds, forced approval, Heartbeat/automations, workspace access and browser origins. Configure the controls required by your security team. | Security + Intune admin | See [restriction controls and boundaries](docs/intune-setup.md#step-4a---review-restrictions-before-assignment). Controls are optional; enabling Scout does not require allowing every capability. | ☐ |
 | 12 | **Assign** the policy to the target device/user group. | Intune admin | Not instant — Intune sync ~8 hrs default; use **Sync** to speed up | ☐ |
 
 ---
@@ -41,6 +41,7 @@ Docs: [Admin access overview](https://learn.microsoft.com/en-us/microsoft-scout/
 | 13 | Force an Intune sync, then confirm the setting landed: registry `HKLM\SOFTWARE\Policies\Scout` → `AllowScoutFrontierAccess = 1`. | Value present = policy delivered | ☐ |
 | 14 | Install Microsoft Scout (https://aka.ms/scout) and sign in: **GitHub** identity (carries the Copilot license) + **Microsoft 365** with the user's **own tenant** account. | Signs in; no "not available" / waitlist message | ☐ |
 | 15 | If blocked, re-verify gates **admin-side first** (Frontier ON + propagated, attestation submitted, policy Enabled + assigned + synced, Copilot license present) before touching the client. | Root cause is almost always a gate, not the device | ☐ |
+| 16 | **Test configured restrictions** with a standard pilot account and harmless data: blocked models/tools, approval prompts, background execution, workspace scope and browser origins. | Intended denials and approvals work; required permitted scenarios still work. See [validation steps](docs/intune-setup.md#validate-restrictions-not-just-successful-sign-in). | ☐ |
 
 ---
 

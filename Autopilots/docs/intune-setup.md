@@ -50,7 +50,47 @@ Under **Microsoft Scout → Capabilities**, set:
 
 > *Disabled* or *Not configured* → users hit a waitlist / blocked sign-in screen.
 
-*(Optional, security)* Review the policy's lockdown settings — disabled servers/permissions/models/providers, browser egress origins, restrict-to-workspace — with your security team and set them per your organization's policy.
+### Step 4a - Review restrictions before assignment
+
+**Enabling Scout does not mean enabling every model, tool or background action.** Before assigning the profile, agree with your security team which additional restrictions the pilot needs. The public Microsoft policy templates expose the controls below under **Microsoft Scout > Capabilities**, **AI Models**, and **Security**.
+
+These are optional controls to configure according to organizational requirements, not a mandatory recommendation to block every capability.
+
+| Area | Intune setting / policy key | Documented behavior |
+|---|---|---|
+| Individual models | **Disabled AI models** / `DisabledModels` | Blocks a comma-separated list of model IDs. The models are hidden from the picker and cannot be selected for new sessions. If the default is blocked, Scout falls back to the first allowed model. |
+| Model providers | **Disabled AI model providers** / `DisabledProviders` | Blocks a comma-separated list of inference provider names. All models from those providers are hidden and cannot be used. |
+| Tool/server access | **Disabled MCP servers** / `DisabledServers` | Blocks all tools from each listed MCP server config key. The template documents `filesystem`, `playwright`, and user-configured custom server keys. |
+| Action permissions | **Disabled permission kinds** / `DisabledPermissions` | Unconditionally denies calls requiring a listed permission kind, without asking the user. Documented values are `shell`, `write`, `mcp`, `url`, and `custom-tool`. |
+| Human approval | **Force human approval for all non-read actions** / `ForcePrompt` | Requires explicit approval for every tool call not classified as read-only, overriding global and per-server auto-approve preferences. This is an approval requirement, not an action block. |
+| Periodic check-ins | **Disable Heartbeat** / `DisableHeartbeat` | Disables the periodic automated check-in feature, hides its toggle, and prevents users from re-enabling it. |
+| Automations | **Disable Automations** / `DisableWorkflows` | Disables automation creation and scheduled execution. Existing automations do not run, and the Automations panel is hidden. |
+| Local file/shell scope | **Restrict filesystem access to workspace** / `RestrictToWorkspace` | Restricts filesystem and shell access to the current workspace directory. The template warns that the MCP filesystem server loses access to skill directories, automation resources and other paths outside it. |
+| Browser destinations | **Blocked browser egress origins** / `BrowserEgressBlockedOrigins` | Blocks navigation and requests to listed origins from the Playwright browser context before they leave the device. |
+
+Source for the setting names and behaviors: Microsoft's [English policy help (ADML)](https://github.com/microsoft/scout-resources/blob/main/admins/en-US/microsoft-scout.adml). The [Windows ADMX](https://github.com/microsoft/scout-resources/blob/main/admins/microsoft-scout.admx) defines their categories, types and machine-level scope. Reviewed October 8, 2026. Preview templates and application behavior can change.
+
+### Configure the controls safely
+
+1. In the imported Scout profile's **Configuration settings**, open the appropriate category and setting.
+2. For list settings, enable the policy and enter the comma-separated values in its text field. Use the exact current model IDs, inference provider names or MCP server config keys. Product display names are not interchangeable with these identifiers. Examples in the template may refer to older models.
+3. For boolean restrictions, select **Enabled** to enforce the named restriction. In particular, enabling **Disable Automations** turns automations **off**. Enabling `ForcePrompt` instead leaves non-read actions available subject to approval.
+4. Keep at least one permitted model/provider combination available and validate it in the pilot. Do not rely on an undocumented fallback when every model is blocked.
+5. Save the profile, assign it to a limited pilot group, sync a device and perform the behavior checks below before broader rollout.
+
+For example, a security-reviewed pilot could enable `ForcePrompt`, deny `shell` through `DisabledPermissions`, and enable `DisableWorkflows` until unattended workflows have been reviewed. This is an illustrative configuration, not a Microsoft-prescribed baseline. Disabling automations prevents scheduled agent scenarios such as Dawn, Alfred and Dusk from running.
+
+### Important boundaries
+
+- **Device policy, not a prompt.** All settings in the published Windows ADMX are machine-level under `HKLM\SOFTWARE\Policies\Scout`. A skill instruction such as "ask before sending" is not equivalent to centrally enforced policy.
+- **Block versus approve.** `DisabledPermissions` denies the selected categories. `ForcePrompt` requires approval for non-read calls but does not itself disable those calls. Do not describe either as a documented per-business-action allowlist such as "allow CRM reads but deny only email sends."
+- **Permission categories are broad.** The public template does not enumerate every tool's permission mapping. Validate the actual mail, CRM, file and browser actions your scenario uses. Do not assume `write` alone guarantees a universal read-only assistant.
+- **Browser scope is limited.** `BrowserEgressBlockedOrigins` is a blocklist for the Playwright browser context, not a device-wide firewall or universal control on shell, MCP or model-provider traffic. Use approved network and data-protection controls for broader requirements.
+- **Origins are not URLs with paths.** Use values such as `https://blocked.example.com` or `https://blocked.example.com:8443`. The template accepts only HTTP/HTTPS scheme, host and optional port. Entries containing paths, queries or fragments are silently ignored. Do not assume wildcard support.
+- **Workspace restrictions can affect skills.** Test required skill and automation resources when enabling `RestrictToWorkspace`. Do not promise that existing workflows will continue unchanged.
+- **Model lists are not a complete data-governance policy.** Blocking a model or inference provider does not replace tenant permissions, GitHub policies, licensing, sensitivity protections, or controls on other outbound data paths.
+- **Do not infer active-session behavior.** The model help explicitly describes selection for new sessions. Validate new sessions and any already-running work after policy changes rather than assuming retroactive termination.
+- **Avoid conflicting profiles.** Keep restriction values consistent across assigned profiles. Do not assume overlapping lists merge or that the most restrictive profile automatically wins. Investigate Intune conflicts.
 
 ## Step 5 — Assign the policy
 
@@ -61,6 +101,10 @@ Assign the profile to your target **device or user group**. Assignment is **not 
 ## Step 6 (optional) — macOS
 
 If Mac users are in scope, create a **custom configuration profile** from `microsoft-scout.mobileconfig` and assign it to the target Mac group.
+
+The [public macOS profile](https://github.com/microsoft/scout-resources/blob/main/admins/microsoft-scout.mobileconfig) also includes the restriction keys above as commented examples. Review and configure the needed entries **before upload**. They are not enforced while inside the XML comment. Follow the template's customization guidance, preserve its plist structure, and use its **Device channel** and `com.microsoft.clawpilot` domain.
+
+macOS uses **booleans** for toggles and **arrays of strings** for lists, not Windows registry strings or comma-separated list text. Omitted keys are not enforced by this profile. The sample's brief comments differ from the detailed Windows help in places, including the descriptions of Heartbeat and approval scope. Validate the intended behavior on the deployed Mac build rather than assuming exact platform parity.
 
 ---
 
@@ -77,6 +121,21 @@ If Mac users are in scope, create a **custom configuration profile** from `micro
    - **GitHub** identity (carries the Copilot license), **and**
    - **Microsoft 365** with the user's **own tenant** account.
 4. Expected: signs in with **no** "not available" or waitlist message.
+
+### Validate restrictions, not just successful sign-in
+
+Use harmless test data and a standard pilot account. Record the Scout build, template revision or commit, assigned profile and test result.
+
+| Configured control | Pilot check |
+|---|---|
+| Models/providers | Start a new session. Confirm blocked choices are unavailable and an approved model works. Test the default-model case if it was changed. |
+| MCP servers/permissions | Attempt a benign action in a blocked category or from a blocked server. It should be denied, not offered for user approval. Confirm required permitted tools still work. |
+| `ForcePrompt` | Attempt a harmless non-read action, such as creating a disposable test file in an approved location. Confirm approval is required despite auto-approve preferences, and decline to ensure it does not execute. |
+| Heartbeat/automations | Confirm the disabled feature is unavailable and existing scheduled work cannot execute. Do not use real outgoing messages as a test. |
+| Workspace scope | Verify access inside the intended workspace and denial of a harmless test file outside it. Check required skill resources separately. |
+| Browser origins | Navigate to a harmless blocked test origin and an approved origin. Check the deny result and browser network evidence, including relevant redirects/subrequests. |
+
+Successful registry delivery alone does not prove that every scenario is restricted as intended. If behavior differs, inspect policy assignment/conflicts and app/template compatibility before expanding the rollout. Changing an assignment to **Not configured** or removing it is not proof of immediate rollback; verify effective settings and behavior after sync.
 
 If sign-in is still blocked, re-verify the gates **admin-side first** — see [troubleshooting](troubleshooting.md).
 
